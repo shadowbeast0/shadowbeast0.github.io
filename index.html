@@ -7,7 +7,7 @@
 <meta name="description" content="Arjeesh Palai (Shad / ShadowBeast0): software engineer and AI researcher. Technology Program Intern at Wells Fargo, two-time national hackathon champion, published at IEEE and Springer.">
 <meta property="og:title" content="Shad · Arjeesh Palai">
 <meta property="og:description" content="A wild SHAD appeared! Software engineer and AI researcher. Architected an AI agent at Wells Fargo.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 15C4 7 10 3 16 3s12 4 12 12z' fill='%23F2A541' stroke='%23000' stroke-width='2'/%3E%3Crect x='3' y='15' width='26' height='4' fill='%237ED957' stroke='%23000' stroke-width='2'/%3E%3Crect x='3' y='19' width='26' height='4' fill='%237A4223' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M4 23h24q0 6-6 6H10q-6 0-6-6z' fill='%23EFA445' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,7 12,8 8,1 7,11 3,16 7,17 5,22 10,21 12,25 16,29 20,25 22,21 27,22 25,17 29,16 25,11 24,1 20,8' fill='%23282040' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpolygon points='9,13 14,15 13,16.5 10,15' fill='%23FFD60A'/%3E%3Cpolygon points='23,13 18,15 19,16.5 22,15' fill='%23FFD60A'/%3E%3Cpath d='M14.5 9 L16 12 L17.5 9' stroke='%23FFD60A' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DotGothic16&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
@@ -17,13 +17,14 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav">
-  <a class="logo magnet" href="#top" aria-label="Shad, back to top">SHAD<span aria-hidden="true">!!</span></a>
+  <a class="logo magnet" href="#top" aria-label="Shad, back to top"><svg class="logo-beast" id="logoBeast" viewBox="0 0 200 200" aria-hidden="true"></svg>SHAD<span aria-hidden="true">!!</span></a>
   <nav aria-label="Sections">
     <a class="magnet" href="#wells">Wells Fargo</a>
     <a class="magnet" href="#story">Story</a>
     <a class="magnet" href="#dex">Shad-dex</a>
     <a class="magnet" href="#moves">Research</a>
     <a class="magnet" href="#card">Trainer card</a>
+    <button class="sound mode magnet" id="modeBtn" type="button" aria-pressed="false" title="Flip the page into shadow mode">☾ Shadow mode</button>
     <button class="sound magnet" id="soundBtn" type="button" aria-pressed="false" title="Toggle sound effects">♪ Sound off</button>
     <a href="#contact" class="nav-cta magnet">Contact</a>
   </nav>
@@ -48,9 +49,9 @@
       </div>
     </div>
 
-    <div class="panel p-mascot pokeable" aria-label="Shad the burger. Drag to throw it, click to poke it.">
-      <svg class="burger" id="heroBurger" viewBox="0 0 200 200" role="img" aria-label="Shad, a chubby burger with gloves and red sneakers"></svg>
-      <p class="caption">Shad. Grab it, throw it, poke it.</p>
+    <div class="panel p-mascot pokeable" aria-label="Shad the shadow beast. Drag to throw it, click to make it roar.">
+      <svg class="beast" id="heroBeast" viewBox="0 0 200 200" role="img" aria-label="Shad, a faceted shadow wolf with glowing eyes"></svg>
+      <p class="caption">Shad, a shadow beast. Drag it, throw it, click to make it roar.</p>
     </div>
 
     <a class="panel p-arc" href="#wells">
@@ -69,7 +70,7 @@
 
 <div class="bands" aria-hidden="true">
   <div class="band band-a"><div class="track" data-dir="-1"><span>Agentic AI ✦ RAG ✦ PyTorch ✦ LangGraph ✦ LlamaIndex ✦ FastAPI ✦ Spring Boot ✦ Next.js ✦ GNNs ✦ LoRA ✦ Docker ✦ </span><span>Agentic AI ✦ RAG ✦ PyTorch ✦ LangGraph ✦ LlamaIndex ✦ FastAPI ✦ Spring Boot ✦ Next.js ✦ GNNs ✦ LoRA ✦ Docker ✦ </span></div></div>
-  <div class="band band-b"><div class="track" data-dir="1"><span>2× hackathon champion ✦ IEEE IJCNN ✦ Springer ICITA ✦ Wells Fargo ✦ 9.5 CGPA ✦ Jadavpur University ✦ </span><span>2× hackathon champion ✦ IEEE IJCNN ✦ Springer ICITA ✦ Wells Fargo ✦ 9.5 CGPA ✦ Jadavpur University ✦ </span></div></div>
+  <div class="band band-b"><div class="track" data-dir="1"><span>Lexicognition AI champion ✦ OpenAImer champion ✦ IEEE IJCNN ✦ Springer ICITA ✦ Wells Fargo ✦ 9.5 CGPA ✦ </span><span>Lexicognition AI champion ✦ OpenAImer champion ✦ IEEE IJCNN ✦ Springer ICITA ✦ Wells Fargo ✦ 9.5 CGPA ✦ </span></div></div>
 </div>
 
 <!-- ============ CHAPTER 2 · WELLS FARGO ============ -->
@@ -77,7 +78,7 @@
   <div class="chap-head reveal">
     <p class="chapter">Chapter 2</p>
     <h2 id="wfTitle">The Wells Fargo arc</h2>
-    <p class="chap-sub">Summer 2026. Shad's biggest battle yet.</p>
+    <p class="chap-sub">Summer 2026. Shad's biggest battle yet. Press the button to fight.</p>
   </div>
 
   <div class="wf-grid">
@@ -110,7 +111,7 @@
         </g>
       </svg>
       <div class="platform platform-ally" aria-hidden="true"></div>
-      <svg class="burger ally" id="allyBurger" viewBox="0 0 200 200" aria-hidden="true"></svg>
+      <svg class="beast ally" id="allyBeast" viewBox="0 0 200 200" aria-hidden="true"></svg>
       <div class="dlg wf-dlg"><p class="dlg-text" id="wfDlg" aria-live="polite">A wild MANUAL WORK appeared! What will SHAD do?</p></div>
       <button class="attack magnet" id="wfAttack" type="button">Use AI agent</button>
     </div>
@@ -122,11 +123,11 @@
   <div class="evo-stick">
     <div class="evo-head">
       <p class="chapter">Chapter 3: The evolution arc</p>
-      <p class="evo-hint">Keep scrolling to stack it up</p>
+      <p class="evo-hint">Keep scrolling to awaken it</p>
     </div>
     <div class="evo-stage" id="evoStage">
       <div class="evo-lines" aria-hidden="true"></div>
-      <svg class="burger" id="evoBurger" viewBox="0 0 200 200" aria-hidden="true"></svg>
+      <svg class="beast" id="evoBeast" viewBox="0 0 200 200" aria-hidden="true"></svg>
       <div class="flash" id="evoFlash" aria-hidden="true"></div>
     </div>
     <div class="evo-copy">
@@ -142,9 +143,9 @@
 
   <!-- static version for reduced motion -->
   <div class="evo-static">
-    <article><svg class="burger" viewBox="0 0 200 200" aria-hidden="true" data-stage="0"></svg><h3>Shad</h3><p class="evo-years" data-years="0"></p><p data-text="0"></p></article>
-    <article><svg class="burger" viewBox="0 0 200 200" aria-hidden="true" data-stage="1"></svg><h3>Shadow</h3><p class="evo-years" data-years="1"></p><p data-text="1"></p></article>
-    <article><svg class="burger" viewBox="0 0 200 200" aria-hidden="true" data-stage="2"></svg><h3>ShadowBeast</h3><p class="evo-years" data-years="2"></p><p data-text="2"></p></article>
+    <article><svg class="beast" viewBox="0 0 200 200" aria-hidden="true" data-stage="0"></svg><h3>Shad</h3><p class="evo-years" data-years="0"></p><p data-text="0"></p></article>
+    <article><svg class="beast" viewBox="0 0 200 200" aria-hidden="true" data-stage="1"></svg><h3>Shadow</h3><p class="evo-years" data-years="1"></p><p data-text="1"></p></article>
+    <article><svg class="beast" viewBox="0 0 200 200" aria-hidden="true" data-stage="2"></svg><h3>ShadowBeast</h3><p class="evo-years" data-years="2"></p><p data-text="2"></p></article>
   </div>
 </section>
 
@@ -162,8 +163,8 @@
         <header><span class="no">No. 001</span><span class="types"><b class="t psychic">Psychic</b><b class="t electric">Electric</b></span></header>
         <h3>Lexicognition AI</h3>
         <p class="cat">The Examiner build</p>
-        <span class="stamp">1st prize · IIT Kharagpur</span>
-        <p>Upload a research paper and it runs a live oral exam on it. It writes the questions, grades each answer against evidence from the paper, and streams the results as it goes. Judged and tested by Microsoft at Kshitij 2026.</p>
+        <span class="stamp">1st prize · Lexicognition AI, Kshitij 2026</span>
+        <p>Upload a research paper and it runs a live oral exam on it. It writes the questions, grades each answer against evidence from the paper, and streams the results as it goes. Won 1st prize at Lexicognition AI, the AI/ML event of Kshitij 2026, IIT Kharagpur's tech fest, where it was judged and tested by Microsoft.</p>
         <ul class="stack"><li>FastAPI</li><li>Next.js</li><li>LlamaIndex</li><li>Chroma</li><li>Gemini</li></ul>
         <a class="gh" href="https://github.com/shadowbeast0/LexicognitionAI" target="_blank" rel="noopener">Open on GitHub</a>
       </article>
@@ -260,22 +261,22 @@
   <div class="tcard reveal">
     <div class="tc-top"><span>Trainer card</span><span>ID shadowbeast0</span></div>
     <div class="tc-body">
-      <div class="tc-photo pokeable" aria-label="Shad in final form. Drag or poke it."><svg class="burger" id="cardBurger" viewBox="0 0 200 200" role="img" aria-label="Shad in final form, a flaming triple burger in sunglasses"></svg></div>
+      <div class="tc-photo pokeable" aria-label="Shad in final form. Drag it, or click to make it roar."><svg class="beast" id="cardBeast" viewBox="0 0 200 200" role="img" aria-label="Shad in final form, a horned shadow beast with blazing war-markings"></svg></div>
       <dl class="tc-fields">
         <div><dt>Name</dt><dd>Shad <small>(Arjeesh Palai)</small></dd></div>
         <div><dt>Type</dt><dd><b class="t fire">Fire</b> <b class="t dark">Dark</b></dd></div>
         <div><dt>Gym</dt><dd>Jadavpur University, B.E. CSE, class of 2027</dd></div>
         <div><dt>CGPA</dt><dd><b class="cgpa">9.5</b> <small>through 6th semester</small></dd></div>
         <div><dt>Now</dt><dd>Technology Program Intern, Wells Fargo</dd></div>
-        <div><dt>Roles</dt><dd>Class representative · ML team lead at Code Club · OpenAImer organiser</dd></div>
+        <div><dt>Roles</dt><dd>Class representative · ML team lead at Code Club · OpenAImer organiser at SRIJAN</dd></div>
       </dl>
     </div>
 
     <div class="tc-badges">
       <h3>Badges</h3>
       <ul>
-        <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 54,17 54,43 30,57 6,43 6,17" fill="#FFD60A" stroke="#000" stroke-width="4"/><path d="M33 12 L20 33 H29 L25 48 L40 25 H31Z" fill="#000"/></svg><span><b>Lexicognition champion</b>Kshitij 2026, IIT Kharagpur</span></li>
-        <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 37,22 57,22 41,34 47,54 30,42 13,54 19,34 3,22 23,22" fill="#E4262B" stroke="#000" stroke-width="4" stroke-linejoin="round"/></svg><span><b>OpenAImer champion</b>SRIJAN 2025, Jadavpur University</span></li>
+        <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 54,17 54,43 30,57 6,43 6,17" fill="#FFD60A" stroke="#000" stroke-width="4"/><path d="M33 12 L20 33 H29 L25 48 L40 25 H31Z" fill="#000"/></svg><span><b>Lexicognition AI champion</b>Kshitij 2026, IIT Kharagpur's tech fest</span></li>
+        <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 37,22 57,22 41,34 47,54 30,42 13,54 19,34 3,22 23,22" fill="#E4262B" stroke="#000" stroke-width="4" stroke-linejoin="round"/></svg><span><b>OpenAImer champion</b>SRIJAN 2025, Jadavpur University's tech fest</span></li>
         <li><svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 4 L52 12 V30 C52 44 42 52 30 57 C18 52 8 44 8 30 V12Z" fill="#B7B7CE" stroke="#000" stroke-width="4"/><path d="M20 30 L27 37 L41 22" fill="none" stroke="#000" stroke-width="5"/></svg><span><b>Special mention</b>National Cyber Security AI Ideathon</span></li>
         <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 57,30 30,57 3,30" fill="#F95587" stroke="#000" stroke-width="4"/><circle cx="30" cy="30" r="9" fill="#000"/></svg><span><b>IEEE IJCNN 2026</b>SAGED-Net</span></li>
         <li><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="26" fill="#6390F0" stroke="#000" stroke-width="4"/><path d="M10 34 Q20 24 30 34 T50 34" fill="none" stroke="#000" stroke-width="5"/></svg><span><b>Springer ICITA</b>LGLD-Net, Oslo</span></li>
@@ -303,17 +304,17 @@
       <a class="btn magnet" href="https://github.com/shadowbeast0" target="_blank" rel="noopener">GitHub</a>
       <a class="btn magnet" href="https://www.linkedin.com/in/arjeesh-palai-b729842a3/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
-    <p class="secret">Psst: type <kbd>shad</kbd> anywhere.</p>
+    <p class="secret">Psst: type <kbd>shad</kbd> anywhere, or sit very still for a while.</p>
   </div>
 </section>
 </main>
 
-<footer class="foot">Drawn and coded by Shad, 2026. Shad the burger is an original character.</footer>
+<footer class="foot">Drawn and coded by Shad, 2026. Shad the shadow beast is an original character.</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="burger.js"></script>
+<script src="beast.js"></script>
 <script src="main.js"></script>
 </body>
 </html>

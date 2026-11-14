@@ -5,7 +5,7 @@
   --white:#fff;
   --red:#E4262B;
   --yel:#FFD60A;
-  --sky:#7CC8F2;   /* the burger's backdrop */
+  --sky:#7CC8F2;   /* the beast's sky */
   --tone:rgba(0,0,0,.16);
   --border:5px;
   --gutter:14px;
@@ -66,8 +66,8 @@ button{font:inherit;color:inherit}
 .t.psychic{background:var(--t-psychic)}.t.electric{background:var(--t-electric)}.t.steel{background:var(--t-steel)}
 .t.flying{background:var(--t-flying)}.t.normal{background:var(--t-normal)}.t.fairy{background:var(--t-fairy)}
 .t.fire{background:var(--t-fire)}.t.ghost{background:var(--t-ghost)}.t.dark{background:var(--t-dark);color:var(--white)}
-svg.burger{display:block;width:100%;height:auto;overflow:visible;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
-svg.burger.grabbing{cursor:grabbing}
+svg.beast{display:block;width:100%;height:auto;overflow:visible;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+svg.beast.grabbing{cursor:grabbing}
 
 /* RPG dialogue box */
 .dlg{position:relative;background:var(--white);border:var(--border) solid var(--ink);border-radius:14px;
@@ -92,7 +92,7 @@ svg.burger.grabbing{cursor:grabbing}
 .p-mascot{grid-column:8/13;grid-row:1/3;background:var(--sky);display:flex;flex-direction:column;justify-content:flex-end;padding:22px 22px 0}
 .p-mascot::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(circle at 50% 60%,transparent 30%,rgba(255,255,255,.35) 31%,transparent 32%,transparent 48%,rgba(255,255,255,.35) 49%,transparent 50%)}
-.p-mascot svg.burger{position:relative;max-width:380px;margin:0 auto}
+.p-mascot svg.beast{position:relative;max-width:380px;margin:0 auto}
 .caption{position:relative;margin:0 -22px;background:var(--ink);color:var(--white);font-size:13px;padding:8px 18px}
 
 .p-arc{grid-column:8/13;grid-row:3/4;background:var(--red);color:var(--white);padding:18px 20px;text-decoration:none;display:block;
@@ -170,7 +170,7 @@ svg.ally{grid-column:1;grid-row:2;width:78%;max-width:220px;align-self:end;justi
 .evo-stage.charging{background:var(--ink)}
 .evo-lines{position:absolute;inset:-60%;background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 3deg,rgba(255,255,255,.3) 3deg 4deg);animation:spin 50s linear infinite}
 .evo-stage.charging .evo-lines{animation-duration:3s;background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 3deg,rgba(255,214,10,.35) 3deg 4deg)}
-.evo-stage svg.burger{position:absolute;inset:4% 0 2%;width:100%;height:94%;cursor:pointer}
+.evo-stage svg.beast{position:absolute;inset:4% 0 2%;width:100%;height:94%;cursor:pointer}
 .flash{position:absolute;inset:0;background:var(--white);opacity:0;pointer-events:none}
 .flash.go{animation:flash .7s ease-out}
 @keyframes flash{0%{opacity:1}100%{opacity:0}}
@@ -336,7 +336,7 @@ kbd{font:inherit;background:var(--white);color:var(--ink);border:2px solid #999;
   .hero-page{grid-template-columns:1fr}
   .p-title,.p-mascot,.p-arc,.hero-dlg{grid-column:1/-1;grid-row:auto}
   .p-title{min-height:66svh}
-  .p-mascot svg.burger{max-width:280px}
+  .p-mascot svg.beast{max-width:280px}
   .bands{height:120px}
   .wf-steps{grid-template-columns:1fr;gap:18px}
   .wf-battle{min-height:480px}
@@ -370,6 +370,32 @@ kbd{font:inherit;background:var(--white);color:var(--ink);border:2px solid #999;
 .reduce .evo-stick{display:none}
 .reduce .evo-static{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter);padding:0 clamp(16px,3vw,40px)}
 .reduce .evo-static article{background:var(--white);border:var(--border) solid var(--ink);padding:20px}
-.reduce .evo-static svg.burger{max-width:200px;margin:0 auto;background:var(--sky);cursor:default}
+.reduce .evo-static svg.beast{max-width:200px;margin:0 auto;background:var(--sky);cursor:default}
 .reduce .evo-static h3{font:400 44px/1 var(--letter);margin-top:12px}
 @media (max-width:760px){.reduce .evo-static{grid-template-columns:1fr}}
+
+/* ============ shadow beast additions ============ */
+.logo{display:flex;align-items:center;gap:6px}
+.logo-beast{width:42px;height:42px;flex:none;overflow:visible}
+.attack:disabled{opacity:.6;cursor:progress}
+.wf-battle.won .foe-box{opacity:.55}
+.swarm-b{position:fixed;left:0;top:0;width:76px;height:76px;z-index:96;pointer-events:none;will-change:transform}
+.trail{position:fixed;inset:0;width:100vw;height:100vh;z-index:94;pointer-events:none}
+
+/* idle: two huge beast eyes open in the dark */
+.idle-eyes{position:fixed;inset:0;z-index:93;display:grid;place-items:center;pointer-events:none;opacity:0;transition:opacity 1.4s ease;
+  background:radial-gradient(ellipse at center,rgba(10,6,18,.55),rgba(10,6,18,.92))}
+.idle-eyes.show{opacity:1}
+.idle-eyes svg{width:min(64vw,560px);overflow:visible}
+.idle-eyes .ie{transform-box:fill-box;transform-origin:center;animation:ieblink 4.5s infinite}
+@keyframes ieblink{0%,45%,51%,100%{transform:scaleY(1)}48%{transform:scaleY(.08)}}
+
+/* shadow mode: the whole manga flips into a negative; the beasts keep their true colours */
+html.shadow{filter:invert(1) hue-rotate(180deg)}
+html.shadow svg.beast,html.shadow .logo-beast,html.shadow .swarm-b,html.shadow .tc-badges svg,html.shadow .t,
+html.shadow .pop,html.shadow .confetti,html.shadow .idle-eyes,html.shadow .sfx{filter:invert(1) hue-rotate(180deg)}
+
+@media (max-width:760px){
+  #soundBtn{display:none}
+  .logo-beast{width:34px;height:34px}
+}
