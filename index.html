@@ -208,8 +208,18 @@
       </article>
     </div>
 
+    <article class="panel dex dex-h holo reveal">
+      <header><span class="no">No. 003</span><span class="types"><b class="t psychic">Psychic</b><b class="t steel">Steel</b></span></header>
+      <h3>LGLD-Net</h3>
+      <p class="cat">The Two-Eyed build</p>
+      <span class="stamp">Published · Springer ICITA 2025</span>
+      <p>A lightweight network that reads blood-cell images twice at once: one stream for the whole picture, one for fine local detail. Set new state-of-the-art results: 96.69% on ALL and 96.5% on Raabin-WBC. Published with Springer Nature at the 19th ICITA, Oslo.</p>
+      <ul class="stack"><li>PyTorch</li><li>Computer vision</li></ul>
+      <a class="gh" href="https://github.com/shadowbeast0/LGLD-Net" target="_blank" rel="noopener">Open on GitHub</a>
+    </article>
+
     <article class="panel dex dex-c holo reveal">
-      <header><span class="no">No. 003</span><span class="types"><b class="t flying">Flying</b><b class="t steel">Steel</b></span></header>
+      <header><span class="no">No. 004</span><span class="types"><b class="t flying">Flying</b><b class="t steel">Steel</b></span></header>
       <h3>BookMyFlight</h3>
       <p class="cat">The Departure build</p>
       <p>A full flight-booking platform with a 3D globe on the homepage, seat locking that stays correct when two people click the same seat, a built-in wallet, a live deals engine and OTP + JWT login.</p>
@@ -218,21 +228,12 @@
     </article>
 
     <article class="panel dex dex-d holo reveal">
-      <header><span class="no">No. 004</span><span class="types"><b class="t normal">Normal</b><b class="t fairy">Fairy</b></span></header>
+      <header><span class="no">No. 005</span><span class="types"><b class="t normal">Normal</b><b class="t fairy">Fairy</b></span></header>
       <h3>BunChat</h3>
       <p class="cat">The Peacekeeper build</p>
       <p>Real-time chat with DMs, groups, rooms and a social feed. AI moderation filters toxic messages and steps in to calm things down, and there are hidden chats, ephemeral posts and a troll bot.</p>
       <ul class="stack"><li>Node.js</li><li>WebSockets</li><li>Python</li><li>SQLite</li></ul>
       <a class="gh" href="https://github.com/shadowbeast0/BunChat---AI-powered-ChatApp" target="_blank" rel="noopener">Open on GitHub</a>
-    </article>
-
-    <article class="panel dex dex-h holo reveal">
-      <header><span class="no">No. 005</span><span class="types"><b class="t psychic">Psychic</b><b class="t steel">Steel</b></span></header>
-      <h3>LGLD-Net</h3>
-      <p class="cat">The Two-Eyed build</p>
-      <p>A lightweight network that reads blood-cell images twice at once: one stream for the whole picture, one for fine local detail. Published with Springer Nature at ICITA, Oslo.</p>
-      <ul class="stack"><li>PyTorch</li><li>Computer vision</li></ul>
-      <a class="gh" href="https://github.com/shadowbeast0/LGLD-Net" target="_blank" rel="noopener">Open on GitHub</a>
     </article>
 
     <article class="panel dex dex-e holo reveal">
@@ -357,7 +358,7 @@
 <script type="module">
   import { Beast3D } from './beast3d.js';
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    window.shadBeast = new Beast3D({ stage: 0, onReady: (b) => dispatchEvent(new CustomEvent('beast-ready', { detail: b })) });
+    window.shadBeast = new Beast3D({ stage: 0, roam: matchMedia('(pointer: fine)').matches && innerWidth >= 760, onReady: (b) => dispatchEvent(new CustomEvent('beast-ready', { detail: b })) });
   }
 </script>
 </body>

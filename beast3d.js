@@ -26,7 +26,9 @@ function softDot(color) {
 }
 
 export class Beast3D {
-  constructor({ stage = 1, reduce = false, zIndex = 60, onReady, pose = null, smoke = true } = {}) {
+  constructor({ stage = 1, reduce = false, zIndex = 60, onReady, pose = null, smoke = true, roam = true } = {}) {
+    // roam = false (phones): the beast only appears at its homes (rooftop, battle, chamber), never over your reading
+    this.roam = roam; this.vis = 1;
     this.reduce = reduce; this.stageI = stage; this.onReady = onReady; this.pose = pose; this.smokeOn = smoke && !pose;
     this.anchor = null; this.charge = 0;
     const cv = (this.canvas = document.createElement('canvas'));
@@ -34,7 +36,7 @@ export class Beast3D {
     Object.assign(cv.style, { position: 'fixed', inset: '0', width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: String(zIndex) });
     document.body.appendChild(cv);
     this.renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1));
+    this.renderer.setPixelRatio(Math.min(innerWidth < 760 ? 1.5 : 2, devicePixelRatio || 1));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(30, 1, 10, 5000);
@@ -60,7 +62,7 @@ export class Beast3D {
 
     new GLTFLoader().load(MODEL, (g) => this.ready(g));
     this.clock = new THREE.Clock();
-    const loop = () => { const dt = Math.min(0.033, this.clock.getDelta()); this.step(dt); this.renderer.render(this.scene, this.camera); requestAnimationFrame(loop); };
+    const loop = () => { const dt = Math.min(0.033, this.clock.getDelta()); this.step(dt); if (!this.hidden) this.renderer.render(this.scene, this.camera); requestAnimationFrame(loop); };
     requestAnimationFrame(loop);
   }
 
@@ -152,7 +154,8 @@ export class Beast3D {
   setStage(i) { this.stageI = i; this.applyStage(); this.burst(30); }
   applyStage() {
     const S = STAGES[this.stageI];
-    this.canvas.style.setProperty("--glow", `drop-shadow(0 0 5px ${S.glow}) drop-shadow(0 0 14px rgba(139,92,246,.55))`);
+    // a full-screen drop-shadow is costly on phone GPUs, so phones get one light glow
+    this.canvas.style.setProperty("--glow", innerWidth < 760 ? `drop-shadow(0 0 4px ${S.glow})` : `drop-shadow(0 0 5px ${S.glow}) drop-shadow(0 0 14px rgba(139,92,246,.55))`);
     if (!this.model) return;
     this.rimU.rimTop.value.set(S.rimTop); this.rimU.rimLow.value.set(S.rimLow);
     this.flameMat.color.set(S.flame); this.eyeMat.color.set(S.eye);
@@ -166,7 +169,7 @@ export class Beast3D {
     this.horns.forEach((h) => (h.visible = S.horns));
   }
 
-  pounce(x, y) { this.target = { x, y }; this.dash = 0.75; this.mood = 1; this.burst(18); }
+  pounce(x, y) { if (!this.roam && !this.anchor) return; this.target = { x, y }; this.dash = 0.75; this.mood = 1; this.burst(18); }
   roar() { this.mood = 1; this.burst(30); }
   burst(n) { for (let i = 0; i < n; i++) this.emit(true); }
   emit(spark) {
@@ -191,6 +194,13 @@ export class Beast3D {
     else if (this.mouse && now - this.lastMove < 2600) this.target = { x: this.mouse.x + Math.cos(this.t * 0.8) * 140 * k, y: this.mouse.y + 60 * k + Math.sin(this.t * 1.6) * 30 };
     else if (ancPt) this.target = ancPt;
     this.wandering = !this.dash && !(ancPt) && !(this.mouse && now - this.lastMove < 2600);
+    // phones: with no home in view the beast fades out and stops rendering; it reappears on its spot
+    this.away = !this.roam && !ancPt && this.dash <= 0;
+    if (!this.roam && ancPt && this.vis < 0.3) { this.pos.x = ancPt.x; this.pos.y = ancPt.y; this.v.x = this.v.y = 0; }
+    this.vis = lerp(this.vis, this.away ? 0 : 1, Math.min(1, dt * 5));
+    if (Math.abs((this._op ?? -1) - this.vis) > 0.01) { this._op = this.vis; this.canvas.style.opacity = this.vis.toFixed(2); }
+    this.hidden = this.away && this.vis < 0.02;
+    if (this.away) { this.wandering = false; this.target = { x: this.pos.x, y: this.pos.y }; }
     if (this.wandering) {
       const w = this.wander; w.a += rand(-1, 1) * dt * 1.3;
       w.x += Math.cos(w.a) * 160 * dt; w.y += Math.sin(w.a) * 60 * dt;
@@ -252,7 +262,7 @@ export class Beast3D {
       this.rimU.rimStr.value = 2.4 + this.mood * 2 + this.charge * 3;
     }
     // shadow smoke + sparks
-    if (!this.reduce && this.model && this.smokeOn) {
+    if (!this.reduce && this.model && this.smokeOn && !this.away) {
       if (Math.random() < (this.speed > 150 ? 0.45 : 0.15)) this.emit(false);
       if (Math.random() < (this.speed > 250 ? 0.4 : 0.08)) this.emit(true);
     }
