@@ -7,7 +7,7 @@
 <meta name="description" content="Arjeesh Palai (Shad / ShadowBeast0): software engineer and AI researcher. Technology Program Intern at Wells Fargo, two-time national hackathon champion, published at IEEE and Springer.">
 <meta property="og:title" content="Shad · Arjeesh Palai">
 <meta property="og:description" content="A wild SHAD appeared! Software engineer and AI researcher. Architected an AI agent at Wells Fargo.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,7 12,8 8,1 7,11 3,16 7,17 5,22 10,21 12,25 16,29 20,25 22,21 27,22 25,17 29,16 25,11 24,1 20,8' fill='%23282040' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpolygon points='9,13 14,15 13,16.5 10,15' fill='%23FFD60A'/%3E%3Cpolygon points='23,13 18,15 19,16.5 22,15' fill='%23FFD60A'/%3E%3Cpath d='M14.5 9 L16 12 L17.5 9' stroke='%23FFD60A' fill='none'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DotGothic16&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav">
-  <a class="logo magnet" href="#top" aria-label="Shad, back to top"><svg class="logo-beast" id="logoBeast" viewBox="0 0 200 200" aria-hidden="true"></svg>SHAD<span aria-hidden="true">!!</span></a>
+  <a class="logo magnet" href="#top" aria-label="Shad, back to top"><img class="logo-beast" src="assets/beast-face.png" alt="" width="42" height="42">SHAD<span aria-hidden="true">!!</span></a>
   <nav aria-label="Sections">
     <a class="magnet" href="#wells">Wells Fargo</a>
     <a class="magnet" href="#story">Story</a>
@@ -49,9 +49,9 @@
       </div>
     </div>
 
-    <div class="panel p-mascot pokeable" aria-label="Shad the shadow beast. Drag to throw it, click to make it roar.">
-      <svg class="beast" id="heroBeast" viewBox="0 0 200 200" role="img" aria-label="Shad, a faceted shadow wolf with glowing eyes"></svg>
-      <p class="caption">Shad, a shadow beast. Drag it, throw it, click to make it roar.</p>
+    <div class="panel p-mascot">
+      <div class="den" id="heroDen" aria-hidden="true"><span class="den-ring"></span><span class="den-ring r2"></span><span class="den-kanji">影</span></div>
+      <p class="caption">This is Shad's den. Shad roams the whole page: move your cursor and it follows, click anywhere and it pounces.</p>
     </div>
 
     <a class="panel p-arc" href="#wells">
@@ -111,7 +111,6 @@
         </g>
       </svg>
       <div class="platform platform-ally" aria-hidden="true"></div>
-      <svg class="beast ally" id="allyBeast" viewBox="0 0 200 200" aria-hidden="true"></svg>
       <div class="dlg wf-dlg"><p class="dlg-text" id="wfDlg" aria-live="polite">A wild MANUAL WORK appeared! What will SHAD do?</p></div>
       <button class="attack magnet" id="wfAttack" type="button">Use AI agent</button>
     </div>
@@ -123,11 +122,11 @@
   <div class="evo-stick">
     <div class="evo-head">
       <p class="chapter">Chapter 3: The evolution arc</p>
-      <p class="evo-hint">Keep scrolling to awaken it</p>
+      <p class="evo-hint">Keep scrolling: Shad evolves right here</p>
     </div>
     <div class="evo-stage" id="evoStage">
       <div class="evo-lines" aria-hidden="true"></div>
-      <svg class="beast" id="evoBeast" viewBox="0 0 200 200" aria-hidden="true"></svg>
+      <div class="den evo-den" id="evoDen" aria-hidden="true"><span class="den-ring"></span><span class="den-ring r2"></span></div>
       <div class="flash" id="evoFlash" aria-hidden="true"></div>
     </div>
     <div class="evo-copy">
@@ -143,9 +142,9 @@
 
   <!-- static version for reduced motion -->
   <div class="evo-static">
-    <article><svg class="beast" viewBox="0 0 200 200" aria-hidden="true" data-stage="0"></svg><h3>Shad</h3><p class="evo-years" data-years="0"></p><p data-text="0"></p></article>
-    <article><svg class="beast" viewBox="0 0 200 200" aria-hidden="true" data-stage="1"></svg><h3>Shadow</h3><p class="evo-years" data-years="1"></p><p data-text="1"></p></article>
-    <article><svg class="beast" viewBox="0 0 200 200" aria-hidden="true" data-stage="2"></svg><h3>ShadowBeast</h3><p class="evo-years" data-years="2"></p><p data-text="2"></p></article>
+    <article><img class="evo-still" src="assets/beast-mini0.png" alt=""><h3>Shad</h3><p class="evo-years" data-years="0"></p><p data-text="0"></p></article>
+    <article><img class="evo-still" src="assets/beast-mini1.png" alt=""><h3>Shadow</h3><p class="evo-years" data-years="1"></p><p data-text="1"></p></article>
+    <article><img class="evo-still" src="assets/beast-mini2.png" alt=""><h3>ShadowBeast</h3><p class="evo-years" data-years="2"></p><p data-text="2"></p></article>
   </div>
 </section>
 
@@ -261,7 +260,7 @@
   <div class="tcard reveal">
     <div class="tc-top"><span>Trainer card</span><span>ID shadowbeast0</span></div>
     <div class="tc-body">
-      <div class="tc-photo pokeable" aria-label="Shad in final form. Drag it, or click to make it roar."><svg class="beast" id="cardBeast" viewBox="0 0 200 200" role="img" aria-label="Shad in final form, a horned shadow beast with blazing war-markings"></svg></div>
+      <div class="tc-photo"><img src="assets/beast-card.png" alt="Shad in final form: a horned neon shadow beast with a flaming mane" width="499" height="268"></div>
       <dl class="tc-fields">
         <div><dt>Name</dt><dd>Shad <small>(Arjeesh Palai)</small></dd></div>
         <div><dt>Type</dt><dd><b class="t fire">Fire</b> <b class="t dark">Dark</b></dd></div>
@@ -309,12 +308,18 @@
 </section>
 </main>
 
-<footer class="foot">Drawn and coded by Shad, 2026. Shad the shadow beast is an original character.</footer>
+<footer class="foot">Built by Shad, 2026.<br><small>3D beast based on the glTF sample “Fox”: model by PixelMannen (CC0), rigging and animation by tomkranis (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), glTF conversion by AsoboStudio and scurest (CC BY 4.0). Restyled for this site.</small></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="beast.js"></script>
 <script src="main.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+  import { Beast3D } from './beast3d.js';
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.shadBeast = new Beast3D({ stage: 0, onReady: (b) => dispatchEvent(new CustomEvent('beast-ready', { detail: b })) });
+  }
+</script>
 </body>
 </html>

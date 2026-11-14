@@ -79,7 +79,7 @@
     for (let i = 0; i < n; i++) {
       const s = rand(56, 104), d = document.createElement('div');
       d.className = 'swarm-b'; d.style.width = d.style.height = s + 'px';
-      d.innerHTML = `<svg viewBox="0 0 200 200" width="100%" height="100%" overflow="visible">${Beast.markup(i % 3)}</svg>`;
+      d.innerHTML = `<img src="assets/beast-mini${i % 3}.png" alt="" style="width:100%;height:auto">`;
       document.body.appendChild(d);
       swarm.push({ e: d, s, x: rand(0, innerWidth - s), y: rand(-700, -120), vx: rand(-110, 110), vy: rand(0, 200), r: rand(-30, 30), vr: rand(-260, 260), life: 6.5 });
     }
@@ -164,51 +164,34 @@
     root.classList.toggle('shadow'); paintMode(); store.set('shad-mode', root.classList.contains('shadow') ? 'shadow' : 'paper');
     const on = root.classList.contains('shadow');
     spawnPop(innerWidth / 2, innerHeight / 2, on ? 'シャドウ!' : 'ピカッ!', on ? '#8B5CF6' : '#FFD60A');
-    sfx.whoosh(); if (on) { hero.poke(); toast('Shadow mode on. The beast feels at home.'); }
+    sfx.whoosh(); if (on) { beast() && beast().roar(); toast('Shadow mode on. The beast feels at home.'); }
   });
 
-  /* ================= beasts ================= */
-  const POKES = ['GRRRAAH!', 'Rawr. Fearsome, right?', 'The shadows obey.', 'SHAD used SHADOW ROAR!', '*ominous growling*', 'Eyes on the job.', 'Again. I dare you.'];
-  function pokeable(container, beast) {
-    const bubble = document.createElement('span');
-    bubble.className = 'bubble'; bubble.setAttribute('aria-hidden', 'true');
-    container.appendChild(bubble);
-    container.setAttribute('tabindex', '0'); container.setAttribute('role', 'button');
-    let bt;
-    beast.say = (msg) => { bubble.textContent = msg || pick(POKES); bubble.classList.add('show'); clearTimeout(bt); bt = setTimeout(() => bubble.classList.remove('show'), 1600); };
-    container.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); beast.poke(); } });
+  /* ================= the 3D shadow beast (created by the module in index.html) ================= */
+  const beast = () => window.shadBeast;
+  function roarAt(x, y) { spawnPop(x, y, pick(['ガオー!', 'グルル', 'ゴォォ']), pick(['#E4262B', '#8B5CF6', '#FFD60A'])); sfx.roar(); }
+  // where the beast rests or performs: its den in the hero (soft), the evolution stage and the battle platform (strong)
+  const anchors = [
+    { el: $('#heroDen'), strong: false, fx: 0.5, fy: 0.62 },
+    { el: $('#evoDen'), strong: true, fx: 0.5, fy: 0.62 },
+    { el: $('.platform-ally'), strong: true, fx: 0.5, fy: -0.9 },
+  ];
+  const vis = new Map();
+  function pickAnchor() {
+    const b = beast(); if (!b) return;
+    let best = null;
+    anchors.forEach((a) => {
+      const r = vis.get(a.el) || 0;
+      if (r < (a.strong ? 0.55 : 0.3)) return;
+      if (!best || (a.strong && !best.strong) || (a.strong === best.strong && r > (vis.get(best.el) || 0))) best = a;
+    });
+    b.anchor = best;
   }
-  function roarFx(b) {
-    const r = b.svg.getBoundingClientRect();
-    spawnPop(r.left + r.width * rand(0.2, 0.8), r.top + r.height * 0.25, pick(['ガオー!', 'グルル', 'ゴォォ']), pick(['#E4262B', '#8B5CF6', '#FFD60A']));
-    burst(r.left + r.width / 2, r.top + r.height * 0.45, 10);
-    sfx.roar();
-  }
-
-  let pokes = 0, unleashed = false;
-  const hero = new Beast($('#heroBeast'), {
-    stage: 0, draggable: true, reduce,
-    onLand: () => sfx.thud(),
-    onPoke: (b) => {
-      roarFx(b); b.say();
-      if (++pokes % 7 === 0 && !unleashed) {
-        unleashed = true; b.setStage(2, true); sfx.evolve();
-        $('.hero-page').classList.add('shake'); b.say('THE BEAST AWAKENS!');
-        toast('SHAD awakened into its final form for a moment!');
-        setTimeout(() => { unleashed = false; b.setStage(0, false); $('.hero-page').classList.remove('shake'); }, 4200);
-      }
-    },
-  });
-  pokeable($('.p-mascot'), hero);
-
-  const card = new Beast($('#cardBeast'), { stage: 2, draggable: true, reduce, onLand: () => sfx.thud(), onPoke: (b) => { roarFx(b); b.say(pick(['Fully awakened.', 'Horns polished. Code reviewed.', 'Fear the 9.5 CGPA.'])); } });
-  pokeable($('.tc-photo'), card);
-
-  const ally = new Beast($('#allyBeast'), { stage: 2, draggable: false, reduce, onPoke: (b) => roarFx(b) });
-  $('#allyBeast').style.touchAction = 'pan-y';
-
-  // a small static emblem in the nav logo
-  $('#logoBeast').innerHTML = Beast.head(1);
+  const aio = new IntersectionObserver((es) => { es.forEach((e) => vis.set(e.target, e.intersectionRatio)); pickAnchor(); }, { threshold: [0, 0.3, 0.55, 0.8, 1] });
+  anchors.forEach((a) => a.el && aio.observe(a.el));
+  addEventListener('beast-ready', () => { pickAnchor(); if (typeof onEvoScroll === 'function') onEvoScroll(); });
+  // clicking empty space makes it pounce (handled in the module) and roar here
+  addEventListener('pointerdown', (e) => { if (beast() && !e.target.closest('a,button,input,[role=button],[role=tab],.dlg')) setTimeout(() => sfx.roar(), 120); });
 
   /* ================= hero letters: they dodge the cursor, flip on click ================= */
   const letters = [...$$('.hero-title .ch')].map((el) => ({ el, x: 0, y: 0, vx: 0, vy: 0 }));
@@ -254,7 +237,7 @@
     'SHAD is a Technology Program Intern at Wells Fargo, building AI agents!',
     'SHAD won Lexicognition AI at Kshitij, IIT Kharagpur\'s tech fest! Microsoft judges were watching.',
     'SHAD also won OpenAImer at SRIJAN, Jadavpur University\'s tech fest!',
-    'Psst. Drag the beast and throw it. Or type "shad" anywhere.',
+    'Psst. Click anywhere and Shad pounces. Or type "shad" anywhere.',
   ]);
 
   /* ================= Wells Fargo mini battle ================= */
@@ -281,7 +264,7 @@
     if (won) { rematch(); return; }   // only an explicit rematch refills the HP
     busy = true; atk.disabled = true;
     const [line, dmg, after] = TURNS[turn];
-    wfDlg.textContent = line; ally.lunge(1); roarFx(ally);
+    wfDlg.textContent = line; { const r = foe.getBoundingClientRect(); beast() && beast().pounce(r.left + r.width * 0.4, r.top + r.height * 0.7); roarAt(r.left + r.width * 0.2, r.top); }
     setTimeout(() => {
       hp = Math.max(0, hp - dmg); paintHp(); restart(foe, 'hit'); dmgNumber(dmg); sfx.hit();
       wfDlg.textContent = `${line} ${after}`; turn++;
@@ -305,15 +288,12 @@
     { name: 'SHADOWBEAST', years: '2025 to now', line: 'SHADOWBEAST has fully awakened.',
       text: 'Led teams to win OpenAImer at SRIJAN 2025, Jadavpur University\'s tech fest, and Lexicognition AI at Kshitij 2026, IIT Kharagpur\'s tech fest. Published at IEEE IJCNN and Springer ICITA, then joined Wells Fargo to architect, build and orchestrate an AI agent for Commercial and Corporate Investment Banking.' },
   ];
-  $$('.evo-static [data-stage]').forEach((s) => (s.innerHTML = Beast.markup(+s.dataset.stage)));
   $$('.evo-static [data-text]').forEach((p) => (p.textContent = STAGES[+p.dataset.text].text));
   $$('.evo-static [data-years]').forEach((p) => (p.textContent = STAGES[+p.dataset.years].years));
 
   const evo = $('#story'), flash = $('#evoFlash'), stageEl = $('#evoStage');
   const nameEl = $('#evoName'), yearsEl = $('#evoYears'), textEl = $('#evoText'), dlgEl = $('#evoDlg');
   const steps = $$('.evo-steps li');
-  const evoB = new Beast($('#evoBeast'), { stage: 0, draggable: false, reduce, onPoke: (b) => roarFx(b) });
-  $('#evoBeast').style.touchAction = 'pan-y';
   const BOUNDS = [0.36, 0.7], WIN = 0.12;
   let evoStage = 0, evolvedAt = -1e9;
   function setCopy(s, animate) {
@@ -328,10 +308,11 @@
     const s = p < BOUNDS[0] ? 0 : p < BOUNDS[1] ? 1 : 2;
     let charge = 0;
     BOUNDS.forEach((b) => { if (p >= b - WIN && p < b) charge = (p - (b - WIN)) / WIN; });
-    evoB.shake = charge; stageEl.classList.toggle('charging', charge > 0);
+    const bb = beast(); if (bb) { bb.charge = charge; if (bb.stageI !== s) bb.setStage(s); }
+    stageEl.classList.toggle('charging', charge > 0);
     if (s !== evoStage) {
       const fwd = s > evoStage; evoStage = s;
-      evoB.setStage(s, fwd); setCopy(s, true);
+      setCopy(s, true);
       if (fwd) { restart(flash, 'go'); sfx.evolve(); evolvedAt = performance.now(); }
     }
     dlgEl.textContent = charge > 0 ? `What? ${STAGES[evoStage].name} is evolving!`
@@ -406,7 +387,6 @@
   const tcard = $('.tcard');
   if (finePointer && !reduce) {
     tcard.addEventListener('pointermove', (e) => {
-      if (card.drag) return;
       const r = tcard.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
       tcard.style.transform = `perspective(1200px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
       tcard.style.setProperty('--gx', `${(x + 0.5) * 100}%`); tcard.style.setProperty('--gy', `${(y + 0.5) * 100}%`);
@@ -531,7 +511,7 @@
   tl.from('.hero-page > *', { clipPath: 'inset(0 100% 0 0)', duration: 0.55, stagger: 0.14 })
     .fromTo('.hero-title .ch', { yPercent: -120, rotate: () => gsap.utils.random(-25, 25), opacity: 0 },
       { yPercent: (i) => [0, -6, 0, 0][i], rotate: (i) => [0, -3, 0, 4][i], opacity: 1, duration: 0.45, stagger: 0.07, ease: 'back.out(2.2)' }, '-=0.5')
-    .add(() => { hero.pop = 0.2; hero.vpop = 0; hero.burstRings(3); }, '-=0.3')
+    .add(() => { beast() && beast().roar(); }, '-=0.3')
     .from('.sfx-go', { scale: 0, rotate: -40, duration: 0.35, ease: 'back.out(3)' }, '-=0.15')
     .from('.realname, .lede, .p-title .chapter', { opacity: 0, y: 14, duration: 0.4, stagger: 0.06, ease: 'power2.out' }, '-=0.25')
     .add(() => heroDlg.start());
@@ -551,7 +531,6 @@
   gsap.from('.wf-steps li', { y: 40, rotate: (i) => [-6, 4, -3][i], opacity: 0, duration: 0.6, stagger: 0.12, ease: 'back.out(1.8)', scrollTrigger: { trigger: '.wf-steps', start: 'top 88%', once: true } });
   gsap.from('.wf-main h3', { scale: 1.6, opacity: 0, duration: 0.5, ease: 'back.out(2)', scrollTrigger: { trigger: '.wf-main', start: 'top 80%', once: true } });
   gsap.from('#foe', { x: 120, opacity: 0, duration: 0.7, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.wf-battle', start: 'top 75%', once: true } });
-  ScrollTrigger.create({ trigger: '.wf-battle', start: 'top 70%', once: true, onEnter: () => { ally.pop = 0.2; ally.vpop = 0; ally.burstRings(2); } });
   gsap.utils.toArray('.dex-grid > *').forEach((el, i) => {
     gsap.from(el, { rotate: i % 2 ? 2.5 : -2.5, y: 40, duration: 0.8, ease: 'back.out(1.4)', clearProps: 'transform', scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
   });
@@ -562,7 +541,6 @@
   gsap.from('.tcard', { y: 80, rotate: -2, scale: 0.96, duration: 0.8, ease: 'back.out(1.4)', clearProps: 'transform', scrollTrigger: { trigger: '.tcard', start: 'top 85%', once: true } });
   gsap.from('.tc-badges li', { scale: 0, rotate: -30, duration: 0.45, stagger: 0.08, ease: 'back.out(2.5)', scrollTrigger: { trigger: '.tc-badges', start: 'top 85%', once: true } });
   gsap.from('.tc-party li', { y: 30, opacity: 0, duration: 0.4, stagger: 0.06, ease: 'back.out(2)', scrollTrigger: { trigger: '.tc-party', start: 'top 90%', once: true } });
-  ScrollTrigger.create({ trigger: '.tcard', start: 'top 70%', once: true, onEnter: () => { card.pop = 0.2; card.vpop = 0; card.burstRings(3); } });
   gsap.from('.sfx-don', { scale: 3, opacity: 0, rotate: -30, duration: 0.5, ease: 'back.out(2)', scrollTrigger: { trigger: '.p-contact', start: 'top 70%', once: true } });
   gsap.fromTo('.p-contact .speed', { scale: 0.6 }, { scale: 1.2, ease: 'none', scrollTrigger: scrub('.p-contact', 'top bottom', 'bottom bottom') });
 })();

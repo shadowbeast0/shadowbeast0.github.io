@@ -399,3 +399,27 @@ html.shadow .pop,html.shadow .confetti,html.shadow .idle-eyes,html.shadow .sfx{f
   #soundBtn{display:none}
   .logo-beast{width:34px;height:34px}
 }
+
+/* ============ 3D beast integration ============ */
+.logo-beast{border-radius:50%}
+.p-mascot{background:#0E0A16;justify-content:space-between}
+.p-mascot::before{background:repeating-conic-gradient(from 0deg at 50% 55%,transparent 0 3deg,rgba(139,92,246,.12) 3deg 4deg)}
+.den{position:relative;width:min(82%,340px);aspect-ratio:1;margin:auto;display:grid;place-items:center}
+.den-ring{position:absolute;inset:0;border-radius:50%;border:3px solid #FF2E88;box-shadow:0 0 18px #FF2E88,inset 0 0 18px rgba(255,46,136,.5);
+  transform:rotateX(68deg);animation:denspin 9s linear infinite}
+.den-ring.r2{inset:14%;border:2px dashed #22F0FF;box-shadow:0 0 12px #22F0FF;animation-duration:6s;animation-direction:reverse}
+@keyframes denspin{to{transform:rotateX(68deg) rotate(360deg)}}
+.den-kanji{position:relative;top:-6%;font:900 clamp(80px,9vw,140px)/1 var(--jp);color:transparent;-webkit-text-stroke:2px rgba(139,92,246,.45);user-select:none}
+.p-mascot .caption{margin-top:auto}
+.evo-stage{background:#0E0A16}
+.evo-lines{background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 3deg,rgba(139,92,246,.18) 3deg 4deg)}
+.evo-den{width:min(70%,52vh)}
+.tc-photo{background-color:#0E0A16;background-image:radial-gradient(rgba(139,92,246,.35) 1.4px,transparent 1.6px);padding:14px;display:grid;place-items:center}
+.tc-photo img{width:100%;height:auto;display:block}
+.evo-still{display:block;width:100%;max-width:220px;margin:0 auto;background:#0E0A16;padding:10px}
+.swarm-b img{display:block}
+.foot small{display:block;margin-top:8px;font-size:12px;color:#777;max-width:70ch;margin-inline:auto}
+html.shadow .logo-beast,html.shadow .tc-photo img,html.shadow .den,html.shadow .evo-still{filter:invert(1) hue-rotate(180deg)}
+@media (max-width:760px){.den{width:min(70%,260px)}}
+.beast3d{filter:var(--glow)}
+html.shadow .beast3d{filter:invert(1) hue-rotate(180deg) var(--glow)}
