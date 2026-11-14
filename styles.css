@@ -512,3 +512,8 @@ svg.foe.respawn{animation:respawn .6s cubic-bezier(.3,1.6,.5,1)}
 .ko-banner{position:absolute;left:50%;top:38%;z-index:6;font:400 clamp(54px,7vw,96px)/1 var(--letter);letter-spacing:.04em;color:#FFD60A;
   -webkit-text-stroke:4px #000;paint-order:stroke fill;transform:translate(-50%,-50%) rotate(-8deg) scale(0);pointer-events:none;animation:koBanner 1.6s cubic-bezier(.3,1.6,.5,1) forwards}
 @keyframes koBanner{0%{transform:translate(-50%,-50%) rotate(-8deg) scale(0)}20%{transform:translate(-50%,-50%) rotate(-8deg) scale(1.2)}35%,80%{transform:translate(-50%,-50%) rotate(-8deg) scale(1);opacity:1}100%{transform:translate(-50%,-50%) rotate(-8deg) scale(1);opacity:0}}
+
+/* Shad-dex: featured pair on top, then two even rows of three */
+.dex-c,.dex-d,.dex-h,.dex-e,.dex-f,.dex-g{grid-column:span 4}
+@media (max-width:1000px){.dex-c,.dex-d,.dex-h,.dex-e,.dex-f,.dex-g{grid-column:span 6}}
+@media (max-width:760px){.dex-c,.dex-d,.dex-h,.dex-e,.dex-f,.dex-g{grid-column:1/-1}}

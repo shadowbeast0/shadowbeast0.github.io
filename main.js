@@ -254,6 +254,7 @@
     'A wild SHAD appeared!',
     'SHAD is a software engineer and AI researcher.',
     'SHAD is a Technology Program Intern at Wells Fargo, building AI agents!',
+    "SHAD's SAGED-Net was published at IEEE IJCNN 2026!",
     'SHAD won Lexicognition AI at Kshitij, IIT Kharagpur\'s tech fest! Microsoft judges were watching.',
     'SHAD also won OpenAImer at SRIJAN, Jadavpur University\'s tech fest!',
     'Psst. Click anywhere and Shad pounces. Or type "shad" anywhere.',
