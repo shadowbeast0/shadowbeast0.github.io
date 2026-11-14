@@ -50,8 +50,14 @@
     </div>
 
     <div class="panel p-mascot">
-      <div class="den" id="heroDen" aria-hidden="true"><span class="den-ring"></span><span class="den-ring r2"></span><span class="den-kanji">影</span></div>
-      <p class="caption">This is Shad's den. Shad roams the whole page: move your cursor and it follows, click anywhere and it pounces.</p>
+      <div class="night" aria-hidden="true">
+        <div class="stars"></div>
+        <div class="moon"><span>影</span></div>
+        <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+        <svg class="skyline" id="skyline" viewBox="0 0 400 160" preserveAspectRatio="xMidYMax slice"></svg>
+        <div class="roof" id="heroRoof"><span class="roof-sign">影</span></div>
+      </div>
+      <p class="caption">Shad keeps watch from its rooftop. Scroll down and it follows you through the page; click anywhere and it pounces.</p>
     </div>
 
     <a class="panel p-arc" href="#wells">
@@ -98,17 +104,27 @@
     <div class="panel wf-battle reveal" aria-label="Mini battle: Shad versus manual work">
       <div class="foe-box"><span class="foe-name">MANUAL WORK</span><span class="foe-lv">Lv. 99</span><div class="hp"><span>HP</span><span class="hp-bar"><i id="foeHp"></i></span></div></div>
       <div class="platform platform-foe" aria-hidden="true"></div>
-      <svg class="foe" id="foe" viewBox="0 0 160 140" aria-hidden="true">
+      <svg class="foe" id="foe" viewBox="0 0 160 140" aria-hidden="true" overflow="visible">
         <g class="foe-body">
-          <rect x="30" y="34" width="92" height="92" rx="4" fill="#fff" stroke="#000" stroke-width="4" transform="rotate(-8 76 80)"/>
-          <rect x="38" y="28" width="92" height="92" rx="4" fill="#fff" stroke="#000" stroke-width="4" transform="rotate(5 84 74)"/>
-          <rect x="34" y="22" width="92" height="96" rx="4" fill="#fff" stroke="#000" stroke-width="4"/>
-          <path d="M46 40 H112 M46 52 H104 M46 98 H114 M46 108 H96" stroke="#9a9a9a" stroke-width="3" stroke-linecap="round"/>
-          <path d="M54 62 L74 70 M114 62 L94 70" stroke="#000" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="66" cy="76" r="5"/><circle cx="102" cy="76" r="5"/>
-          <path d="M68 92 Q84 82 100 92" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
-          <path d="M122 30 l10 -8 M126 42 l12 -2" stroke="#E4262B" stroke-width="4" stroke-linecap="round"/>
+          <g class="sh sh1"><rect x="30" y="34" width="92" height="92" rx="4" fill="#fff" stroke="#000" stroke-width="4" transform="rotate(-8 76 80)"/></g>
+          <g class="sh sh2"><rect x="38" y="28" width="92" height="92" rx="4" fill="#fff" stroke="#000" stroke-width="4" transform="rotate(5 84 74)"/></g>
+          <g class="sh sh3">
+            <rect x="34" y="22" width="92" height="96" rx="4" fill="#fff" stroke="#000" stroke-width="4"/>
+            <path d="M46 40 H112 M46 52 H104 M46 98 H114 M46 108 H96" stroke="#9a9a9a" stroke-width="3" stroke-linecap="round"/>
+            <g class="alive">
+              <path d="M54 62 L74 70 M114 62 L94 70" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="66" cy="76" r="5"/><circle cx="102" cy="76" r="5"/>
+              <path d="M68 92 Q84 82 100 92" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+              <path d="M122 30 l10 -8 M126 42 l12 -2" stroke="#E4262B" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <g class="dead">
+              <path d="M58 68 l14 14 m0 -14 l-14 14 M96 68 l14 14 m0 -14 l-14 14" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+              <path d="M64 96 q5 -6 10 0 t10 0 t10 0 t10 0" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+              <path d="M98 100 q3 10 -2 14" fill="none" stroke="#7CC8F2" stroke-width="4" stroke-linecap="round"/>
+            </g>
+          </g>
         </g>
+        <g class="stars-ko"><text x="58" y="12" font-size="18" fill="#FFD60A" stroke="#000" stroke-width="1">★</text><text x="92" y="4" font-size="14" fill="#FFD60A" stroke="#000" stroke-width="1">★</text><text x="118" y="16" font-size="16" fill="#FFD60A" stroke="#000" stroke-width="1">★</text></g>
       </svg>
       <div class="platform platform-ally" aria-hidden="true"></div>
       <div class="dlg wf-dlg"><p class="dlg-text" id="wfDlg" aria-live="polite">A wild MANUAL WORK appeared! What will SHAD do?</p></div>
@@ -126,7 +142,21 @@
     </div>
     <div class="evo-stage" id="evoStage">
       <div class="evo-lines" aria-hidden="true"></div>
-      <div class="den evo-den" id="evoDen" aria-hidden="true"><span class="den-ring"></span><span class="den-ring r2"></span></div>
+      <div class="chamber" id="chamber" aria-hidden="true">
+        <div class="pillar"></div>
+        <div class="floor" id="evoFloor">
+          <svg class="sigil" viewBox="0 0 200 200">
+            <defs><path id="runePath" d="M100 100 m-84 0 a84 84 0 1 1 168 0 a84 84 0 1 1 -168 0"/></defs>
+            <circle cx="100" cy="100" r="96" fill="none" stroke="#FF2E88" stroke-width="3"/>
+            <circle cx="100" cy="100" r="74" fill="none" stroke="#22F0FF" stroke-width="1.5" stroke-dasharray="4 6"/>
+            <text fill="#22F0FF" font-size="10.5" font-weight="900" letter-spacing="2"><textPath href="#runePath">シャドウ ✦ ビースト ✦ シャドウ ✦ ビースト ✦ シャドウ ✦ ビースト ✦</textPath></text>
+            <polygon points="100,34 157,133 43,133" fill="none" stroke="#FF2E88" stroke-width="2.5"/>
+            <polygon points="100,166 43,67 157,67" fill="none" stroke="#FF2E88" stroke-width="2.5"/>
+            <circle cx="100" cy="100" r="26" fill="none" stroke="#FFD60A" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <div class="motes"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
       <div class="flash" id="evoFlash" aria-hidden="true"></div>
     </div>
     <div class="evo-copy">

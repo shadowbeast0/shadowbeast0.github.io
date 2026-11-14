@@ -169,12 +169,31 @@
 
   /* ================= the 3D shadow beast (created by the module in index.html) ================= */
   const beast = () => window.shadBeast;
+
+  // Chapter 1 scene: a neon city skyline with lit (and a few flickering) windows, built once
+  (function buildSkyline() {
+    const svg = $('#skyline'); if (!svg) return;
+    let seed = 7; const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+    const COLORS = ['#22F0FF', '#FF2E88', '#FFD60A', '#8B5CF6'];
+    let x = -6, out = '';
+    while (x < 406) {
+      const w = 18 + rnd() * 26, h = 46 + rnd() * 92;
+      if (x > 104 && x < 292) { x += w; continue; }   // leave the middle open for Shad's rooftop
+      out += `<rect class="b" x="${x.toFixed(1)}" y="${(160 - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}"/>`;
+      for (let wy = 160 - h + 8; wy < 152; wy += 10) for (let wx = x + 4; wx < x + w - 5; wx += 7) {
+        if (rnd() < 0.3) out += `<rect class="w${rnd() < 0.15 ? ' blink' : ''}" x="${wx.toFixed(1)}" y="${wy.toFixed(1)}" width="3" height="4" fill="${COLORS[(rnd() * 4) | 0]}" style="animation-delay:${(rnd() * 3).toFixed(2)}s"/>`;
+      }
+      x += w + 2;
+    }
+    svg.innerHTML = out;
+  })();
   function roarAt(x, y) { spawnPop(x, y, pick(['ガオー!', 'グルル', 'ゴォォ']), pick(['#E4262B', '#8B5CF6', '#FFD60A'])); sfx.roar(); }
   // where the beast rests or performs: its den in the hero (soft), the evolution stage and the battle platform (strong)
   const anchors = [
-    { el: $('#heroDen'), strong: false, fx: 0.5, fy: 0.62 },
-    { el: $('#evoDen'), strong: true, fx: 0.5, fy: 0.62 },
-    { el: $('.platform-ally'), strong: true, fx: 0.5, fy: -0.9 },
+    // feet: true means the beast's paws land on that point, not its belly
+    { el: $('#heroRoof'), strong: true, fx: 0.5, fy: 0, feet: true, face: -1, scale: 1 },
+    { el: $('#evoFloor'), strong: true, fx: 0.5, fy: 0.5, feet: true, face: -1, scale: 1 },
+    { el: $('.platform-ally'), strong: true, fx: 0.5, fy: 0.45, feet: true, face: 1, scale: 0.85 },
   ];
   const vis = new Map();
   function pickAnchor() {
@@ -256,8 +275,32 @@
     arena.appendChild(s); setTimeout(() => s.remove(), 1000);
   }
   function rematch() {
-    won = false; hp = 100; turn = 0; paintHp(); foe.classList.remove('fainted', 'hit'); arena.classList.remove('won');
+    won = false; hp = 100; turn = 0; paintHp(); foe.classList.remove('fainted', 'hit', 'dizzy', 'ko'); arena.classList.remove('won');
+    restart(foe, 'respawn');
     wfDlg.textContent = 'MANUAL WORK is back for a rematch! What will SHAD do?'; atk.textContent = 'Use AI agent';
+  }
+  // a storm of loose paperwork flying out of the defeated foe
+  function paperBurst(x, y, n = 18) {
+    if (reduce) return;
+    for (let i = 0; i < n; i++) {
+      const e = document.createElement('i'); e.className = 'paper'; document.body.appendChild(e);
+      bits.push({ e, x, y, vx: rand(-420, 420), vy: rand(-700, -250), r: rand(0, 360), vr: rand(-540, 540), life: 1.6 });
+    }
+  }
+  function knockout() {
+    const r = foe.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    // 1) dizzy: X eyes, wobble, stars circling its head
+    foe.classList.remove('hit'); foe.classList.add('dizzy');
+    wfDlg.textContent = 'MANUAL WORK is dizzy…';
+    setTimeout(() => {
+      // 2) K.O.: it topples over, sheets fly off, paperwork explodes everywhere
+      foe.classList.remove('dizzy'); foe.classList.add('ko'); arena.classList.add('won');
+      paperBurst(cx, cy, 20); burst(cx, cy, 24); sfx.level();
+      const b = document.createElement('span'); b.className = 'ko-banner'; b.textContent = 'K.O.!'; arena.appendChild(b); setTimeout(() => b.remove(), 1700);
+      document.querySelector('.wf-battle').animate([{ transform: 'translate(0,0)' }, { transform: 'translate(-8px,5px)' }, { transform: 'translate(7px,-4px)' }, { transform: 'translate(0,0)' }], { duration: 300 });
+      wfDlg.textContent = 'MANUAL WORK fainted! The line of business gained an AI agent.';
+      setTimeout(() => { won = true; busy = false; atk.disabled = false; atk.textContent = 'Rematch'; }, 1100);
+    }, 1100);
   }
   atk.addEventListener('click', () => {
     if (busy) return;                 // ignore clicks while a move or the knockout is playing
@@ -269,13 +312,7 @@
       hp = Math.max(0, hp - dmg); paintHp(); restart(foe, 'hit'); dmgNumber(dmg); sfx.hit();
       wfDlg.textContent = `${line} ${after}`; turn++;
       if (hp > 0) { busy = false; atk.disabled = false; return; }
-      setTimeout(() => {
-        foe.classList.add('fainted'); arena.classList.add('won'); sfx.level();
-        wfDlg.textContent = 'MANUAL WORK fainted! The line of business gained an AI agent.';
-        const r = foe.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 24);
-        spawnPop(r.left + r.width / 2, r.top + r.height / 3, 'K.O.!', '#FFD60A');
-        setTimeout(() => { won = true; busy = false; atk.disabled = false; atk.textContent = 'Rematch'; }, 900);
-      }, 700);
+      setTimeout(knockout, 550);
     }, 320);
   });
 
@@ -313,7 +350,7 @@
     if (s !== evoStage) {
       const fwd = s > evoStage; evoStage = s;
       setCopy(s, true);
-      if (fwd) { restart(flash, 'go'); sfx.evolve(); evolvedAt = performance.now(); }
+      if (fwd) { restart(flash, 'go'); restart($('#chamber'), 'burst'); sfx.evolve(); evolvedAt = performance.now(); }
     }
     dlgEl.textContent = charge > 0 ? `What? ${STAGES[evoStage].name} is evolving!`
       : performance.now() - evolvedAt < 2600 ? `Congratulations! SHAD evolved into ${STAGES[evoStage].name}!` : STAGES[evoStage].line;
@@ -530,7 +567,8 @@
   });
   gsap.from('.wf-steps li', { y: 40, rotate: (i) => [-6, 4, -3][i], opacity: 0, duration: 0.6, stagger: 0.12, ease: 'back.out(1.8)', scrollTrigger: { trigger: '.wf-steps', start: 'top 88%', once: true } });
   gsap.from('.wf-main h3', { scale: 1.6, opacity: 0, duration: 0.5, ease: 'back.out(2)', scrollTrigger: { trigger: '.wf-main', start: 'top 80%', once: true } });
-  gsap.from('#foe', { x: 120, opacity: 0, duration: 0.7, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.wf-battle', start: 'top 75%', once: true } });
+  // clearProps matters: leftover inline transform/opacity would override the K.O. animation
+  gsap.from('#foe', { x: 120, opacity: 0, duration: 0.7, ease: 'back.out(1.6)', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.wf-battle', start: 'top 75%', once: true } });
   gsap.utils.toArray('.dex-grid > *').forEach((el, i) => {
     gsap.from(el, { rotate: i % 2 ? 2.5 : -2.5, y: 40, duration: 0.8, ease: 'back.out(1.4)', clearProps: 'transform', scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
   });

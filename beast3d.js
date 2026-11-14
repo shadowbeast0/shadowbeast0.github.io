@@ -184,7 +184,8 @@ export class Beast3D {
     const S = STAGES[this.stageI], k = S.scale * this.mobileK, now = performance.now();
     // where to go: hug the cursor, else wander; dash on a click
     const anc = this.anchor && this.anchor.el && this.anchor.el.getBoundingClientRect();
-    const ancPt = anc ? { x: anc.left + anc.width * (this.anchor.fx ?? 0.5), y: anc.top + anc.height * (this.anchor.fy ?? 0.6) } : null;
+    const feet = this.anchor && this.anchor.feet ? 40 * k * (this.anchor.scale || 1) : 0;   // paws on the spot, not the belly
+    const ancPt = anc ? { x: anc.left + anc.width * (this.anchor.fx ?? 0.5), y: anc.top + anc.height * (this.anchor.fy ?? 0.6) - feet } : null;
     if (this.dash > 0) this.dash -= dt;
     else if (ancPt && this.anchor.strong) this.target = ancPt;
     else if (this.mouse && now - this.lastMove < 2600) this.target = { x: this.mouse.x + Math.cos(this.t * 0.8) * 140 * k, y: this.mouse.y + 60 * k + Math.sin(this.t * 1.6) * 30 };
@@ -200,25 +201,43 @@ export class Beast3D {
       this.target = { x: w.x, y: w.y };
     }
     const dx = this.target.x - this.pos.x, dy = this.target.y - this.pos.y, d = Math.hypot(dx, dy) || 1;
-    const max = (this.dash > 0 ? 950 : 330) * this.mobileK, want = Math.min(max, d * 2.6), kk = Math.min(1, dt * (this.dash > 0 ? 6 : 2.6));
-    this.v.x = lerp(this.v.x, (dx / d) * want, kk); this.v.y = lerp(this.v.y, (dy / d) * want, kk);
-    this.pos.x = clamp(this.pos.x + this.v.x * dt, 90 * k, this.w - 90 * k); this.pos.y = clamp(this.pos.y + this.v.y * dt, 60 * k, this.h - 30 * k);
-    this.speed = Math.hypot(this.v.x, this.v.y);
+    const strong = !!(ancPt && this.anchor.strong && this.dash <= 0);
+    if (strong && (this.perched || d < 18)) {
+      // perched: glued to its spot, so it rides along with the panel while you scroll
+      this.perched = true; this.pos.x = this.target.x; this.pos.y = this.target.y;
+      this.v.x *= 0.5; this.v.y *= 0.5; this.speed = 0;
+      if (this.anchor.face) this.face = this.anchor.face;
+      if (d > 160) this.perched = false;
+    } else if (strong && d > 480 && !this.reduce) {
+      // shadow-step: vanish in smoke here, reappear on its spot in a burst of sparks
+      for (let i = 0; i < 16; i++) this.emit(false);
+      this.pos.x = this.target.x; this.pos.y = this.target.y; this.v.x = 0; this.v.y = 0; this.speed = 0;
+      this.perched = true; this.mood = 1;
+      for (let i = 0; i < 22; i++) this.emit(true);
+      for (let i = 0; i < 8; i++) this.emit(false);
+    } else {
+      this.perched = false;
+      const max = (this.dash > 0 ? 950 : strong ? 1000 : 330) * this.mobileK, want = Math.min(max, d * (strong ? 4 : 2.6)), kk = Math.min(1, dt * (this.dash > 0 ? 6 : strong ? 5 : 2.6));
+      this.v.x = lerp(this.v.x, (dx / d) * want, kk); this.v.y = lerp(this.v.y, (dy / d) * want, kk);
+      this.pos.x = clamp(this.pos.x + this.v.x * dt, 90 * k, this.w - 90 * k); this.pos.y = clamp(this.pos.y + this.v.y * dt, 60 * k, this.h - 30 * k);
+      this.speed = Math.hypot(this.v.x, this.v.y);
+    }
     this.mood = Math.max(0, this.mood - dt * 1.4);
 
     // place + orient: face left/right with a 3/4 turn toward the camera, lean into climbs
     if (this.pose) { this.pos = { x: this.w / 2, y: this.h / 2 + 40 * k }; this.v = { x: 0, y: 0 }; this.speed = 0; }
     const p = this.toWorld(this.pos.x, this.pos.y);
     const jit = this.charge ? (Math.random() - 0.5) * this.charge * 10 : 0;
-    this.root.position.set(p.x + jit, p.y + (this.speed < 40 ? Math.sin(this.t * 2) * 3 : 0) + jit * 0.6, 0);
-    if (Math.abs(this.v.x) > 25) this.face = this.v.x > 0 ? 1 : -1;
-    const yawT = this.pose ? this.pose.yaw : this.face * (Math.PI / 2 - 0.42);
+    this.root.position.set(p.x + jit, p.y + (this.speed < 40 && !this.perched ? Math.sin(this.t * 2) * 3 : 0) + jit * 0.6, 0);
+    if (!this.perched && Math.abs(this.v.x) > 25) this.face = this.v.x > 0 ? 1 : -1;
+    const yawT = this.pose ? this.pose.yaw : this.perched ? this.face * 0.95 : this.face * (Math.PI / 2 - 0.42);
     this.yawNow = lerp(this.yawNow, yawT, Math.min(1, dt * 6));
     this.yaw.rotation.y = this.yawNow;
     this.tilt.rotation.x = 0.28; // look slightly down on its back so it reads as 3D
     this.tilt.rotation.z = lerp(this.tilt.rotation.z, clamp(Math.atan2(-this.v.y, Math.abs(this.v.x) + 60) * 0.6, -0.5, 0.5) * this.face, Math.min(1, dt * 5));
     this.wk = lerp(this.wk ?? 1, this.wandering ? 0.62 : 1, Math.min(1, dt * 2.5));
-    this.root.scale.setScalar(k * this.wk * (1 + this.mood * 0.08));
+    this.ak = lerp(this.ak ?? 1, (this.perched && this.anchor && this.anchor.scale) || 1, Math.min(1, dt * 3));
+    this.root.scale.setScalar(k * this.wk * this.ak * (1 + this.mood * 0.08));
 
     if (this.mixer) {
       // blend Survey / Walk / Run by speed; run faster when dashing
