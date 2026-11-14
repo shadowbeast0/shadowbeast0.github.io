@@ -1,0 +1,322 @@
+/* ============ tokens ============ */
+:root{
+  --paper:#F1EBDD;
+  --ink:#000;
+  --white:#fff;
+  --red:#E4262B;
+  --yel:#FFD60A;
+  --psy:#7CC8F2; /* psychic sky blue: the duck's backdrop, so yellow never sits on yellow */
+  --tone:rgba(0,0,0,.16);
+  --border:5px;
+  --gutter:14px;
+  --letter:'Bangers',Impact,sans-serif;
+  --body:'Bricolage Grotesque',system-ui,sans-serif;
+  --jp:'Noto Sans JP',sans-serif;
+  --game:'DotGothic16',monospace;
+  /* Pokémon-style type colours: only ever used on type badges */
+  --t-psychic:#F95587;--t-electric:#F7D02C;--t-steel:#B7B7CE;--t-flying:#A98FF3;
+  --t-normal:#C6C6A7;--t-fairy:#D685AD;--t-fire:#EE8130;--t-ghost:#9A7FC6;--t-dark:#705746;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--body);overflow-x:hidden}
+/* newsprint screentone over everything */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(0,0,0,.09) .9px,transparent 1.1px);background-size:5px 5px}
+main,header,footer{position:relative;z-index:1}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit}
+:focus-visible{outline:4px solid var(--red);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--yel);border:3px solid var(--ink);padding:8px 14px;font-weight:700}
+.skip:focus{top:12px}
+
+/* ============ nav ============ */
+.nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:12px clamp(16px,3vw,40px);background:var(--paper);border-bottom:var(--border) solid var(--ink)}
+.logo{font:400 34px/1 var(--letter);letter-spacing:.02em;text-decoration:none}
+.logo span{display:inline-block;background:var(--red);color:var(--white);padding:0 6px;margin-left:4px;transform:rotate(-6deg)}
+.nav nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.nav nav a{font-weight:600;font-size:14px;text-decoration:none;padding:7px 12px;border:3px solid var(--ink);background:var(--white);
+  box-shadow:4px 4px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .1s}
+.nav nav a:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.nav nav a.nav-cta{background:var(--yel)}
+
+/* ============ shared manga parts ============ */
+.page{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);padding:var(--gutter) clamp(16px,3vw,40px)}
+.panel{position:relative;background:var(--white);border:var(--border) solid var(--ink);overflow:hidden}
+.chapter{font:400 20px/1 var(--letter);letter-spacing:.06em;color:var(--red)}
+.speed{position:absolute;inset:-60%;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 2.2deg,rgba(255,255,255,.12) 2.2deg 3.1deg);
+  animation:spin 80s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sfx{position:absolute;font:900 1px/1 var(--jp);color:var(--red);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;pointer-events:none;z-index:2}
+.t{display:inline-block;font:700 11px/1 var(--body);letter-spacing:.04em;padding:5px 9px 4px;border:2px solid var(--ink);border-radius:999px;color:var(--ink)}
+.t.psychic{background:var(--t-psychic)}.t.electric{background:var(--t-electric)}.t.steel{background:var(--t-steel)}
+.t.flying{background:var(--t-flying)}.t.normal{background:var(--t-normal)}.t.fairy{background:var(--t-fairy)}
+.t.fire{background:var(--t-fire)}.t.ghost{background:var(--t-ghost)}.t.dark{background:var(--t-dark);color:var(--white)}
+.shad{display:block;width:100%;height:auto;overflow:visible}
+
+/* RPG dialogue box */
+.dlg{position:relative;background:var(--white);border:var(--border) solid var(--ink);border-radius:14px;
+  box-shadow:inset 0 0 0 4px var(--white),inset 0 0 0 7px var(--ink);padding:22px 56px 22px 26px;
+  font:400 clamp(18px,2vw,24px)/1.45 var(--game);min-height:96px;cursor:pointer;user-select:none}
+.dlg-caret{position:absolute;right:24px;bottom:16px;font-size:18px;color:var(--red);animation:caret .7s steps(2) infinite}
+@keyframes caret{50%{transform:translateY(4px)}}
+
+/* ============ chapter 1 · hero ============ */
+.hero-page{grid-template-rows:auto auto auto auto;min-height:calc(100svh - 70px)}
+.p-title{grid-column:1/9;grid-row:1/4;background:var(--ink);color:var(--white);display:flex;align-items:flex-end;min-height:520px}
+.title-wrap{position:relative;z-index:1;padding:clamp(22px,4vw,56px)}
+.hero-title{font:400 clamp(110px,19vw,300px)/.8 var(--letter);letter-spacing:.01em;margin:12px 0 10px;display:flex}
+.hero-title .ch{display:inline-block;color:var(--white);text-shadow:6px 6px 0 var(--red)}
+.realname{font:800 clamp(20px,2.4vw,30px)/1.1 var(--body);margin-bottom:14px}
+.realname span{font-weight:400;color:#bbb}
+.lede{max-width:52ch;color:#e6e6e6;font-size:clamp(16px,1.3vw,19px)}
+.sfx-go{font-size:clamp(56px,8vw,120px);top:7%;right:5%;transform:rotate(8deg);writing-mode:vertical-rl;animation:rumble .18s steps(2) infinite}
+@keyframes rumble{50%{translate:2px -2px}}
+
+.p-mascot{grid-column:9/13;grid-row:1/3;background:var(--psy);display:flex;flex-direction:column;justify-content:flex-end;padding:18px 18px 0}
+.p-mascot::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,transparent 30%,var(--tone) 31%,transparent 32%,transparent 48%,var(--tone) 49%,transparent 50%)}
+.p-mascot .shad{position:relative;max-width:300px;margin:0 auto}
+.caption{position:relative;margin:0 -18px;background:var(--ink);color:var(--white);font-size:13px;padding:8px 18px}
+
+.p-arc{grid-column:9/13;grid-row:3/4;background:var(--red);color:var(--white);padding:18px 20px}
+.arc-k{font:400 18px/1 var(--letter);letter-spacing:.06em;color:var(--yel)}
+.arc-t{font:400 clamp(34px,3.4vw,48px)/.95 var(--letter);letter-spacing:.02em;margin:6px 0 8px}
+.arc-d{font-size:14px;line-height:1.45}
+.hero-dlg{grid-column:1/13;grid-row:4/5}
+
+/* ============ chapter 2 · evolution ============ */
+.evo{position:relative;height:420vh;margin-top:6vh}
+.evo-stick{position:sticky;top:64px;height:calc(100svh - 64px);display:grid;
+  grid-template-columns:1.1fr 1fr;grid-template-rows:auto 1fr auto;gap:var(--gutter);padding:var(--gutter) clamp(16px,3vw,40px)}
+.evo-head{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline}
+.evo-hint{font:400 16px/1 var(--game);color:#555}
+.evo-stage{position:relative;background:var(--psy);border:var(--border) solid var(--ink);overflow:hidden;display:grid;place-items:center;min-height:0}
+.evo-stage.charging{background:var(--ink)}
+.evo-lines{position:absolute;inset:-60%;background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 3deg,rgba(0,0,0,.1) 3deg 4deg);animation:spin 50s linear infinite}
+.evo-stage.charging .evo-lines{animation-duration:4s;background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 3deg,rgba(255,255,255,.28) 3deg 4deg)}
+.evo-stage .shad{position:absolute;inset:6% 0 4%;width:100%;height:90%}
+.flash{position:absolute;inset:0;background:var(--white);opacity:0;pointer-events:none}
+.evo-copy{align-self:center;padding:0 clamp(0px,2vw,30px)}
+.evo-steps{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.evo-steps li{font:600 13px/1 var(--body);padding:7px 12px;border:3px solid var(--ink);background:var(--white);opacity:.4;transition:opacity .2s,background .2s}
+.evo-steps li.on{opacity:1;background:var(--yel)}
+.evo-copy h2{font:400 clamp(44px,6.2vw,112px)/.85 var(--letter);letter-spacing:.01em;white-space:nowrap}
+.evo-years{font:600 15px/1.3 var(--body);color:var(--red);margin:12px 0}
+.evo-text{max-width:46ch;font-size:clamp(16px,1.3vw,19px)}
+.evo-dlg{grid-column:1/-1;min-height:0;cursor:default}
+.evo-static{display:none}
+
+/* ============ section heads ============ */
+.sec{padding:12vh clamp(16px,3vw,40px) 0}
+.chap-head{background:var(--ink);color:var(--white);padding:clamp(20px,3vw,36px);margin-bottom:var(--gutter);display:grid;grid-template-columns:auto 1fr;column-gap:28px;align-items:end}
+.chap-head .chapter{grid-column:1/-1;color:var(--yel)}
+.chap-head h2{font:400 clamp(54px,8vw,120px)/.9 var(--letter);letter-spacing:.01em;margin-top:6px}
+.chap-sub{max-width:44ch;color:#ccc;padding-bottom:10px}
+
+/* ============ chapter 3 · dex ============ */
+.dex-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter)}
+.dex{padding:24px 26px 26px;display:flex;flex-direction:column;gap:10px}
+.dex header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.no{font:400 22px/1 var(--letter);letter-spacing:.05em}
+.types{display:flex;gap:6px}
+.dex h3{font:400 clamp(36px,3.6vw,56px)/.9 var(--letter);letter-spacing:.02em;margin-top:6px}
+.cat{font-style:italic;color:#555;margin-top:-4px}
+.dex p:not(.cat){max-width:60ch}
+.stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.stack li{font-size:13px;font-weight:600;padding:3px 9px;background:var(--paper);border:2px solid var(--ink)}
+.gh{align-self:flex-start;font-weight:700;text-decoration:none;border-bottom:3px solid var(--red);padding-bottom:1px}
+.gh:hover{background:var(--yel)}
+.stamp{align-self:flex-start;order:3;margin:4px 0 2px;font:400 20px/1 var(--letter);letter-spacing:.05em;color:var(--red);border:4px solid var(--red);padding:6px 10px 4px;transform:rotate(-4deg);background:var(--white)}
+.dex-a header{order:0}.dex-a h3{order:1}.dex-a .cat{order:2}.dex-a p:not(.cat){order:4}.dex-a .stack{order:5}.dex-a .gh{order:6}
+
+/* slanted pair: the ink between them is a diagonal gutter */
+.slant{grid-column:1/-1;display:grid;grid-template-columns:1.35fr 1fr;background:var(--ink);padding:var(--border)}
+.slant .panel{border:0}
+.dex-a{clip-path:polygon(0 0,100% 0,calc(100% - 48px) 100%,0 100%);padding-right:70px;padding-top:28px;padding-bottom:30px}
+.dex-b{margin-left:-38px;clip-path:polygon(52px 0,100% 0,100% 100%,4px 100%);padding-left:70px;background:var(--yel)}
+.dex-b .stack li{background:var(--white)}
+.dex-c{grid-column:span 5;background:var(--white)}
+.dex-d{grid-column:span 7}
+.dex-d::after{content:"";position:absolute;right:0;bottom:0;width:45%;height:60%;pointer-events:none;
+  background-image:radial-gradient(var(--tone) 1.4px,transparent 1.6px);background-size:8px 8px;mask:linear-gradient(135deg,transparent 30%,#000)}
+.sfx-pa{font-size:64px;right:26px;bottom:22px;transform:rotate(-8deg)}
+.dex-e,.dex-f,.dex-g{grid-column:span 4}
+.dex-e{background:var(--ink);color:var(--white)}
+.dex-e .cat{color:#aaa}.dex-e .stack li{background:var(--ink);border-color:var(--white)}
+.dex-e .t{border-color:var(--white)}
+
+/* ============ chapter 4 · moves ============ */
+.battle{display:grid;grid-template-columns:1fr 1.4fr;gap:var(--gutter)}
+.movelist{display:grid;grid-template-columns:1fr;gap:10px;background:var(--white);border:var(--border) solid var(--ink);border-radius:14px;padding:18px;
+  box-shadow:inset 0 0 0 4px var(--white),inset 0 0 0 7px var(--ink)}
+.movelist button{all:unset;cursor:pointer;display:flex;align-items:center;gap:14px;padding:14px 14px 14px 38px;position:relative;
+  font:400 clamp(20px,2vw,26px)/1.1 var(--game);border-radius:6px}
+.movelist button .t{font-family:var(--body);min-width:72px;text-align:center}
+.movelist button::before{content:"▶";position:absolute;left:12px;color:var(--red);opacity:0;transition:opacity .1s,transform .15s;transform:translateX(-6px)}
+.movelist button:hover::before,.movelist button[aria-selected="true"]::before{opacity:1;transform:none}
+.movelist button[aria-selected="true"]{background:var(--paper)}
+.movelist button:focus-visible{outline:4px solid var(--red);outline-offset:0}
+.movedetail{background:var(--ink);color:var(--white);border:var(--border) solid var(--ink);padding:clamp(22px,3vw,40px);display:flex;flex-direction:column;gap:14px;min-height:380px}
+.md-src{font:400 18px/1 var(--letter);letter-spacing:.05em;color:var(--yel)}
+.movedetail h3{font:400 clamp(44px,5vw,78px)/.9 var(--letter);letter-spacing:.02em}
+.md-stats{display:flex;flex-wrap:wrap;gap:10px}
+.md-stats div{border:3px solid var(--white);padding:8px 12px}
+.md-stats dt{font-size:12px;color:#bbb}
+.md-stats dd{font-weight:800;font-size:17px}
+.md-effect{max-width:60ch;color:#e6e6e6}
+.movedetail .gh{color:var(--white)}
+.movedetail .gh:hover{color:var(--ink)}
+
+/* ============ chapter 5 · trainer card ============ */
+.tcard{max-width:1100px;margin:0 auto;background:var(--white);border:var(--border) solid var(--ink);border-radius:22px;overflow:hidden;box-shadow:12px 12px 0 var(--ink)}
+.tc-top{display:flex;justify-content:space-between;background:var(--red);color:var(--white);padding:12px 24px;font:400 24px/1 var(--letter);letter-spacing:.06em;border-bottom:var(--border) solid var(--ink)}
+.tc-body{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:26px}
+.tc-photo{background-color:var(--psy);border:4px solid var(--ink);border-radius:12px;padding:18px 18px 8px;align-self:start;
+  background-image:radial-gradient(var(--tone) 1.4px,transparent 1.6px);background-size:8px 8px}
+.tc-fields{display:grid;gap:0}
+.tc-fields div{display:grid;grid-template-columns:90px 1fr;gap:16px;padding:10px 0;border-bottom:2px dashed rgba(0,0,0,.25)}
+.tc-fields dt{font:400 20px/1.2 var(--letter);letter-spacing:.05em;color:var(--red)}
+.tc-fields dd small{color:#555}
+.cgpa{font:400 30px/1 var(--letter);letter-spacing:.03em;background:var(--yel);padding:2px 8px 0;border:3px solid var(--ink);display:inline-block;transform:rotate(-2deg);margin-right:6px}
+.tc-badges,.tc-party{padding:0 26px 26px}
+.tc-badges h3,.tc-party h3{font:400 28px/1 var(--letter);letter-spacing:.05em;margin-bottom:14px}
+.tc-badges ul{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;background:var(--paper);border:4px solid var(--ink);border-radius:12px;padding:16px}
+.tc-badges li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;font-size:13px;line-height:1.3}
+.tc-badges svg{width:58px;height:58px;transition:transform .3s}
+.tc-badges li:hover svg{transform:rotate(-12deg) scale(1.1)}
+.tc-badges b{display:block;font-size:14px}
+.tc-party ul{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.tc-party li{border:3px solid var(--ink);border-radius:10px;padding:12px 8px;text-align:center;font-weight:700;font-size:15px;background:var(--white);box-shadow:4px 4px 0 var(--ink)}
+.tc-box{margin-top:16px;font-size:14px;color:#444;max-width:80ch}
+
+/* ============ contact ============ */
+.contact{padding-bottom:8vh}
+.p-contact{background:var(--ink);color:var(--white);padding:clamp(36px,7vw,100px) clamp(22px,5vw,70px);text-align:left}
+.p-contact>*:not(.speed):not(.sfx){position:relative;z-index:1}
+.p-contact h2{font:400 clamp(56px,9vw,150px)/.88 var(--letter);letter-spacing:.01em;margin:12px 0 18px;max-width:12ch}
+.p-contact .chapter{color:var(--yel)}
+.sfx-don{font-size:clamp(70px,10vw,150px);right:5%;top:8%;transform:rotate(12deg);position:absolute}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.btn{font:400 24px/1 var(--letter);letter-spacing:.06em;text-decoration:none;padding:14px 24px 12px;background:var(--white);color:var(--ink);border:4px solid var(--white);box-shadow:6px 6px 0 var(--red);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(6px,6px);box-shadow:0 0 0 var(--red)}
+.btn-y{background:var(--yel);border-color:var(--yel)}
+.foot{text-align:center;padding:30px 16px 40px;font-size:14px;color:#444}
+
+/* ============ responsive ============ */
+@media (max-width:1000px){
+  .dex-c,.dex-d{grid-column:1/-1}
+  .dex-e,.dex-f,.dex-g{grid-column:span 6}
+  .dex-g{grid-column:1/-1}
+  .battle{grid-template-columns:1fr}
+  .tc-badges ul{grid-template-columns:repeat(3,1fr)}
+  .tc-party ul{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:760px){
+  .nav nav a:not(.nav-cta){display:none}
+  .hero-page{grid-template-columns:1fr}
+  .p-title,.p-mascot,.p-arc,.hero-dlg{grid-column:1/-1;grid-row:auto}
+  .p-title{min-height:70svh}
+  .p-mascot .shad{max-width:220px}
+  .slant{grid-template-columns:1fr;gap:var(--border)}
+  .dex-a,.dex-b{clip-path:none;margin:0;padding:24px 22px}
+  .dex-e,.dex-f,.dex-g{grid-column:1/-1}
+  .sfx-pa{display:none}
+  .evo-stick{grid-template-columns:1fr;grid-template-rows:auto 42svh auto auto;top:60px;height:calc(100svh - 60px);align-content:start}
+  .evo-copy h2{font-size:clamp(40px,12vw,80px)}
+  .evo-text{font-size:15px}
+  .evo-dlg{display:none}
+  .chap-head{grid-template-columns:1fr}
+  .tc-body{grid-template-columns:1fr}
+  .tc-photo{max-width:240px}
+  .tc-fields div{grid-template-columns:72px 1fr}
+  .tc-badges ul{grid-template-columns:repeat(2,1fr)}
+  .tc-party ul{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ============ reduced motion ============ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+.reduce .evo{height:auto}
+.reduce .evo-stick{display:none}
+.reduce .evo-static{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter);padding:0 clamp(16px,3vw,40px)}
+.reduce .evo-static article{background:var(--white);border:var(--border) solid var(--ink);padding:20px}
+.reduce .evo-static .shad{max-width:200px;margin:0 auto;background:var(--psy)}
+.reduce .evo-static h3{font:400 44px/1 var(--letter);margin-top:12px}
+@media (max-width:760px){.reduce .evo-static{grid-template-columns:1fr}}
+
+/* ============ fidgets ============ */
+/* EXP bar under the nav: fills as you scroll */
+.exp{position:absolute;left:0;right:0;top:100%;display:flex;align-items:center;gap:10px;padding:5px clamp(16px,3vw,40px);
+  background:var(--paper);border-bottom:3px solid var(--ink);font:400 13px/1 var(--game)}
+.exp-k{color:var(--red)}
+.exp-bar{flex:1;height:8px;border:2px solid var(--ink);border-radius:99px;background:var(--white);overflow:hidden}
+.exp-bar i{display:block;height:100%;background:linear-gradient(90deg,#4F8CF0,var(--t-psychic));transform-origin:left;transform:scaleX(0)}
+.exp-lv{min-width:64px;text-align:right}
+.hero{padding-top:30px}
+.evo-stick{top:94px;height:calc(100svh - 94px)}
+
+/* pokeable ducks */
+.pokeable{cursor:pointer}
+.pokeable .shad{transform-origin:50% 95%}
+.shad.squish{animation:squish .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes squish{0%{transform:scale(1)}30%{transform:scale(1.12,.86)}60%{transform:scale(.93,1.08)}100%{transform:scale(1)}}
+.bubble{position:absolute;left:50%;top:14px;z-index:3;max-width:80%;background:var(--white);border:3px solid var(--ink);border-radius:18px;
+  padding:6px 12px;font:400 15px/1.3 var(--game);text-align:center;transform:translateX(-50%) scale(0);transform-origin:50% 100%;
+  transition:transform .25s cubic-bezier(.3,1.8,.5,1);pointer-events:none}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-12px;border:7px solid transparent;border-top:9px solid var(--ink);transform:translateX(-50%)}
+.bubble.show{transform:translateX(-50%) scale(1)}
+.tc-photo{position:relative}
+.hero-page.shake{animation:shake .12s steps(2) 18}
+@keyframes shake{50%{transform:translate(4px,-3px) rotate(.4deg)}}
+
+/* hero letters wobble on hover, flip on click */
+.hero-title .ch{cursor:pointer}
+.hero-title .ch:hover{animation:wobble .4s ease-in-out}
+@keyframes wobble{25%{rotate:-8deg}75%{rotate:8deg}}
+.hero-title .ch.flip{animation:flipch .6s ease-in-out}
+@keyframes flipch{to{rotate:y 360deg}}
+
+/* catch buttons */
+.dex{position:relative}
+.catch{position:absolute;right:18px;bottom:18px;z-index:2;font:400 18px/1 var(--letter);letter-spacing:.06em;padding:8px 14px 6px;
+  background:var(--white);color:var(--ink);border:3px solid var(--ink);border-radius:99px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;
+  transition:transform .1s,box-shadow .1s}
+.catch:hover{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.dex-e .catch{border-color:var(--white);box-shadow:3px 3px 0 var(--white)}
+.dex-a .catch{right:72px}
+.dex.caught .catch{background:var(--red);color:var(--white);border-color:var(--ink);animation:caught .5s cubic-bezier(.3,1.8,.5,1)}
+@keyframes caught{0%{transform:scale(.4) rotate(-20deg)}60%{transform:scale(1.25) rotate(8deg)}100%{transform:none}}
+.dex-count{color:var(--yel);white-space:nowrap}
+.sfx-pa{bottom:70px}
+
+/* badges + party */
+.tc-badges li{cursor:pointer}
+.tc-badges li.spin svg{animation:bspin .7s cubic-bezier(.3,1.4,.5,1)}
+@keyframes bspin{to{transform:rotate(360deg) scale(1.15)}}
+.tc-party li{cursor:pointer;transition:transform .1s,box-shadow .1s}
+.tc-party li:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.tc-party li.hop{animation:hop .45s cubic-bezier(.3,1.8,.5,1)}
+@keyframes hop{40%{transform:translateY(-14px)}}
+.tcard{transition:transform .2s ease-out;position:relative}
+.tcard::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(500px circle at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.35),transparent 40%);mix-blend-mode:soft-light}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:22px;z-index:80;max-width:min(92vw,560px);background:var(--white);border:4px solid var(--ink);border-radius:12px;
+  box-shadow:inset 0 0 0 3px var(--white),inset 0 0 0 5px var(--ink),6px 6px 0 var(--ink);padding:14px 20px;font:400 17px/1.4 var(--game);
+  transform:translate(-50%,150%);transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.toast.show{transform:translate(-50%,0)}
+.lean{will-change:transform}
+
+@media (max-width:760px){
+  .evo-stick{top:88px;height:calc(100svh - 88px)}
+  .catch{position:static;align-self:flex-end;margin-top:6px}
+  .dex-a .catch{right:auto}
+}
