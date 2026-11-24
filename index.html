@@ -1,365 +1,277 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shad · Arjeesh Palai</title>
-<meta name="description" content="Arjeesh Palai (Shad / ShadowBeast0): software engineer and AI researcher. Technology Program Intern at Wells Fargo, two-time national hackathon champion, published at IEEE and Springer.">
-<meta property="og:title" content="Shad · Arjeesh Palai">
-<meta property="og:description" content="A wild SHAD appeared! Software engineer and AI researcher. Architected an AI agent at Wells Fargo.">
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DotGothic16&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Arjeesh Palai · AI engineer</title>
+  <meta name="description" content="Arjeesh Palai (Shad) builds AI agents, retrieval systems and the backends under them. Technology Program Intern at Wells Fargo, two-time national hackathon champion, published at IEEE and Springer.">
+  <meta name="theme-color" content="#050506">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://shadowbeast0.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Arjeesh Palai · AI engineer">
+  <meta property="og:description" content="AI agents, retrieval systems and the backends under them.">
+  <meta property="og:url" content="https://shadowbeast0.github.io/">
+  <meta property="og:image" content="https://shadowbeast0.github.io/assets/share.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Geist:wght@300..600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.replace("no-js", "js")</script>
+  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" } }</script>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
+  <a class="skip" href="#main">Skip to content</a>
 
-<header class="nav">
-  <a class="logo magnet" href="#top" aria-label="Shad, back to top"><img class="logo-beast" src="assets/beast-face.png" alt="" width="42" height="42">SHAD<span aria-hidden="true">!!</span></a>
-  <nav aria-label="Sections">
-    <a class="magnet" href="#wells">Wells Fargo</a>
-    <a class="magnet" href="#story">Story</a>
-    <a class="magnet" href="#dex">Shad-dex</a>
-    <a class="magnet" href="#moves">Research</a>
-    <a class="magnet" href="#card">Trainer card</a>
-    <button class="sound mode magnet" id="modeBtn" type="button" aria-pressed="false" title="Flip the page into shadow mode">☾ Shadow mode</button>
-    <button class="sound magnet" id="soundBtn" type="button" aria-pressed="false" title="Toggle sound effects">♪ Sound off</button>
-    <a href="#contact" class="nav-cta magnet">Contact</a>
-  </nav>
-  <div class="exp" aria-hidden="true"><span class="exp-k">EXP</span><span class="exp-bar"><i id="expFill"></i></span><span class="exp-lv" id="expLv">Lv. 1</span></div>
-</header>
+  <div class="intro" aria-hidden="true">
+    <div class="intro__count"><span data-count>00</span></div>
+    <div class="intro__bar"><span></span></div>
+  </div>
 
-<main id="main">
-
-<!-- ============ CHAPTER 1 · HERO ============ -->
-<section class="hero" id="top" aria-label="Introduction">
-  <div class="page hero-page">
-    <div class="panel p-title">
-      <div class="speed" aria-hidden="true"></div>
-      <span class="sfx sfx-go" aria-hidden="true">ゴゴゴ</span>
-      <div class="title-wrap">
-        <p class="chapter">Chapter 1: A wild Shad appeared</p>
-        <h1 class="hero-title" aria-label="Shad">
-          <span class="ch" aria-hidden="true">S</span><span class="ch" aria-hidden="true">H</span><span class="ch" aria-hidden="true">A</span><span class="ch" aria-hidden="true">D</span>
-        </h1>
-        <p class="realname">Arjeesh Palai <span>· ShadowBeast0</span></p>
-        <p class="lede">Software engineer and AI researcher. I build agentic AI, RAG systems and backends that hold up under load, and I lead teams that win hackathons.</p>
-      </div>
-    </div>
-
-    <div class="panel p-mascot">
-      <div class="night" aria-hidden="true">
-        <div class="stars"></div>
-        <div class="moon"><span>影</span></div>
-        <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
-        <svg class="skyline" id="skyline" viewBox="0 0 400 160" preserveAspectRatio="xMidYMax slice"></svg>
-        <div class="roof" id="heroRoof"><span class="roof-sign">影</span></div>
-      </div>
-      <p class="caption">Shad keeps watch from its rooftop. Scroll down and it follows you through the page; click anywhere and it pounces.</p>
-    </div>
-
-    <a class="panel p-arc" href="#wells">
-      <span class="arc-k">Current arc</span>
-      <span class="arc-t">Wells Fargo</span>
-      <span class="arc-d">Technology Program Intern, Commercial and Corporate Investment Banking Technology. Architected, built and orchestrated an AI agent.</span>
+  <header class="nav">
+    <a class="nav__mark" href="#top" aria-label="Arjeesh Palai, back to top">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M27.5 9.5c-2-2-5-3-8.4-3-5.4 0-9 2.8-9 6.9 0 9.2 19.8 5.2 19.8 14.4 0 4.4-4 7.2-10 7.2-4 0-7.4-1.3-9.6-3.6" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>
+      <span>Shad</span>
     </a>
-
-    <div class="dlg hero-dlg" id="heroDlg" tabindex="0" role="button" aria-label="Show next line">
-      <p class="dlg-text" id="heroDlgText" aria-hidden="true"></p>
-      <span class="dlg-caret" aria-hidden="true">▼</span>
-      <p class="sr-only">A wild SHAD appeared! Shad is a software engineer and AI researcher, and a Technology Program Intern at Wells Fargo.</p>
-    </div>
-  </div>
-</section>
-
-<div class="bands" aria-hidden="true">
-  <div class="band band-a"><div class="track" data-dir="-1"><span>Agentic AI ✦ RAG ✦ PyTorch ✦ LangGraph ✦ LlamaIndex ✦ FastAPI ✦ Spring Boot ✦ Next.js ✦ GNNs ✦ LoRA ✦ Docker ✦ </span><span>Agentic AI ✦ RAG ✦ PyTorch ✦ LangGraph ✦ LlamaIndex ✦ FastAPI ✦ Spring Boot ✦ Next.js ✦ GNNs ✦ LoRA ✦ Docker ✦ </span></div></div>
-  <div class="band band-b"><div class="track" data-dir="1"><span>Lexicognition AI champion ✦ OpenAImer champion ✦ IEEE IJCNN ✦ Springer ICITA ✦ Wells Fargo ✦ 9.5 CGPA ✦ </span><span>Lexicognition AI champion ✦ OpenAImer champion ✦ IEEE IJCNN ✦ Springer ICITA ✦ Wells Fargo ✦ 9.5 CGPA ✦ </span></div></div>
-</div>
-
-<!-- ============ CHAPTER 2 · WELLS FARGO ============ -->
-<section class="sec wf" id="wells" aria-labelledby="wfTitle">
-  <div class="chap-head reveal">
-    <p class="chapter">Chapter 2</p>
-    <h2 id="wfTitle">The Wells Fargo arc</h2>
-    <p class="chap-sub">Summer 2026. Shad's biggest battle yet. Press the button to fight.</p>
-  </div>
-
-  <div class="wf-grid">
-    <article class="panel wf-main reveal">
-      <p class="wf-role">Technology Program Intern</p>
-      <h3>Wells Fargo</h3>
-      <p class="wf-team">Commercial and Corporate Investment Banking Technology</p>
-      <p class="wf-when">June to August 2026</p>
-      <p class="wf-lede">Architected, built and orchestrated an AI agent for the Commercial and Corporate Investment Banking line of business.</p>
-      <ol class="wf-steps">
-        <li><b>Architected</b><span>Designed the agent from the ground up.</span></li>
-        <li><b>Built</b><span>Engineered it into a working system.</span></li>
-        <li><b>Orchestrated</b><span>Put it to work for the line of business.</span></li>
-      </ol>
-    </article>
-
-    <div class="panel wf-battle reveal" aria-label="Mini battle: Shad versus manual work">
-      <div class="foe-box"><span class="foe-name">MANUAL WORK</span><span class="foe-lv">Lv. 99</span><div class="hp"><span>HP</span><span class="hp-bar"><i id="foeHp"></i></span></div></div>
-      <div class="platform platform-foe" aria-hidden="true"></div>
-      <svg class="foe" id="foe" viewBox="0 0 160 140" aria-hidden="true" overflow="visible">
-        <g class="foe-body">
-          <g class="sh sh1"><rect x="30" y="34" width="92" height="92" rx="4" fill="#fff" stroke="#000" stroke-width="4" transform="rotate(-8 76 80)"/></g>
-          <g class="sh sh2"><rect x="38" y="28" width="92" height="92" rx="4" fill="#fff" stroke="#000" stroke-width="4" transform="rotate(5 84 74)"/></g>
-          <g class="sh sh3">
-            <rect x="34" y="22" width="92" height="96" rx="4" fill="#fff" stroke="#000" stroke-width="4"/>
-            <path d="M46 40 H112 M46 52 H104 M46 98 H114 M46 108 H96" stroke="#9a9a9a" stroke-width="3" stroke-linecap="round"/>
-            <g class="alive">
-              <path d="M54 62 L74 70 M114 62 L94 70" stroke="#000" stroke-width="5" stroke-linecap="round"/>
-              <circle cx="66" cy="76" r="5"/><circle cx="102" cy="76" r="5"/>
-              <path d="M68 92 Q84 82 100 92" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
-              <path d="M122 30 l10 -8 M126 42 l12 -2" stroke="#E4262B" stroke-width="4" stroke-linecap="round"/>
-            </g>
-            <g class="dead">
-              <path d="M58 68 l14 14 m0 -14 l-14 14 M96 68 l14 14 m0 -14 l-14 14" stroke="#000" stroke-width="5" stroke-linecap="round"/>
-              <path d="M64 96 q5 -6 10 0 t10 0 t10 0 t10 0" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
-              <path d="M98 100 q3 10 -2 14" fill="none" stroke="#7CC8F2" stroke-width="4" stroke-linecap="round"/>
-            </g>
-          </g>
-        </g>
-        <g class="stars-ko"><text x="58" y="12" font-size="18" fill="#FFD60A" stroke="#000" stroke-width="1">★</text><text x="92" y="4" font-size="14" fill="#FFD60A" stroke="#000" stroke-width="1">★</text><text x="118" y="16" font-size="16" fill="#FFD60A" stroke="#000" stroke-width="1">★</text></g>
-      </svg>
-      <div class="platform platform-ally" aria-hidden="true"></div>
-      <div class="dlg wf-dlg"><p class="dlg-text" id="wfDlg" aria-live="polite">A wild MANUAL WORK appeared! What will SHAD do?</p></div>
-      <button class="attack magnet" id="wfAttack" type="button">Use AI agent</button>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CHAPTER 3 · EVOLUTION ============ -->
-<section class="evo" id="story" aria-labelledby="evoName">
-  <div class="evo-stick">
-    <div class="evo-head">
-      <p class="chapter">Chapter 3: The evolution arc</p>
-      <p class="evo-hint">Keep scrolling: Shad evolves right here</p>
-    </div>
-    <div class="evo-stage" id="evoStage">
-      <div class="evo-lines" aria-hidden="true"></div>
-      <div class="chamber" id="chamber" aria-hidden="true">
-        <div class="pillar"></div>
-        <div class="floor" id="evoFloor">
-          <svg class="sigil" viewBox="0 0 200 200">
-            <defs><path id="runePath" d="M100 100 m-84 0 a84 84 0 1 1 168 0 a84 84 0 1 1 -168 0"/></defs>
-            <circle cx="100" cy="100" r="96" fill="none" stroke="#FF2E88" stroke-width="3"/>
-            <circle cx="100" cy="100" r="74" fill="none" stroke="#22F0FF" stroke-width="1.5" stroke-dasharray="4 6"/>
-            <text fill="#22F0FF" font-size="10.5" font-weight="900" letter-spacing="2"><textPath href="#runePath">シャドウ ✦ ビースト ✦ シャドウ ✦ ビースト ✦ シャドウ ✦ ビースト ✦</textPath></text>
-            <polygon points="100,34 157,133 43,133" fill="none" stroke="#FF2E88" stroke-width="2.5"/>
-            <polygon points="100,166 43,67 157,67" fill="none" stroke="#FF2E88" stroke-width="2.5"/>
-            <circle cx="100" cy="100" r="26" fill="none" stroke="#FFD60A" stroke-width="2.5"/>
-          </svg>
-        </div>
-        <div class="motes"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="flash" id="evoFlash" aria-hidden="true"></div>
-    </div>
-    <div class="evo-copy">
-      <ol class="evo-steps" aria-label="Stages">
-        <li class="on">Shad</li><li>Shadow</li><li>ShadowBeast</li>
-      </ol>
-      <h2 id="evoName">SHAD</h2>
-      <p class="evo-years" id="evoYears"></p>
-      <p class="evo-text" id="evoText"></p>
-    </div>
-    <div class="dlg evo-dlg"><p class="dlg-text" id="evoDlg"></p></div>
-  </div>
-
-  <!-- static version for reduced motion -->
-  <div class="evo-static">
-    <article><img class="evo-still" src="assets/beast-mini0.png" alt=""><h3>Shad</h3><p class="evo-years" data-years="0"></p><p data-text="0"></p></article>
-    <article><img class="evo-still" src="assets/beast-mini1.png" alt=""><h3>Shadow</h3><p class="evo-years" data-years="1"></p><p data-text="1"></p></article>
-    <article><img class="evo-still" src="assets/beast-mini2.png" alt=""><h3>ShadowBeast</h3><p class="evo-years" data-years="2"></p><p data-text="2"></p></article>
-  </div>
-</section>
-
-<!-- ============ CHAPTER 4 · SHAD-DEX ============ -->
-<section class="sec" id="dex" aria-labelledby="dexTitle">
-  <div class="chap-head reveal">
-    <p class="chapter">Chapter 4</p>
-    <h2 id="dexTitle">The Shad-dex</h2>
-    <p class="chap-sub">Everything Shad has built, pinned on GitHub or in the resume. Tilt the cards, then catch them all: <span class="dex-count">caught <b id="caughtN">0</b> of 8</span>.</p>
-  </div>
-
-  <div class="dex-grid lean">
-    <div class="slant reveal">
-      <article class="panel dex dex-a holo">
-        <header><span class="no">No. 001</span><span class="types"><b class="t psychic">Psychic</b><b class="t electric">Electric</b></span></header>
-        <h3>Lexicognition AI</h3>
-        <p class="cat">The Examiner build</p>
-        <span class="stamp">1st prize · Lexicognition AI, Kshitij 2026</span>
-        <p>Upload a research paper and it runs a live oral exam on it. It writes the questions, grades each answer against evidence from the paper, and streams the results as it goes. Won 1st prize at Lexicognition AI, the AI/ML event of Kshitij 2026, IIT Kharagpur's tech fest, where it was judged and tested by Microsoft.</p>
-        <ul class="stack"><li>FastAPI</li><li>Next.js</li><li>LlamaIndex</li><li>Chroma</li><li>Gemini</li></ul>
-        <a class="gh" href="https://github.com/shadowbeast0/LexicognitionAI" target="_blank" rel="noopener">Open on GitHub</a>
-      </article>
-      <article class="panel dex dex-b holo">
-        <header><span class="no">No. 002</span><span class="types"><b class="t psychic">Psychic</b><b class="t ghost">Ghost</b></span></header>
-        <h3>SAGED-Net</h3>
-        <p class="cat">The Nucleus Hunter build</p>
-        <span class="stamp">Published · IEEE IJCNN 2026</span>
-        <p>A lightweight network that outlines every cell nucleus in histopathology slides. Learnable adaptive gating filters out background noise and a tri-domain fidelity loss keeps boundaries sharp, beating state-of-the-art results on TNBC, CPM and PanNuke. Published at IEEE IJCNN / WCCI 2026 in the Netherlands.</p>
-        <ul class="stack"><li>PyTorch</li><li>Segmentation</li><li>Histopathology</li></ul>
-        <a class="gh" href="https://github.com/shadowbeast0/SAGED-NET" target="_blank" rel="noopener">Open on GitHub</a>
-      </article>
-    </div>
-
-    <article class="panel dex dex-h holo reveal">
-      <header><span class="no">No. 003</span><span class="types"><b class="t psychic">Psychic</b><b class="t steel">Steel</b></span></header>
-      <h3>LGLD-Net</h3>
-      <p class="cat">The Two-Eyed build</p>
-      <span class="stamp">Published · Springer ICITA 2025</span>
-      <p>A lightweight network that reads blood-cell images twice at once: one stream for the whole picture, one for fine local detail. Set new state-of-the-art results: 96.69% on ALL and 96.5% on Raabin-WBC. Published with Springer Nature at the 19th ICITA, Oslo.</p>
-      <ul class="stack"><li>PyTorch</li><li>Computer vision</li></ul>
-      <a class="gh" href="https://github.com/shadowbeast0/LGLD-Net" target="_blank" rel="noopener">Open on GitHub</a>
-    </article>
-
-    <article class="panel dex dex-c holo reveal">
-      <header><span class="no">No. 004</span><span class="types"><b class="t flying">Flying</b><b class="t steel">Steel</b></span></header>
-      <h3>BookMyFlight</h3>
-      <p class="cat">The Departure build</p>
-      <p>A full flight-booking platform with a 3D globe on the homepage, seat locking that stays correct when two people click the same seat, a built-in wallet, a live deals engine and OTP + JWT login.</p>
-      <ul class="stack"><li>Next.js</li><li>Spring Boot</li><li>Three.js</li><li>Java 17</li></ul>
-      <a class="gh" href="https://github.com/shadowbeast0/BookMyFlight" target="_blank" rel="noopener">Open on GitHub</a>
-    </article>
-
-    <article class="panel dex dex-d holo reveal">
-      <header><span class="no">No. 005</span><span class="types"><b class="t normal">Normal</b><b class="t fairy">Fairy</b></span></header>
-      <h3>BunChat</h3>
-      <p class="cat">The Peacekeeper build</p>
-      <p>Real-time chat with DMs, groups, rooms and a social feed. AI moderation filters toxic messages and steps in to calm things down, and there are hidden chats, ephemeral posts and a troll bot.</p>
-      <ul class="stack"><li>Node.js</li><li>WebSockets</li><li>Python</li><li>SQLite</li></ul>
-      <a class="gh" href="https://github.com/shadowbeast0/BunChat---AI-powered-ChatApp" target="_blank" rel="noopener">Open on GitHub</a>
-    </article>
-
-    <article class="panel dex dex-e holo reveal">
-      <header><span class="no">No. 006</span><span class="types"><b class="t steel">Steel</b><b class="t fire">Fire</b></span></header>
-      <h3>Braking Bad</h3>
-      <p class="cat">The Hill-Climber build</p>
-      <p>A physics-based 2D hill-climb racer written from scratch in C++ with Qt: custom raster graphics, collision detection and vehicle physics.</p>
-      <ul class="stack"><li>C++</li><li>Qt</li><li>Graphics</li></ul>
-      <a class="gh" href="https://github.com/shadowbeast0/Braking-Bad" target="_blank" rel="noopener">Open on GitHub</a>
-    </article>
-
-    <article class="panel dex dex-f holo reveal">
-      <header><span class="no">No. 007</span><span class="types"><b class="t electric">Electric</b><b class="t normal">Normal</b></span></header>
-      <h3>Bun Bot</h3>
-      <p class="cat">The Server-Keeper build</p>
-      <p>An all-in-one Discord bot for moderation, server setup and management, with minigames to keep people around.</p>
-      <ul class="stack"><li>Python</li><li>discord.py</li></ul>
-      <a class="gh" href="https://github.com/shadowbeast0/Bun-Bot" target="_blank" rel="noopener">Open on GitHub</a>
-    </article>
-
-    <article class="panel dex dex-g holo reveal">
-      <header><span class="no">No. 008</span><span class="types"><b class="t electric">Electric</b><b class="t psychic">Psychic</b></span></header>
-      <h3>AI Voice Assistant</h3>
-      <p class="cat">The Listener build</p>
-      <p>Talk to it and it talks back. A full-stack voice interface with Gemini handling the conversation in real time.</p>
-      <ul class="stack"><li>MongoDB</li><li>Express</li><li>React</li><li>Gemini</li></ul>
-      <a class="gh" href="https://github.com/shadowbeast0/Voice-Assistant" target="_blank" rel="noopener">Open on GitHub</a>
-    </article>
-  </div>
-</section>
-
-<!-- ============ CHAPTER 5 · MOVES (research) ============ -->
-<section class="sec" id="moves" aria-labelledby="movesTitle">
-  <div class="chap-head reveal">
-    <p class="chapter">Chapter 5</p>
-    <h2 id="movesTitle">The training arc</h2>
-    <p class="chap-sub">Research, as a move list. Pick a move to use it.</p>
-  </div>
-
-  <div class="battle reveal lean">
-    <div class="movelist" role="tablist" aria-label="Moves">
-      <button role="tab" aria-selected="true" aria-controls="moveDetail" data-move="0"><span class="t psychic">Psychic</span>Adaptive Gating</button>
-      <button role="tab" aria-selected="false" aria-controls="moveDetail" data-move="1"><span class="t steel">Steel</span>Global-Local Strike</button>
-      <button role="tab" aria-selected="false" aria-controls="moveDetail" data-move="2"><span class="t ghost">Ghost</span>Graph Transformer</button>
-    </div>
-    <div class="movedetail" id="moveDetail" role="tabpanel">
-      <span class="effective" id="effective" aria-hidden="true">It's super effective!</span>
-      <p class="md-src" id="mdSrc"></p>
-      <h3 id="mdName"></h3>
-      <dl class="md-stats" id="mdStats"></dl>
-      <p class="md-effect" id="mdEffect"></p>
-      <a class="gh" id="mdLink" target="_blank" rel="noopener"></a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CHAPTER 6 · TRAINER CARD ============ -->
-<section class="sec" id="card" aria-labelledby="cardTitle">
-  <div class="chap-head reveal">
-    <p class="chapter">Chapter 6</p>
-    <h2 id="cardTitle">Trainer card</h2>
-  </div>
-
-  <div class="tcard reveal">
-    <div class="tc-top"><span>Trainer card</span><span>ID shadowbeast0</span></div>
-    <div class="tc-body">
-      <div class="tc-photo"><img src="assets/beast-card.png" alt="Shad in final form: a horned neon shadow beast with a flaming mane" width="499" height="268"></div>
-      <dl class="tc-fields">
-        <div><dt>Name</dt><dd>Shad <small>(Arjeesh Palai)</small></dd></div>
-        <div><dt>Type</dt><dd><b class="t fire">Fire</b> <b class="t dark">Dark</b></dd></div>
-        <div><dt>Gym</dt><dd>Jadavpur University, B.E. CSE, class of 2027</dd></div>
-        <div><dt>CGPA</dt><dd><b class="cgpa">9.5</b> <small>through 6th semester</small></dd></div>
-        <div><dt>Now</dt><dd>Technology Program Intern, Wells Fargo</dd></div>
-        <div><dt>Roles</dt><dd>Class representative · ML team lead at Code Club · OpenAImer organiser at SRIJAN</dd></div>
-      </dl>
-    </div>
-
-    <div class="tc-badges">
-      <h3>Badges</h3>
-      <ul>
-        <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 54,17 54,43 30,57 6,43 6,17" fill="#FFD60A" stroke="#000" stroke-width="4"/><path d="M33 12 L20 33 H29 L25 48 L40 25 H31Z" fill="#000"/></svg><span><b>Lexicognition AI champion</b>Kshitij 2026, IIT Kharagpur's tech fest</span></li>
-        <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 37,22 57,22 41,34 47,54 30,42 13,54 19,34 3,22 23,22" fill="#E4262B" stroke="#000" stroke-width="4" stroke-linejoin="round"/></svg><span><b>OpenAImer champion</b>SRIJAN 2025, Jadavpur University's tech fest</span></li>
-        <li><svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 4 L52 12 V30 C52 44 42 52 30 57 C18 52 8 44 8 30 V12Z" fill="#B7B7CE" stroke="#000" stroke-width="4"/><path d="M20 30 L27 37 L41 22" fill="none" stroke="#000" stroke-width="5"/></svg><span><b>Special mention</b>National Cyber Security AI Ideathon</span></li>
-        <li><svg viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,3 57,30 30,57 3,30" fill="#F95587" stroke="#000" stroke-width="4"/><circle cx="30" cy="30" r="9" fill="#000"/></svg><span><b>IEEE IJCNN 2026</b>SAGED-Net</span></li>
-        <li><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="26" fill="#6390F0" stroke="#000" stroke-width="4"/><path d="M10 34 Q20 24 30 34 T50 34" fill="none" stroke="#000" stroke-width="5"/></svg><span><b>Springer ICITA</b>LGLD-Net, Oslo</span></li>
+    <nav aria-label="Sections">
+      <ul class="nav__links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#record">Record</a></li>
+        <li><a href="#about">About</a></li>
       </ul>
+    </nav>
+    <a class="btn btn--ghost nav__cta" href="mailto:arjeeshpalai1@gmail.com">Email me</a>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <canvas class="hero__gl" aria-hidden="true"></canvas>
+      <div class="hero__orb-fallback" aria-hidden="true"></div>
+      <h1 class="hero__name" id="hero-title" translate="no">
+        <span class="line"><span class="word" data-split>Arjeesh</span></span>
+        <span class="line line--right"><span class="word" data-split>Palai</span></span>
+      </h1>
+      <div class="hero__foot">
+        <p class="hero__lede">AI engineer. I build agents, retrieval systems and the backends that keep them standing under real load.</p>
+        <div class="hero__now">
+          <p><span class="pulse" aria-hidden="true"></span>Technology Program Intern at Wells Fargo, summer 2026</p>
+          <div class="hero__actions">
+            <a class="btn btn--solid" href="#work">See the work</a>
+            <a class="btn btn--ghost" href="mailto:arjeeshpalai1@gmail.com">Email me</a>
+          </div>
+        </div>
+      </div>
+      <button class="hero__pause" type="button" aria-pressed="false">Pause motion</button>
+    </section>
+
+    <section class="now" id="now" aria-labelledby="now-title">
+      <div class="wrap">
+        <h2 class="kicker" id="now-title">This summer</h2>
+        <p class="statement" data-words>I architected, built and orchestrated an AI agent for Wells Fargo’s Commercial and Corporate Investment Banking Technology team.</p>
+        <dl class="facts">
+          <div><dt>Role</dt><dd>Technology Program Intern</dd></div>
+          <div><dt>Team</dt><dd>Commercial &amp; Corporate Investment Banking Technology</dd></div>
+          <div><dt>When</dt><dd>June to August 2026</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="work" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="work-title">Selected work</h2>
+          <p>Five things you can open and use right now. Each one runs in your browser.</p>
+        </div>
+      </div>
+
+      <article class="case" style="--tint: 124 92 255">
+        <div class="wrap case__grid">
+          <div class="case__text">
+            <p class="case__meta"><span class="badge">1st prize, Kshitij 2026</span></p>
+            <h3>Lexicognition AI</h3>
+            <p>Upload a research paper and it holds a live oral exam on it. It writes the questions, grades every answer against evidence from the paper and asks follow-ups. Won the AI/ML event at IIT Kharagpur’s tech fest, judged by Microsoft.</p>
+            <ul class="tags" aria-label="Built with"><li>Llama 3.3 70B</li><li>LlamaIndex</li><li>Gemini Vision</li><li>Next.js</li></ul>
+            <div class="case__links">
+              <a class="btn btn--solid" href="https://shadowbeast0.github.io/LexicognitionAI/">Open live demo</a>
+              <a class="link" href="https://github.com/shadowbeast0/LexicognitionAI">Source</a>
+            </div>
+          </div>
+          <a class="shot" href="https://shadowbeast0.github.io/LexicognitionAI/" aria-label="Open Lexicognition AI">
+            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/LexicognitionAI</b></span>
+            <img src="assets/work/lexicognition.webp" alt="Lexicognition AI start screen with a glass orb and a PDF upload area" width="1600" height="1000" loading="lazy" decoding="async">
+          </a>
+        </div>
+      </article>
+
+      <article class="case case--flip" style="--tint: 255 150 70">
+        <div class="wrap case__grid">
+          <div class="case__text">
+            <p class="case__meta"><span class="badge">Full stack</span></p>
+            <h3>BookMyFlight</h3>
+            <p>A flight-booking platform with a 3D globe you pick cities on, seat locks that hold when two people grab the same seat, a wallet with refunds, live deals and OTP login. Spring Boot underneath, Next.js on top.</p>
+            <ul class="tags" aria-label="Built with"><li>Spring Boot</li><li>Java 17</li><li>Next.js</li><li>Three.js</li></ul>
+            <div class="case__links">
+              <a class="btn btn--solid" href="https://shadowbeast0.github.io/BookMyFlight/">Open live demo</a>
+              <a class="link" href="https://github.com/shadowbeast0/BookMyFlight">Source</a>
+            </div>
+          </div>
+          <a class="shot" href="https://shadowbeast0.github.io/BookMyFlight/" aria-label="Open BookMyFlight">
+            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/BookMyFlight</b></span>
+            <img src="assets/work/bookmyflight.webp" alt="BookMyFlight home page with a wireframe globe of Indian cities" width="1600" height="1000" loading="lazy" decoding="async">
+          </a>
+        </div>
+      </article>
+
+      <article class="case" style="--tint: 40 200 190">
+        <div class="wrap case__grid">
+          <div class="case__text">
+            <p class="case__meta"><span class="badge">Real time</span></p>
+            <h3>BunChat</h3>
+            <p>Groups, DMs, public rooms and a feed, with moderation that thinks. A toxicity model screens room messages, an LLM judges the borderline ones, sends heated users a calming DM, and a troll bot joins in when a room asks for it.</p>
+            <ul class="tags" aria-label="Built with"><li>Node.js</li><li>Supabase</li><li>toxic-bert</li><li>Groq</li></ul>
+            <div class="case__links">
+              <a class="btn btn--solid" href="https://shadowbeast0.github.io/BunChat---AI-powered-ChatApp/">Open live demo</a>
+              <a class="link" href="https://github.com/shadowbeast0/BunChat---AI-powered-ChatApp">Source</a>
+            </div>
+          </div>
+          <a class="shot" href="https://shadowbeast0.github.io/BunChat---AI-powered-ChatApp/" aria-label="Open BunChat">
+            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/BunChat</b></span>
+            <img src="assets/work/bunchat.webp" alt="BunChat room with toxic filter and troll mode switched on" width="800" height="343" loading="lazy" decoding="async">
+          </a>
+        </div>
+      </article>
+
+      <article class="case case--flip" style="--tint: 230 40 140">
+        <div class="wrap case__grid">
+          <div class="case__text">
+            <p class="case__meta"><span class="badge">Recommender</span></p>
+            <h3>Bunime</h3>
+            <p>Six thousand anime, with every season and film of a franchise folded into one entry. Rate what you’ve seen, tick off episodes, and get picks built from your own ratings. Syncs across devices.</p>
+            <ul class="tags" aria-label="Built with"><li>Next.js</li><li>Supabase</li><li>Content-based filtering</li></ul>
+            <div class="case__links">
+              <a class="btn btn--solid" href="https://shadowbeast0.github.io/Bunime-Anime-Recommender-and-Tracker-App/">Open live demo</a>
+              <a class="link" href="https://github.com/shadowbeast0/Bunime-Anime-Recommender-and-Tracker-App">Source</a>
+            </div>
+          </div>
+          <a class="shot" href="https://shadowbeast0.github.io/Bunime-Anime-Recommender-and-Tracker-App/" aria-label="Open Bunime">
+            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/Bunime</b></span>
+            <img src="assets/work/bunime.webp" alt="Bunime home page in a manga magazine style" width="1600" height="1000" loading="lazy" decoding="async">
+          </a>
+        </div>
+      </article>
+
+      <article class="case" style="--tint: 255 196 120">
+        <div class="wrap case__grid">
+          <div class="case__text">
+            <p class="case__meta"><span class="badge">NLP</span></p>
+            <h3>EmoCareBot</h3>
+            <p>A gentle listener for hard days. A sentence-embedding model reads what you mean rather than the words you used, and it answers in a voice that never lectures. Nothing leaves your device.</p>
+            <ul class="tags" aria-label="Built with"><li>MiniLM</li><li>transformers.js</li><li>Intent learning</li></ul>
+            <div class="case__links">
+              <a class="btn btn--solid" href="https://shadowbeast0.github.io/EmoCareBot--Mental-Health-Support-Chatbot/">Open live demo</a>
+              <a class="link" href="https://github.com/shadowbeast0/EmoCareBot--Mental-Health-Support-Chatbot">Source</a>
+            </div>
+          </div>
+          <a class="shot" href="https://shadowbeast0.github.io/EmoCareBot--Mental-Health-Support-Chatbot/" aria-label="Open EmoCareBot">
+            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/EmoCareBot</b></span>
+            <img src="assets/work/emocarebot.webp" alt="EmoCareBot replying kindly to a student stressed about exams" width="1360" height="850" loading="lazy" decoding="async">
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <section class="index" aria-labelledby="index-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="index-title">Research and other builds</h2>
+          <p>Papers, games, bots and tools, all on GitHub.</p>
+        </div>
+        <ul class="rows">
+          <li><a href="https://github.com/shadowbeast0/SAGED-NET"><span class="rows__name">SAGED-Net</span><span class="rows__what">Lightweight nuclei segmentation with learnable adaptive gating</span><span class="rows__tag">IEEE IJCNN 2026</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/LGLD-Net"><span class="rows__name">LGLD-Net</span><span class="rows__what">Global and local dual-stream network, 96.69% on ALL</span><span class="rows__tag">Springer ICITA 2025</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Explainable-Graph-Transformer"><span class="rows__name">Explainable Graph Transformer</span><span class="rows__what">Cutting attention cost with GNN explainability</span><span class="rows__tag">Research</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Signature_Verification_App"><span class="rows__name">Signature Verification</span><span class="rows__what">Siamese CNN that tells two writers apart, in the browser</span><span class="rows__tag">Computer vision</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Agentic-AI-for-Enterprise"><span class="rows__name">Agentic AI for Enterprise</span><span class="rows__what">Agentic RAG assistant with long and short-term memory on LangGraph</span><span class="rows__tag">Agents</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Braking-Bad"><span class="rows__name">Braking Bad</span><span class="rows__what">Hill-climb racer in C++ and Qt with its own raster physics</span><span class="rows__tag">Game</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Quack-n-Aim"><span class="rows__name">Quack n Aim</span><span class="rows__what">Webcam carnival shooter you aim with one finger</span><span class="rows__tag">Game</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Gesture-Mouse"><span class="rows__name">Gesture Mouse</span><span class="rows__what">Hand tracking mapped onto your real mouse</span><span class="rows__tag">MediaPipe</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Bun-Bot"><span class="rows__name">Bun Bot</span><span class="rows__what">All-in-one Discord bot for moderation and minigames</span><span class="rows__tag">Bot</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Voice-Assistant"><span class="rows__name">Voice Assistant</span><span class="rows__what">Talk to it and Gemini talks back, MERN underneath</span><span class="rows__tag">Full stack</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="record" id="record" aria-labelledby="record-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="record-title">Record</h2>
+          <p>Wins, papers and the degree in progress.</p>
+        </div>
+        <ol class="ledger">
+          <li><span class="ledger__year">2026</span><span class="ledger__what"><strong>Champion, Lexicognition AI</strong>Kshitij, IIT Kharagpur. Judged and tested by Microsoft.</span></li>
+          <li><span class="ledger__year">2026</span><span class="ledger__what"><strong>Paper at IEEE IJCNN</strong>SAGED-Net, presented at WCCI 2026 in the Netherlands.</span></li>
+          <li><span class="ledger__year">2025</span><span class="ledger__what"><strong>Champion, OpenAImer</strong>SRIJAN, Jadavpur University.</span></li>
+          <li><span class="ledger__year">2025</span><span class="ledger__what"><strong>Paper with Springer Nature</strong>LGLD-Net, 19th ICITA in Oslo.</span></li>
+          <li><span class="ledger__year" aria-hidden="true"></span><span class="ledger__what"><strong>Special mention</strong>National Cyber Security AI Ideathon.</span></li>
+          <li><span class="ledger__year">2027</span><span class="ledger__what"><strong>B.E. Computer Science, Jadavpur University</strong>Graduating 2027. CGPA 9.5 through the sixth semester.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="wrap about__grid">
+        <div>
+          <h2 id="about-title">About</h2>
+          <p class="about__big">People call me Shad. I like problems where the model is the easy part and everything around it, the retrieval, the data, the system that has to answer in under a second, is where the work is.</p>
+          <p>I’m class representative for my year, lead the ML team at Code Club and organised OpenAImer at SRIJAN. Open to internships, research collaborations and hackathon teams.</p>
+        </div>
+        <ul class="stack" aria-label="Tools I use">
+          <li><img src="assets/icons/pytorch.svg" alt="" width="24" height="24"><span>PyTorch</span></li>
+          <li><img src="assets/icons/langchain.svg" alt="" width="24" height="24"><span>LangGraph</span></li>
+          <li><img src="assets/icons/huggingface.svg" alt="" width="24" height="24"><span>Transformers</span></li>
+          <li><img src="assets/icons/fastapi.svg" alt="" width="24" height="24"><span>FastAPI</span></li>
+          <li><img src="assets/icons/springboot.svg" alt="" width="24" height="24"><span>Spring Boot</span></li>
+          <li><img src="assets/icons/nextdotjs.svg" alt="" width="24" height="24"><span>Next.js</span></li>
+          <li><img src="assets/icons/threedotjs.svg" alt="" width="24" height="24"><span>Three.js</span></li>
+          <li><img src="assets/icons/docker.svg" alt="" width="24" height="24"><span>Docker</span></li>
+          <li><img src="assets/icons/python.svg" alt="" width="24" height="24"><span>Python</span></li>
+          <li><img src="assets/icons/cplusplus.svg" alt="" width="24" height="24"><span>C++</span></li>
+          <li><img src="assets/icons/openjdk.svg" alt="" width="24" height="24"><span>Java</span></li>
+          <li><img src="assets/icons/tensorflow.svg" alt="" width="24" height="24"><span>TensorFlow</span></li>
+          <li><img src="assets/icons/opencv.svg" alt="" width="24" height="24"><span>OpenCV</span></li>
+          <li><img src="assets/icons/supabase.svg" alt="" width="24" height="24"><span>Supabase</span></li>
+          <li><img src="assets/icons/googlegemini.svg" alt="" width="24" height="24"><span>Gemini</span></li>
+          <li><img src="assets/icons/githubactions.svg" alt="" width="24" height="24"><span>GitHub Actions</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <h2 id="contact-title">Got something hard to build?</h2>
+        <a class="contact__mail" href="mailto:arjeeshpalai1@gmail.com" data-magnet><span>arjeeshpalai1@<wbr>gmail.com</span></a>
+        <ul class="contact__links">
+          <li><a class="link" href="https://github.com/shadowbeast0">GitHub</a></li>
+          <li><a class="link" href="https://www.linkedin.com/in/arjeesh-palai-b729842a3/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__row">
+      <p>© 2026 Arjeesh Palai</p>
+      <a class="link" href="#top">Back to top</a>
     </div>
+  </footer>
 
-    <div class="tc-party">
-      <h3>Party</h3>
-      <ul><li>PyTorch</li><li>LangGraph</li><li>LlamaIndex</li><li>FastAPI</li><li>Spring Boot</li><li>Next.js</li></ul>
-      <p class="tc-box">In the box: C, C++, Java, Python, TensorFlow, scikit-learn, LangChain, OpenCV, Docker, GitHub Actions, Playwright, PyTorch Geometric.</p>
-    </div>
-  </div>
-</section>
+  <div class="cursor" aria-hidden="true"><span></span></div>
 
-<!-- ============ FINAL PAGE · CONTACT ============ -->
-<section class="sec contact" id="contact" aria-labelledby="contactTitle">
-  <div class="panel p-contact reveal">
-    <div class="speed" aria-hidden="true"></div>
-    <span class="sfx sfx-don" aria-hidden="true">ドン!</span>
-    <p class="chapter">Next chapter</p>
-    <h2 id="contactTitle">Want Shad on your team?</h2>
-    <p class="lede">Open to internships, research collaborations and hackathon teams.</p>
-    <div class="cta-row">
-      <a class="btn btn-y magnet" href="mailto:arjeeshpalai1@gmail.com">Email Shad</a>
-      <a class="btn magnet" href="https://github.com/shadowbeast0" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn magnet" href="https://www.linkedin.com/in/arjeesh-palai-b729842a3/" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
-    <p class="secret">Psst: type <kbd>shad</kbd> anywhere, or sit very still for a while.</p>
-  </div>
-</section>
-</main>
-
-<footer class="foot">Built by Shad, 2026.<br><small>3D beast based on the glTF sample “Fox”: model by PixelMannen (CC0), rigging and animation by tomkranis (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), glTF conversion by AsoboStudio and scurest (CC BY 4.0). Restyled for this site.</small></footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="main.js"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<script type="module">
-  import { Beast3D } from './beast3d.js';
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    window.shadBeast = new Beast3D({ stage: 0, roam: matchMedia('(pointer: fine)').matches && innerWidth >= 760, onReady: (b) => dispatchEvent(new CustomEvent('beast-ready', { detail: b })) });
-  }
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>
