@@ -1,19 +1,21 @@
+import { signSVG } from "./signs.js";
+
 const VISION = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
 const HAND_MODEL = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
 
 export const FORMATIONS = [
-  { id: 0, name: "Orbit", sign: "🤙", hint: "Thumb and pinky", pal: ["#7cf6ff", "#6b7bff", "#ff6bd6"] },
-  { id: 1, name: "Sphere", sign: "✊", hint: "Fist", pal: ["#ffcf6b", "#ff6a3d", "#fff2c2"] },
-  { id: 2, name: "Galaxy", sign: "🖐", hint: "Open palm", pal: ["#a58cff", "#4fdcff", "#ff8ad8"] },
-  { id: 3, name: "Helix", sign: "✌️", hint: "Two fingers", pal: ["#5dffb0", "#3fb8ff", "#e9fff6"] },
-  { id: 4, name: "Torus", sign: "🤟", hint: "Three fingers", pal: ["#ff5fa2", "#8a6bff", "#ffd1f0"] },
-  { id: 5, name: "Rain", sign: "🤘", hint: "Rock sign", pal: ["#c9efff", "#5aa9ff", "#ffffff"] },
-  { id: 6, name: "Heart", sign: "👍", hint: "Thumbs up", pal: ["#ff3d6b", "#ff9eb5", "#ffd6e0"] },
-  { id: 7, name: "Vortex", sign: "🤏", hint: "Pinch", pal: ["#7dffea", "#2f9bff", "#c4fff7"] },
-  { id: 8, name: "Wave", sign: "🖖", hint: "Four fingers", pal: ["#ffd36b", "#ff7a4c", "#fff1c9"] },
-  { id: 9, name: "Comet", sign: "☝️", hint: "Point", pal: ["#ffffff", "#8fdcff", "#ffcf8a"] },
-  { id: 10, name: "Lotus", sign: "👆", hint: "L shape", pal: ["#ff8fe0", "#ffd36b", "#b99cff"] },
-  { id: 11, name: "Infinity", sign: "👌", hint: "OK sign", pal: ["#5cffc8", "#ffe36b", "#6bbcff"] },
+  { id: 0, name: "Orbit", hint: "Thumb and pinky", pal: ["#7cf6ff", "#6b7bff", "#ff6bd6"] },
+  { id: 1, name: "Sphere", hint: "Fist", pal: ["#ffcf6b", "#ff6a3d", "#fff2c2"] },
+  { id: 2, name: "Galaxy", hint: "Open palm", pal: ["#a58cff", "#4fdcff", "#ff8ad8"] },
+  { id: 3, name: "Helix", hint: "Two fingers", pal: ["#5dffb0", "#3fb8ff", "#e9fff6"] },
+  { id: 4, name: "Torus", hint: "Three fingers", pal: ["#ff5fa2", "#8a6bff", "#ffd1f0"] },
+  { id: 5, name: "Rain", hint: "Rock sign", pal: ["#c9efff", "#5aa9ff", "#ffffff"] },
+  { id: 6, name: "Heart", hint: "Thumbs up", pal: ["#ff3d6b", "#ff9eb5", "#ffd6e0"] },
+  { id: 7, name: "Vortex", hint: "Pinch", pal: ["#7dffea", "#2f9bff", "#c4fff7"] },
+  { id: 8, name: "Wave", hint: "Four fingers", pal: ["#ffd36b", "#ff7a4c", "#fff1c9"] },
+  { id: 9, name: "Comet", hint: "Point", pal: ["#ffffff", "#8fdcff", "#ffcf8a"] },
+  { id: 10, name: "Lotus", hint: "L shape", pal: ["#ff8fe0", "#ffd36b", "#b99cff"] },
+  { id: 11, name: "Infinity", hint: "OK sign", pal: ["#5cffc8", "#ffe36b", "#6bbcff"] },
 ];
 
 const VERT = `
@@ -252,6 +254,9 @@ export async function startSwarm(state) {
   ctl.x = ctl.tx; ctl.y = ctl.ty;
 
   const chips = [...section.querySelectorAll("[data-form]")];
+  chips.forEach((c) => { const sp = c.querySelector("span"); if (sp) sp.outerHTML = signSVG(+c.dataset.form, 30); c.title = FORMATIONS[+c.dataset.form].hint; });
+  const label0 = section.querySelector(".swarm__now");
+  if (label0) label0.innerHTML = `${signSVG(0, 34)}<span>Orbit</span>`;
   const label = section.querySelector(".swarm__now");
   const setForm = (id) => {
     if (id === ctl.current) return;
@@ -265,7 +270,7 @@ export async function startSwarm(state) {
     uniforms.uB0.value.set(to.pal[0]); uniforms.uB1.value.set(to.pal[1]); uniforms.uB2.value.set(to.pal[2]);
     ctl.current = id;
     chips.forEach((c) => c.setAttribute("aria-pressed", String(+c.dataset.form === id)));
-    if (label) label.textContent = `${to.sign} ${to.name}`;
+    if (label) label.innerHTML = `${signSVG(id, 34)}<span>${to.name}</span>`;
     void from;
   };
   chips.forEach((c) => c.addEventListener("click", () => { ctl.base = +c.dataset.form; setForm(ctl.base); }));
@@ -347,23 +352,24 @@ export async function startSwarm(state) {
 
   const classify = (lm) => {
     const d = (a, b) => Math.hypot(lm[a].x - lm[b].x, lm[a].y - lm[b].y);
+    const vec = (a, b) => [lm[b].x - lm[a].x, lm[b].y - lm[a].y, (lm[b].z || 0) - (lm[a].z || 0)];
+    const cos = (u, v) => (u[0] * v[0] + u[1] * v[1] + u[2] * v[2]) / ((Math.hypot(...u) * Math.hypot(...v)) || 1);
     const palm = d(0, 9) || 0.001;
-    const ext = (tip, pip) => d(tip, 0) > d(pip, 0) * 1.12;
-    const index = ext(8, 6), middle = ext(12, 10), ring = ext(16, 14), pinky = ext(20, 18);
-    const thumb = d(4, 5) > palm * 0.55 && d(4, 9) > palm * 0.7;
-    const pinch = d(4, 8) < palm * 0.28;
-    const n = index + middle + ring + pinky;
+    const straight = (m) => cos(vec(m, m + 1), vec(m + 2, m + 3)) > 0.5 && d(m + 3, 0) > d(m + 1, 0) * 1.08 && d(m + 3, m) > palm * 0.55;
+    const index = straight(5), middle = straight(9), ring = straight(13), pinky = straight(17);
+    const thumb = cos(vec(2, 3), vec(3, 4)) > 0.6 && d(4, 5) > palm * 0.5 && d(4, 13) > palm * 0.8;
+    const pinch = d(4, 8) < palm * 0.32 && d(8, 0) > palm * 1.1;
+    const up = index + middle + ring + pinky;
     if (pinch && middle && ring && pinky) return 11;
-    if (pinch && !middle && !ring) return 7;
-    if (n === 0 && !thumb) return 1;
-    if (n === 0 && thumb) return lm[4].y < lm[2].y ? 6 : 1;
-    if (index && pinky && !middle && !ring) return 5;
-    if (thumb && pinky && !index && !middle && !ring) return 0;
-    if (index && !middle && !ring && !pinky) return thumb ? 10 : 9;
-    if (index && middle && !ring && !pinky) return 3;
+    if (pinch && !middle && !ring && !pinky) return 7;
+    if (up === 4) return thumb ? 2 : 8;
     if (index && middle && ring && !pinky) return 4;
-    if (n === 4 && !thumb) return 8;
-    if (n === 4 && thumb) return 2;
+    if (index && middle && !ring && !pinky) return 3;
+    if (index && pinky && !middle && !ring) return 5;
+    if (pinky && !index && !middle && !ring) return thumb ? 0 : -1;
+    if (index && !middle && !ring && !pinky) return thumb ? 10 : 9;
+    const highest = Math.min(...[6, 8, 10, 12, 14, 16, 18, 20].map((i) => lm[i].y));
+    if (up === 0) return cos(vec(2, 3), vec(3, 4)) > 0.5 && lm[4].y < highest - palm * 0.15 ? 6 : 1;
     return -1;
   };
 
@@ -409,7 +415,7 @@ export async function startSwarm(state) {
     if (id < 0) return;
     if (id === pending.id) pending.n++;
     else pending = { id, n: 1 };
-    if (pending.n >= 3) setForm(id);
+    if (pending.n >= 4) setForm(id);
   };
 
   addEventListener("pointermove", (e) => {

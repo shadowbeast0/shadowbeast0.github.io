@@ -204,14 +204,22 @@ function experience() {
   const sec = document.querySelector(".exp");
   const track = sec.querySelector(".exp__track");
   const bar = sec.querySelector(".exp__progress");
+  const cards = [...sec.querySelectorAll(".xcard")];
   const mq = window.matchMedia("(min-width: 1025px)");
   const update = () => {
-    if (!sec.classList.contains("is-pinned")) { track.style.transform = ""; return; }
+    if (!sec.classList.contains("is-pinned")) { track.style.transform = ""; cards.forEach((c) => { c.style.transform = ""; c.style.opacity = ""; }); return; }
     const r = sec.getBoundingClientRect();
     const p = clamp(-r.top / (r.height - innerHeight), 0, 1);
     const max = track.scrollWidth - innerWidth;
     track.style.transform = `translate3d(${-p * Math.max(0, max)}px, 0, 0)`;
     bar.style.setProperty("--p", p.toFixed(3));
+    for (const card of cards) {
+      const cr = card.getBoundingClientRect();
+      const off = clamp((cr.left + cr.width / 2 - innerWidth / 2) / innerWidth, -1, 1);
+      const a = Math.abs(off);
+      card.style.transform = `perspective(1400px) translateZ(${-a * 320}px) rotateY(calc(${(-off * 34).toFixed(2)}deg + var(--ry))) rotateX(var(--rx)) scale(${(1 - a * 0.08).toFixed(3)})`;
+      card.style.opacity = (1 - a * 0.55).toFixed(3);
+    }
   };
   const setup = () => {
     sec.classList.toggle("is-pinned", mq.matches && !state.reduced);
@@ -273,6 +281,34 @@ function work() {
     counter.textContent = String(front + 1).padStart(2, "0");
   };
   requestAnimationFrame(frame);
+}
+
+function ghosts() {
+  const items = [...document.querySelectorAll(".ghost")].map((g) => ({ g, sec: g.closest("section") }));
+  if (state.reduced) return;
+  const update = () => {
+    for (const { g, sec } of items) {
+      const r = sec.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) continue;
+      const p = clamp((innerHeight - r.top) / (r.height + innerHeight), 0, 1);
+      g.style.transform = `translate3d(${(0.35 - p * 0.9) * innerWidth}px, -50%, 0)`;
+    }
+  };
+  addEventListener("scroll", update, { passive: true });
+  update();
+}
+
+function timeline() {
+  const ledger = document.querySelector(".ledger");
+  const rows = [...ledger.querySelectorAll("li")];
+  const update = () => {
+    const r = ledger.getBoundingClientRect();
+    const line = innerHeight * 0.62;
+    ledger.style.setProperty("--p", clamp((line - r.top) / r.height, 0, 1).toFixed(3));
+    for (const li of rows) li.classList.toggle("lit", li.getBoundingClientRect().top + 40 < line);
+  };
+  addEventListener("scroll", update, { passive: true });
+  update();
 }
 
 function cardsGlow() {
@@ -444,6 +480,8 @@ nav();
 experience();
 work();
 cardsGlow();
+ghosts();
+timeline();
 peek();
 countUp();
 marquee();

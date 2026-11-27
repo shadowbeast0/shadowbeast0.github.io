@@ -230,8 +230,9 @@ export function startEye(state) {
 
     const sr = section.getBoundingClientRect();
     const p = Math.min(1, Math.max(0, -sr.top / Math.max(1, sr.height - innerHeight)));
-    const q = Math.min(1, Math.max(0, (p - 0.42) / 0.58));
+    const q = Math.min(1, Math.max(0, (p - 0.3) / 0.42));
     const dive = q * q * (3 - 2 * q);
+    const burst = Math.min(1, Math.max(0, (p - 0.68) / 0.3));
     copy.style.opacity = String(1 - Math.min(1, q * 2.2));
     copy.style.transform = `translate3d(0, ${-q * 80}px, 0)`;
 
@@ -318,11 +319,54 @@ export function startEye(state) {
 
     if (dive > 0.6) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.globalAlpha = Math.min(1, (dive - 0.6) / 0.4);
+      if (dive > 0.985) ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const fade = burst < 0.45 ? 1 : 1 - Math.min(1, (burst - 0.45) / 0.5);
+      ctx.globalAlpha = Math.min(1, (dive - 0.6) / 0.4) * fade;
       ctx.fillStyle = pal.pupil;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.globalAlpha = 1;
     }
+    if (burst > 0 && burst < 1) drawBurst(burst);
+  };
+
+  const streaks = Array.from({ length: innerWidth < 760 ? 420 : 1100 }, () => ({
+    a: Math.random() * Math.PI * 2,
+    s: 0.35 + Math.pow(Math.random(), 1.4) * 1.1,
+    o: Math.random() * 0.25,
+    c: Math.random(),
+  }));
+  const drawBurst = (bt) => {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const cx = w / 2, cy = h / 2;
+    const diag = Math.hypot(w, h) * 0.62;
+    ctx.globalCompositeOperation = "lighter";
+    ctx.lineCap = "round";
+    const fl = Math.max(0, 1 - Math.abs(bt - 0.12) / 0.14);
+    if (fl > 0) {
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, diag * 0.5);
+      g.addColorStop(0, `rgba(255,236,200,${0.85 * fl})`);
+      g.addColorStop(0.25, `rgba(255,190,110,${0.35 * fl})`);
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, w, h);
+    }
+    for (const st of streaks) {
+      const t = Math.max(0, (bt - st.o * 0.4) / (1 - st.o * 0.4));
+      if (t <= 0) continue;
+      const r0 = 6 + Math.pow(t, 1.7) * st.s * diag * 1.25;
+      const len = (8 + Math.pow(t, 1.3) * 260) * st.s;
+      const x0 = cx + Math.cos(st.a) * r0, y0 = cy + Math.sin(st.a) * r0;
+      const x1 = cx + Math.cos(st.a) * (r0 + len), y1 = cy + Math.sin(st.a) * (r0 + len);
+      const alpha = Math.sin(Math.PI * Math.min(1, t * 1.05)) * 0.85;
+      const col = st.c < 0.55 ? "255,206,130" : st.c < 0.85 ? "190,232,255" : "255,255,255";
+      ctx.strokeStyle = `rgba(${col},${alpha * 0.25})`;
+      ctx.lineWidth = 3.2 * st.s;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+      ctx.strokeStyle = `rgba(${col},${alpha})`;
+      ctx.lineWidth = 1.1 * st.s;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    }
+    ctx.globalCompositeOperation = "source-over";
   };
   requestAnimationFrame(frame);
 }
