@@ -1,5 +1,6 @@
 import { startAurora } from "./aurora.js";
 import { startOrb } from "./orb.js";
+import { venomTransition } from "./venom.js";
 
 const root = document.documentElement;
 const state = {
@@ -66,6 +67,7 @@ function sheen() {
 
 function statement() {
   const el = document.querySelector("[data-words]");
+  const sec = document.querySelector(".bh");
   const words = el.textContent.trim().split(/\s+/);
   el.textContent = "";
   const spans = words.map((w, i) => {
@@ -79,17 +81,30 @@ function statement() {
   });
   if (state.reduced) { spans.forEach((s) => s.classList.add("on")); return; }
   const update = () => {
-    const r = el.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const p = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.35), 0, 1);
-    const lit = Math.round(p * spans.length);
+    const r = sec.getBoundingClientRect();
+    const p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
+    const lit = Math.round(clamp((p - 0.04) / 0.56, 0, 1) * spans.length);
     spans.forEach((s, i) => {
       s.classList.toggle("on", i < lit);
       s.classList.toggle("hot", i < lit && s.dataset.hot === "1");
     });
   };
-  window.addEventListener("scroll", update, { passive: true });
+  addEventListener("scroll", update, { passive: true });
   update();
+}
+
+function heroExit() {
+  const foot = document.querySelector(".hero__foot");
+  const pauseBtn = document.querySelector(".pause");
+  const update = () => {
+    const r = hero.getBoundingClientRect();
+    const p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
+    if (!hero.classList.contains("is-in")) return;
+    foot.style.opacity = String(1 - clamp(p * 3, 0, 1));
+    foot.style.transform = `translate3d(0, ${p * 60}px, 0)`;
+    pauseBtn.style.opacity = String(1 - clamp(p * 4, 0, 1));
+  };
+  addEventListener("scroll", update, { passive: true });
 }
 
 function intro() {
@@ -116,31 +131,6 @@ function intro() {
   });
 }
 
-function splashMask() {
-  const pts = [];
-  const n = 64;
-  for (let i = 0; i < n; i++) {
-    const a = (i / n) * Math.PI * 2;
-    let r = 30 + Math.sin(a * 3 + 1.3) * 3 + Math.sin(a * 7) * 2 + Math.random() * 3;
-    if (Math.random() < 0.18) r += 8 + Math.random() * 12;
-    pts.push([50 + Math.cos(a) * r, 50 + Math.sin(a) * r]);
-  }
-  let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
-  for (let i = 1; i <= n; i++) {
-    const p = pts[i % n];
-    const q = pts[(i - 1) % n];
-    d += ` Q${q[0].toFixed(1)} ${q[1].toFixed(1)} ${((p[0] + q[0]) / 2).toFixed(1)} ${((p[1] + q[1]) / 2).toFixed(1)}`;
-  }
-  let drops = "";
-  for (let i = 0; i < 14; i++) {
-    const a = Math.random() * Math.PI * 2;
-    const r = 40 + Math.random() * 9;
-    drops += `<circle cx="${(50 + Math.cos(a) * r).toFixed(1)}" cy="${(50 + Math.sin(a) * r).toFixed(1)}" r="${(0.8 + Math.random() * 2.2).toFixed(1)}"/>`;
-  }
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="${d}Z"/>${drops}</svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-}
-
 function themeToggle() {
   const btn = document.querySelector(".theme");
   const meta = document.querySelector('meta[name="theme-color"]');
@@ -151,25 +141,20 @@ function themeToggle() {
     meta.setAttribute("content", light ? "#f2efe8" : "#050506");
   };
   sync();
-  btn.addEventListener("click", () => {
+  let busy = false;
+  btn.addEventListener("click", async () => {
+    if (busy) return;
     const next = root.dataset.theme === "light" ? "dark" : "light";
     const apply = () => {
       root.dataset.theme = next;
       try { localStorage.setItem("shad:theme", next); } catch {}
       sync();
     };
-    if (!document.startViewTransition || state.reduced) return apply();
+    if (state.reduced) return apply();
+    busy = true;
     const r = btn.getBoundingClientRect();
-    const x = r.left + r.width / 2;
-    const y = r.top + r.height / 2;
-    const size = (Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) / 0.3) * 1.05;
-    root.style.setProperty("--splash", splashMask());
-    root.style.setProperty("--sx", `${x}px`);
-    root.style.setProperty("--sy", `${y}px`);
-    root.style.setProperty("--ss", `${size}px`);
-    root.style.setProperty("--ex", `${x - size / 2}px`);
-    root.style.setProperty("--ey", `${y - size / 2}px`);
-    document.startViewTransition(apply);
+    await venomTransition({ x: r.left + r.width / 2, y: r.top + r.height / 2 }, apply);
+    busy = false;
   });
 }
 
@@ -453,6 +438,7 @@ splitHero();
 splitTitles();
 sheen();
 statement();
+heroExit();
 themeToggle();
 nav();
 experience();
@@ -467,11 +453,13 @@ mail();
 pause();
 startAurora(state);
 const orb = startOrb(state);
-lazy(".prism", () => import("./prism.js").then((m) => m.startPrism(state)));
-lazy(".eye", () => import("./eye.js").then((m) => m.startEye(state)));
+lazy(".bh", () => import("./blackhole.js").then((m) => m.startBlackHole(state)));
+lazy(".work", () => import("./warp.js").then((m) => m.startWarp(state)));
+lazy(".about", () => import("./eye.js").then((m) => m.startEye(state)));
 lazy(".contact", () => import("./swarm.js").then((m) => m.startSwarm(state)));
 addEventListener("load", smooth);
 intro().then(async () => {
-  await orb;
+  const api = await orb;
+  if (api) api.reveal();
   requestAnimationFrame(() => hero.classList.add("is-in"));
 });

@@ -65,6 +65,7 @@
 
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title" data-aurora="hero">
+      <div class="hero__pin">
       <canvas class="hero__gl" aria-hidden="true"></canvas>
       <div class="hero__orb-fallback" aria-hidden="true"></div>
       <h1 class="hero__name" id="hero-title" translate="no">
@@ -82,18 +83,21 @@
         </div>
       </div>
       <button class="pause" type="button" aria-pressed="false">Pause motion</button>
+      </div>
     </section>
 
-    <section class="prism" id="now" aria-labelledby="now-title" data-aurora="prism">
-      <canvas class="prism__gl" aria-hidden="true"></canvas>
-      <div class="wrap prism__inner">
-        <h2 class="kicker" id="now-title">Most recently</h2>
-        <p class="statement" data-words>At Wells Fargo I architected and orchestrated an AI agent for automation and testing in Commercial and Corporate Investment Banking Technology.</p>
-        <dl class="facts">
-          <div><dt>Role</dt><dd>Technology Program Intern</dd></div>
-          <div><dt>Where</dt><dd>Hyderabad, on site</dd></div>
-          <div><dt>When</dt><dd>June to August 2026</dd></div>
-        </dl>
+    <section class="bh" id="now" aria-labelledby="now-title" data-aurora="prism">
+      <div class="bh__pin">
+        <canvas class="bh__gl" aria-hidden="true"></canvas>
+        <div class="wrap bh__inner">
+          <h2 class="kicker" id="now-title">Most recently</h2>
+          <p class="statement" data-words>At Wells Fargo I architected and orchestrated an AI agent for automation and testing in Commercial and Corporate Investment Banking Technology.</p>
+          <dl class="facts">
+            <div><dt>Role</dt><dd>Technology Program Intern</dd></div>
+            <div><dt>Where</dt><dd>Hyderabad, on site</dd></div>
+            <div><dt>When</dt><dd>June to August 2026</dd></div>
+          </dl>
+        </div>
       </div>
     </section>
 
@@ -106,6 +110,7 @@
         <div class="exp__track">
           <article class="xcard" style="--c1: 255 92 92; --c2: 255 190 90">
             <div class="xcard__glow" aria-hidden="true"></div>
+            <svg class="xcard__art" viewBox="0 0 320 120" aria-hidden="true"><g class="net"><path d="M160 60 L60 24 M160 60 L60 96 M160 60 L260 24 M160 60 L260 96 M160 60 L30 60 M160 60 L290 60"/></g><g class="pulse"><path d="M160 60 L60 24"/><path d="M160 60 L260 96"/><path d="M160 60 L290 60"/><path d="M160 60 L60 96"/></g><circle class="hub" cx="160" cy="60" r="16"/><circle class="ring" cx="160" cy="60" r="26"/><g class="nodes"><circle cx="60" cy="24" r="6"/><circle cx="60" cy="96" r="6"/><circle cx="260" cy="24" r="6"/><circle cx="260" cy="96" r="6"/><circle cx="30" cy="60" r="5"/><circle cx="290" cy="60" r="5"/></g></svg>
             <p class="xcard__when">Jun to Aug 2026 · Hyderabad</p>
             <h3><span>Wells Fargo</span>Technology Program Intern</h3>
             <p>Architected and orchestrated an AI agent for automation and testing, built for the Commercial and Corporate Investment Banking Technology line of business.</p>
@@ -113,6 +118,7 @@
           </article>
           <article class="xcard" style="--c1: 70 140 255; --c2: 60 220 200">
             <div class="xcard__glow" aria-hidden="true"></div>
+            <svg class="xcard__art" viewBox="0 0 320 120" aria-hidden="true"><g class="contours"><path d="M70 60c0-22 18-36 40-34s34 16 30 36-22 32-42 30-28-12-28-32z"/><path d="M80 60c0-15 12-25 28-24s24 12 21 26-15 22-29 21-20-9-20-23z"/><path d="M190 52c4-18 26-28 44-20s24 30 12 44-34 16-46 6-14-16-10-30z"/><path d="M202 56c3-11 17-17 28-12s15 18 8 27-21 10-28 4-10-10-8-19z"/></g><g class="scan"><rect x="0" y="0" width="3" height="120"/></g></svg>
             <p class="xcard__when">Mar 2025 to now · Kolkata</p>
             <h3><span>CMATER Lab, Jadavpur University</span>Undergraduate Student Researcher</h3>
             <p>Deep learning research under Prof. Ram Sarkar. Two accepted conference papers: SAGED-Net at IEEE IJCNN, part of WCCI 2026 in the Netherlands, and LGLD-Net at ICITA 2025 in Oslo.</p>
@@ -120,6 +126,7 @@
           </article>
           <article class="xcard" style="--c1: 150 230 120; --c2: 60 200 255">
             <div class="xcard__glow" aria-hidden="true"></div>
+            <svg class="xcard__art" viewBox="0 0 320 120" aria-hidden="true"><g class="net"><path d="M40 30 L110 20 L180 50 L250 25 L290 70 L220 95 L150 85 L80 100 L40 30 M110 20 L150 85 M180 50 L220 95 M180 50 L80 100 M250 25 L220 95"/></g><g class="pulse"><path d="M40 30 L110 20 L180 50 L250 25 L290 70"/><path d="M80 100 L180 50 L220 95"/></g><g class="nodes"><circle cx="40" cy="30" r="5"/><circle cx="110" cy="20" r="6"/><circle cx="180" cy="50" r="8"/><circle cx="250" cy="25" r="5"/><circle cx="290" cy="70" r="6"/><circle cx="220" cy="95" r="5"/><circle cx="150" cy="85" r="6"/><circle cx="80" cy="100" r="5"/></g></svg>
             <p class="xcard__when">May to Jul 2025 · Kolkata</p>
             <h3><span>Indian Statistical Institute</span>Summer Research Intern</h3>
             <p>Graph neural networks and transformers under Prof. Swagatam Das. Built GCN baselines, then implemented and tuned NAGphormer, SGFormer and DualFormer, improving benchmark results on Cora.</p>
@@ -132,6 +139,7 @@
 
     <section class="work" id="work" aria-labelledby="work-title" data-aurora="work">
       <div class="work__stage">
+        <canvas class="work__warp" aria-hidden="true"></canvas>
         <div class="wrap work__head">
           <h2 class="title" id="work-title" data-reveal>Selected work</h2>
           <p class="work__count"><span data-work-index>01</span> / 04</p>
@@ -254,10 +262,12 @@
     </section>
 
     <section class="about" id="about" aria-labelledby="about-title" data-aurora="about">
-      <div class="wrap about__grid">
-        <div class="about__text">
+      <div class="about__pin">
+        <canvas class="eye__gl" aria-hidden="true"></canvas>
+        <div class="wrap about__copy">
           <h2 class="title" id="about-title" data-reveal>About</h2>
           <p class="about__big">People call me Shad. I like problems where the model is the easy part and everything around it, the retrieval, the data, the system that has to answer in under a second, is where the work is.</p>
+
           <ul class="grades">
             <li><span class="grades__num" data-count-to="9.505" data-decimals="3">9.505</span><span>CGPA, B.E. CSE, Jadavpur University</span></li>
             <li><span class="grades__num">#<span data-count-to="1">1</span></span><span>in the department, 2025–26</span></li>
@@ -265,10 +275,10 @@
             <li><span class="grades__num"><span data-count-to="98.4" data-decimals="1">98.4</span>%</span><span>Class X, DPS Ruby Park</span></li>
           </ul>
         </div>
-        <div class="eye">
-          <canvas class="eye__gl" aria-hidden="true"></canvas>
-        </div>
       </div>
+    </section>
+
+    <section class="stack" aria-label="Tools I use" data-aurora="about">
       <div class="marquee" aria-label="Tools I use">
         <div class="marquee__row" data-dir="1">
           <span><img src="assets/icons/pytorch.svg" alt="" width="22" height="22">PyTorch</span>
@@ -303,12 +313,30 @@
           <li><a class="link" href="https://www.linkedin.com/in/arjeesh-palai-b729842a3/">LinkedIn</a></li>
         </ul>
         <div class="swarm__ui">
-          <p class="swarm__tip">Move to steer the swarm. Hold to pull it into a sphere. Double-click to make it rain.</p>
-          <button class="btn btn--ghost swarm__hand" type="button" aria-pressed="false">Steer with your hand</button>
+          <p class="swarm__tip">Twelve thousand blades, twelve shapes. Pick one, hold to pull them into a sphere, double-click for rain, or turn on your camera and make the signs.</p>
+          <ul class="swarm__forms" aria-label="Swarm shapes">
+            <li><button type="button" data-form="0" aria-pressed="true"><span aria-hidden="true">🤙</span>Orbit</button></li>
+            <li><button type="button" data-form="1" aria-pressed="false"><span aria-hidden="true">✊</span>Sphere</button></li>
+            <li><button type="button" data-form="2" aria-pressed="false"><span aria-hidden="true">🖐</span>Galaxy</button></li>
+            <li><button type="button" data-form="3" aria-pressed="false"><span aria-hidden="true">✌️</span>Helix</button></li>
+            <li><button type="button" data-form="4" aria-pressed="false"><span aria-hidden="true">🤟</span>Torus</button></li>
+            <li><button type="button" data-form="5" aria-pressed="false"><span aria-hidden="true">🤘</span>Rain</button></li>
+            <li><button type="button" data-form="6" aria-pressed="false"><span aria-hidden="true">👍</span>Heart</button></li>
+            <li><button type="button" data-form="7" aria-pressed="false"><span aria-hidden="true">🤏</span>Vortex</button></li>
+            <li><button type="button" data-form="8" aria-pressed="false"><span aria-hidden="true">🖖</span>Wave</button></li>
+            <li><button type="button" data-form="9" aria-pressed="false"><span aria-hidden="true">☝️</span>Comet</button></li>
+            <li><button type="button" data-form="10" aria-pressed="false"><span aria-hidden="true">👆</span>Lotus</button></li>
+            <li><button type="button" data-form="11" aria-pressed="false"><span aria-hidden="true">👌</span>Infinity</button></li>
+          </ul>
+          <div class="swarm__row">
+            <button class="btn btn--ghost swarm__hand" type="button" aria-pressed="false">Steer with your hand</button>
+            <p class="swarm__now" aria-live="polite">🤙 Orbit</p>
+          </div>
           <p class="swarm__status" aria-live="polite"></p>
         </div>
       </div>
       <video class="swarm__cam" playsinline muted aria-hidden="true"></video>
+      <canvas class="swarm__preview" width="240" height="180" aria-hidden="true"></canvas>
     </section>
   </main>
 
