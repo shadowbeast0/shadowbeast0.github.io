@@ -430,7 +430,7 @@ export async function startSwarm(state) {
     requestAnimationFrame(frame);
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!visible) return;
+    if (!visible || document.documentElement.classList.contains("venoming")) return;
     const light = document.documentElement.dataset.theme === "light" ? 1 : 0;
     if (light !== paintedLight) {
       paintedLight = light;

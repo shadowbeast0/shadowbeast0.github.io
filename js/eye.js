@@ -279,7 +279,7 @@ export function startEye(state) {
     requestAnimationFrame(frame);
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!visible) return;
+    if (!visible || document.documentElement.classList.contains("venoming")) return;
     if (document.documentElement.dataset.theme !== theme) build();
     const live = !state.paused && !state.reduced;
     if (live) spin += dt;

@@ -139,7 +139,7 @@ export function startBlackHole(state) {
   let lastDraw = 0;
   const frame = (now) => {
     requestAnimationFrame(frame);
-    if (!visible || (state.lite && now - lastDraw < 33)) return;
+    if (!visible || document.documentElement.classList.contains("venoming") || (state.lite && now - lastDraw < 33)) return;
     lastDraw = now;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;

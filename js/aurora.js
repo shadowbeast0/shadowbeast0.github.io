@@ -119,7 +119,7 @@ export function startAurora(state) {
   let lastDraw = 0;
   const frame = (now) => {
     requestAnimationFrame(frame);
-    if (document.hidden || (state.lite && now - lastDraw < 40)) return;
+    if (document.hidden || document.documentElement.classList.contains("venoming") || (state.lite && now - lastDraw < 40)) return;
     lastDraw = now;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;

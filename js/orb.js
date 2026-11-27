@@ -399,7 +399,7 @@ export async function startOrb(state) {
   };
   const loop = () => {
     requestAnimationFrame(loop);
-    if (!visible) return;
+    if (!visible || document.documentElement.classList.contains("venoming")) return;
     if (document.documentElement.dataset.theme !== theme) relayout();
     const dt = Math.min(clock.getDelta(), 0.05);
     if (!state.reduced && !state.paused) uniforms.uTime.value += dt;
