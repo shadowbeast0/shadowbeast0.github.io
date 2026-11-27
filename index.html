@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Arjeesh Palai · AI engineer</title>
-  <meta name="description" content="Arjeesh Palai (Shad) builds AI agents, retrieval systems and the backends under them. Technology Program Intern at Wells Fargo, two-time national hackathon champion, published at IEEE and Springer.">
+  <meta name="description" content="Arjeesh Palai (Shad) builds AI agents, retrieval systems and the backends under them. Ex-Technology Program Intern at Wells Fargo, student researcher at CMATER Lab, two-time national hackathon champion, published at IEEE and Springer.">
   <meta name="theme-color" content="#050506">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="dark light">
   <link rel="canonical" href="https://shadowbeast0.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Arjeesh Palai · AI engineer">
@@ -19,13 +19,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Geist:wght@300..600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap">
   <link rel="stylesheet" href="styles.css">
-  <script>document.documentElement.classList.replace("no-js", "js")</script>
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.replace("no-js", "js");
+      try {
+        var t = localStorage.getItem("shad:theme");
+        if (t === "light" || t === "dark") d.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
   <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" } }</script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
+
+  <canvas class="aurora" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
 
   <div class="intro" aria-hidden="true">
     <div class="intro__count"><span data-count>00</span></div>
@@ -39,16 +51,20 @@
     </a>
     <nav aria-label="Sections">
       <ul class="nav__links">
+        <li><a href="#experience">Experience</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#record">Record</a></li>
         <li><a href="#about">About</a></li>
       </ul>
     </nav>
-    <a class="btn btn--ghost nav__cta" href="mailto:arjeeshpalai1@gmail.com">Email me</a>
+    <button class="theme" type="button" aria-label="Switch to light theme" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+    </button>
+    <a class="btn btn--ghost nav__cta" href="mailto:arjeeshpalai1@gmail.com" data-magnet>Email me</a>
   </header>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
+    <section class="hero" id="top" aria-labelledby="hero-title" data-aurora="hero">
       <canvas class="hero__gl" aria-hidden="true"></canvas>
       <div class="hero__orb-fallback" aria-hidden="true"></div>
       <h1 class="hero__name" id="hero-title" translate="no">
@@ -56,209 +72,243 @@
         <span class="line line--right"><span class="word" data-split>Palai</span></span>
       </h1>
       <div class="hero__foot">
-        <p class="hero__lede">AI engineer. I build agents, retrieval systems and the backends that keep them standing under real load.</p>
+        <p class="hero__lede">AI engineer and researcher. I build agents, retrieval systems and the backends that keep them standing under real load.</p>
         <div class="hero__now">
-          <p><span class="pulse" aria-hidden="true"></span>Technology Program Intern at Wells Fargo, summer 2026</p>
+          <p><span class="pulse" aria-hidden="true"></span>Student researcher at CMATER Lab. Previously at Wells Fargo.</p>
           <div class="hero__actions">
-            <a class="btn btn--solid" href="#work">See the work</a>
-            <a class="btn btn--ghost" href="mailto:arjeeshpalai1@gmail.com">Email me</a>
+            <a class="btn btn--solid" href="#work" data-magnet>See the work</a>
+            <a class="btn btn--ghost" href="mailto:arjeeshpalai1@gmail.com" data-magnet>Email me</a>
           </div>
         </div>
       </div>
-      <button class="hero__pause" type="button" aria-pressed="false">Pause motion</button>
+      <button class="pause" type="button" aria-pressed="false">Pause motion</button>
     </section>
 
-    <section class="now" id="now" aria-labelledby="now-title">
-      <div class="wrap">
-        <h2 class="kicker" id="now-title">This summer</h2>
-        <p class="statement" data-words>I architected, built and orchestrated an AI agent for Wells Fargo’s Commercial and Corporate Investment Banking Technology team.</p>
+    <section class="prism" id="now" aria-labelledby="now-title" data-aurora="prism">
+      <canvas class="prism__gl" aria-hidden="true"></canvas>
+      <div class="wrap prism__inner">
+        <h2 class="kicker" id="now-title">Most recently</h2>
+        <p class="statement" data-words>At Wells Fargo I architected and orchestrated an AI agent for automation and testing in Commercial and Corporate Investment Banking Technology.</p>
         <dl class="facts">
           <div><dt>Role</dt><dd>Technology Program Intern</dd></div>
-          <div><dt>Team</dt><dd>Commercial &amp; Corporate Investment Banking Technology</dd></div>
+          <div><dt>Where</dt><dd>Hyderabad, on site</dd></div>
           <div><dt>When</dt><dd>June to August 2026</dd></div>
         </dl>
       </div>
     </section>
 
-    <section class="work" id="work" aria-labelledby="work-title">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 id="work-title">Selected work</h2>
-          <p>Five things you can open and use right now. Each one runs in your browser.</p>
+    <section class="exp" id="experience" aria-labelledby="exp-title" data-aurora="exp">
+      <div class="exp__pin">
+        <div class="wrap exp__head">
+          <h2 class="title" id="exp-title" data-reveal>Experience</h2>
+          <p class="exp__hint">Industry and research, newest first.</p>
         </div>
+        <div class="exp__track">
+          <article class="xcard" style="--c1: 255 92 92; --c2: 255 190 90">
+            <div class="xcard__glow" aria-hidden="true"></div>
+            <p class="xcard__when">Jun to Aug 2026 · Hyderabad</p>
+            <h3><span>Wells Fargo</span>Technology Program Intern</h3>
+            <p>Architected and orchestrated an AI agent for automation and testing, built for the Commercial and Corporate Investment Banking Technology line of business.</p>
+            <ul class="tags"><li>Agentic AI</li><li>Java</li><li>Automation</li><li>Testing</li></ul>
+          </article>
+          <article class="xcard" style="--c1: 70 140 255; --c2: 60 220 200">
+            <div class="xcard__glow" aria-hidden="true"></div>
+            <p class="xcard__when">Mar 2025 to now · Kolkata</p>
+            <h3><span>CMATER Lab, Jadavpur University</span>Undergraduate Student Researcher</h3>
+            <p>Deep learning research under Prof. Ram Sarkar. Two accepted conference papers: SAGED-Net at IEEE IJCNN, part of WCCI 2026 in the Netherlands, and LGLD-Net at ICITA 2025 in Oslo.</p>
+            <ul class="tags"><li>PyTorch</li><li>Computer vision</li><li>Deep learning</li></ul>
+          </article>
+          <article class="xcard" style="--c1: 150 230 120; --c2: 60 200 255">
+            <div class="xcard__glow" aria-hidden="true"></div>
+            <p class="xcard__when">May to Jul 2025 · Kolkata</p>
+            <h3><span>Indian Statistical Institute</span>Summer Research Intern</h3>
+            <p>Graph neural networks and transformers under Prof. Swagatam Das. Built GCN baselines, then implemented and tuned NAGphormer, SGFormer and DualFormer, improving benchmark results on Cora.</p>
+            <ul class="tags"><li>PyTorch</li><li>DGL</li><li>NetworkX</li><li>Graph transformers</li></ul>
+          </article>
+        </div>
+        <div class="wrap exp__progress" aria-hidden="true"><span></span></div>
       </div>
-
-      <article class="case" style="--tint: 124 92 255">
-        <div class="wrap case__grid">
-          <div class="case__text">
-            <p class="case__meta"><span class="badge">1st prize, Kshitij 2026</span></p>
-            <h3>Lexicognition AI</h3>
-            <p>Upload a research paper and it holds a live oral exam on it. It writes the questions, grades every answer against evidence from the paper and asks follow-ups. Won the AI/ML event at IIT Kharagpur’s tech fest, judged by Microsoft.</p>
-            <ul class="tags" aria-label="Built with"><li>Llama 3.3 70B</li><li>LlamaIndex</li><li>Gemini Vision</li><li>Next.js</li></ul>
-            <div class="case__links">
-              <a class="btn btn--solid" href="https://shadowbeast0.github.io/LexicognitionAI/">Open live demo</a>
-              <a class="link" href="https://github.com/shadowbeast0/LexicognitionAI">Source</a>
-            </div>
-          </div>
-          <a class="shot" href="https://shadowbeast0.github.io/LexicognitionAI/" aria-label="Open Lexicognition AI">
-            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/LexicognitionAI</b></span>
-            <img src="assets/work/lexicognition.webp" alt="Lexicognition AI start screen with a glass orb and a PDF upload area" width="1600" height="1000" loading="lazy" decoding="async">
-          </a>
-        </div>
-      </article>
-
-      <article class="case case--flip" style="--tint: 255 150 70">
-        <div class="wrap case__grid">
-          <div class="case__text">
-            <p class="case__meta"><span class="badge">Full stack</span></p>
-            <h3>BookMyFlight</h3>
-            <p>A flight-booking platform with a 3D globe you pick cities on, seat locks that hold when two people grab the same seat, a wallet with refunds, live deals and OTP login. Spring Boot underneath, Next.js on top.</p>
-            <ul class="tags" aria-label="Built with"><li>Spring Boot</li><li>Java 17</li><li>Next.js</li><li>Three.js</li></ul>
-            <div class="case__links">
-              <a class="btn btn--solid" href="https://shadowbeast0.github.io/BookMyFlight/">Open live demo</a>
-              <a class="link" href="https://github.com/shadowbeast0/BookMyFlight">Source</a>
-            </div>
-          </div>
-          <a class="shot" href="https://shadowbeast0.github.io/BookMyFlight/" aria-label="Open BookMyFlight">
-            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/BookMyFlight</b></span>
-            <img src="assets/work/bookmyflight.webp" alt="BookMyFlight home page with a wireframe globe of Indian cities" width="1600" height="1000" loading="lazy" decoding="async">
-          </a>
-        </div>
-      </article>
-
-      <article class="case" style="--tint: 40 200 190">
-        <div class="wrap case__grid">
-          <div class="case__text">
-            <p class="case__meta"><span class="badge">Real time</span></p>
-            <h3>BunChat</h3>
-            <p>Groups, DMs, public rooms and a feed, with moderation that thinks. A toxicity model screens room messages, an LLM judges the borderline ones, sends heated users a calming DM, and a troll bot joins in when a room asks for it.</p>
-            <ul class="tags" aria-label="Built with"><li>Node.js</li><li>Supabase</li><li>toxic-bert</li><li>Groq</li></ul>
-            <div class="case__links">
-              <a class="btn btn--solid" href="https://shadowbeast0.github.io/BunChat---AI-powered-ChatApp/">Open live demo</a>
-              <a class="link" href="https://github.com/shadowbeast0/BunChat---AI-powered-ChatApp">Source</a>
-            </div>
-          </div>
-          <a class="shot" href="https://shadowbeast0.github.io/BunChat---AI-powered-ChatApp/" aria-label="Open BunChat">
-            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/BunChat</b></span>
-            <img src="assets/work/bunchat.webp" alt="BunChat room with toxic filter and troll mode switched on" width="800" height="343" loading="lazy" decoding="async">
-          </a>
-        </div>
-      </article>
-
-      <article class="case case--flip" style="--tint: 230 40 140">
-        <div class="wrap case__grid">
-          <div class="case__text">
-            <p class="case__meta"><span class="badge">Recommender</span></p>
-            <h3>Bunime</h3>
-            <p>Six thousand anime, with every season and film of a franchise folded into one entry. Rate what you’ve seen, tick off episodes, and get picks built from your own ratings. Syncs across devices.</p>
-            <ul class="tags" aria-label="Built with"><li>Next.js</li><li>Supabase</li><li>Content-based filtering</li></ul>
-            <div class="case__links">
-              <a class="btn btn--solid" href="https://shadowbeast0.github.io/Bunime-Anime-Recommender-and-Tracker-App/">Open live demo</a>
-              <a class="link" href="https://github.com/shadowbeast0/Bunime-Anime-Recommender-and-Tracker-App">Source</a>
-            </div>
-          </div>
-          <a class="shot" href="https://shadowbeast0.github.io/Bunime-Anime-Recommender-and-Tracker-App/" aria-label="Open Bunime">
-            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/Bunime</b></span>
-            <img src="assets/work/bunime.webp" alt="Bunime home page in a manga magazine style" width="1600" height="1000" loading="lazy" decoding="async">
-          </a>
-        </div>
-      </article>
-
-      <article class="case" style="--tint: 255 196 120">
-        <div class="wrap case__grid">
-          <div class="case__text">
-            <p class="case__meta"><span class="badge">NLP</span></p>
-            <h3>EmoCareBot</h3>
-            <p>A gentle listener for hard days. A sentence-embedding model reads what you mean rather than the words you used, and it answers in a voice that never lectures. Nothing leaves your device.</p>
-            <ul class="tags" aria-label="Built with"><li>MiniLM</li><li>transformers.js</li><li>Intent learning</li></ul>
-            <div class="case__links">
-              <a class="btn btn--solid" href="https://shadowbeast0.github.io/EmoCareBot--Mental-Health-Support-Chatbot/">Open live demo</a>
-              <a class="link" href="https://github.com/shadowbeast0/EmoCareBot--Mental-Health-Support-Chatbot">Source</a>
-            </div>
-          </div>
-          <a class="shot" href="https://shadowbeast0.github.io/EmoCareBot--Mental-Health-Support-Chatbot/" aria-label="Open EmoCareBot">
-            <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>shadowbeast0.github.io/EmoCareBot</b></span>
-            <img src="assets/work/emocarebot.webp" alt="EmoCareBot replying kindly to a student stressed about exams" width="1360" height="850" loading="lazy" decoding="async">
-          </a>
-        </div>
-      </article>
     </section>
 
-    <section class="index" aria-labelledby="index-title">
+    <section class="work" id="work" aria-labelledby="work-title" data-aurora="work">
+      <div class="work__stage">
+        <div class="wrap work__head">
+          <h2 class="title" id="work-title" data-reveal>Selected work</h2>
+          <p class="work__count"><span data-work-index>01</span> / 04</p>
+        </div>
+        <div class="work__space">
+          <article class="case" style="--tint: 124 92 255">
+            <a class="case__shot" href="https://shadowbeast0.github.io/LexicognitionAI/" tabindex="-1" aria-hidden="true">
+              <img src="assets/work/lexicognition.webp" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+            </a>
+            <div class="case__body">
+              <p class="case__meta"><span class="badge">1st prize, Kshitij 2026</span></p>
+              <h3>Lexicognition AI</h3>
+              <p>Upload a research paper and it holds a live oral exam on it. It writes the questions, grades every answer against evidence from the paper and asks follow-ups. Won the GenAI event at IIT Kharagpur’s tech fest, judged by Microsoft.</p>
+              <div class="case__links">
+                <a class="btn btn--solid" href="https://shadowbeast0.github.io/LexicognitionAI/" data-magnet>Open live demo</a>
+                <a class="link" href="https://github.com/shadowbeast0/LexicognitionAI">Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="case" style="--tint: 255 150 70">
+            <a class="case__shot" href="https://shadowbeast0.github.io/BookMyFlight/" tabindex="-1" aria-hidden="true">
+              <img src="assets/work/bookmyflight.webp" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+            </a>
+            <div class="case__body">
+              <p class="case__meta"><span class="badge">Full stack</span></p>
+              <h3>BookMyFlight</h3>
+              <p>Flight booking with a 3D globe you pick cities on, seat locks that hold when two people grab the same seat, a wallet with refunds and OTP login. Spring Boot underneath, Next.js on top.</p>
+              <div class="case__links">
+                <a class="btn btn--solid" href="https://shadowbeast0.github.io/BookMyFlight/" data-magnet>Open live demo</a>
+                <a class="link" href="https://github.com/shadowbeast0/BookMyFlight">Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="case" style="--tint: 40 200 190">
+            <a class="case__shot" href="https://shadowbeast0.github.io/BunChat---AI-powered-ChatApp/" tabindex="-1" aria-hidden="true">
+              <img src="assets/work/bunchat.webp" alt="" width="800" height="343" loading="lazy" decoding="async">
+            </a>
+            <div class="case__body">
+              <p class="case__meta"><span class="badge">Real time</span></p>
+              <h3>BunChat</h3>
+              <p>Groups, DMs, public rooms and a feed, with moderation that thinks. A toxicity model screens room messages, an LLM judges the borderline ones and calms heated users down, and a troll bot joins in when a room asks for it.</p>
+              <div class="case__links">
+                <a class="btn btn--solid" href="https://shadowbeast0.github.io/BunChat---AI-powered-ChatApp/" data-magnet>Open live demo</a>
+                <a class="link" href="https://github.com/shadowbeast0/BunChat---AI-powered-ChatApp">Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="case" style="--tint: 230 40 140">
+            <a class="case__shot" href="https://shadowbeast0.github.io/Bunime-Anime-Recommender-and-Tracker-App/" tabindex="-1" aria-hidden="true">
+              <img src="assets/work/bunime.webp" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+            </a>
+            <div class="case__body">
+              <p class="case__meta"><span class="badge">Recommender</span></p>
+              <h3>Bunime</h3>
+              <p>Six thousand anime with every season and film of a franchise folded into one entry. Rate what you’ve seen, tick off episodes and get picks built from your own ratings, synced across devices.</p>
+              <div class="case__links">
+                <a class="btn btn--solid" href="https://shadowbeast0.github.io/Bunime-Anime-Recommender-and-Tracker-App/" data-magnet>Open live demo</a>
+                <a class="link" href="https://github.com/shadowbeast0/Bunime-Anime-Recommender-and-Tracker-App">Source</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="index" aria-labelledby="index-title" data-aurora="index">
       <div class="wrap">
         <div class="section-head">
-          <h2 id="index-title">Research and other builds</h2>
-          <p>Papers, games, bots and tools, all on GitHub.</p>
+          <h2 class="title" id="index-title" data-reveal>Other builds</h2>
+          <p>Papers, games, bots and tools.</p>
         </div>
         <ul class="rows">
-          <li><a href="https://github.com/shadowbeast0/SAGED-NET"><span class="rows__name">SAGED-Net</span><span class="rows__what">Lightweight nuclei segmentation with learnable adaptive gating</span><span class="rows__tag">IEEE IJCNN 2026</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/LGLD-Net"><span class="rows__name">LGLD-Net</span><span class="rows__what">Global and local dual-stream network, 96.69% on ALL</span><span class="rows__tag">Springer ICITA 2025</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Explainable-Graph-Transformer"><span class="rows__name">Explainable Graph Transformer</span><span class="rows__what">Cutting attention cost with GNN explainability</span><span class="rows__tag">Research</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Signature_Verification_App"><span class="rows__name">Signature Verification</span><span class="rows__what">Siamese CNN that tells two writers apart, in the browser</span><span class="rows__tag">Computer vision</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Agentic-AI-for-Enterprise"><span class="rows__name">Agentic AI for Enterprise</span><span class="rows__what">Agentic RAG assistant with long and short-term memory on LangGraph</span><span class="rows__tag">Agents</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Braking-Bad"><span class="rows__name">Braking Bad</span><span class="rows__what">Hill-climb racer in C++ and Qt with its own raster physics</span><span class="rows__tag">Game</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Quack-n-Aim"><span class="rows__name">Quack n Aim</span><span class="rows__what">Webcam carnival shooter you aim with one finger</span><span class="rows__tag">Game</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Gesture-Mouse"><span class="rows__name">Gesture Mouse</span><span class="rows__what">Hand tracking mapped onto your real mouse</span><span class="rows__tag">MediaPipe</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Bun-Bot"><span class="rows__name">Bun Bot</span><span class="rows__what">All-in-one Discord bot for moderation and minigames</span><span class="rows__tag">Bot</span></a></li>
-          <li><a href="https://github.com/shadowbeast0/Voice-Assistant"><span class="rows__name">Voice Assistant</span><span class="rows__what">Talk to it and Gemini talks back, MERN underneath</span><span class="rows__tag">Full stack</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/SAGED-NET" data-preview="metric" data-metric="IEEE IJCNN" data-sub="WCCI 2026, Netherlands" style="--tint: 70 140 255"><span class="rows__name">SAGED-Net</span><span class="rows__what">Lightweight nuclei segmentation with learnable adaptive gating</span><span class="rows__tag">Research</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/LGLD-Net" data-preview="metric" data-metric="96.69%" data-sub="on ALL, Springer ICITA 2025" style="--tint: 60 210 200"><span class="rows__name">LGLD-Net</span><span class="rows__what">Global and local dual-stream network for blood-cell images</span><span class="rows__tag">Research</span></a></li>
+          <li><a href="https://shadowbeast0.github.io/EmoCareBot--Mental-Health-Support-Chatbot/" data-preview="assets/work/emocarebot.webp" style="--tint: 255 196 120"><span class="rows__name">EmoCareBot</span><span class="rows__what">A gentle listener that understands meaning, not keywords. Runs on your device</span><span class="rows__tag">Live demo</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Signature_Verification_App" data-preview="assets/work/signature.webp" style="--tint: 120 160 255"><span class="rows__name">Signature Verification</span><span class="rows__what">Siamese CNN that tells two writers apart, in the browser</span><span class="rows__tag">Computer vision</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Braking-Bad" data-preview="metric" data-metric="C++ / Qt" data-sub="Raster graphics and vehicle physics from scratch" style="--tint: 255 110 60"><span class="rows__name">Braking Bad</span><span class="rows__what">Hill-climb racer with its own raster engine and physics</span><span class="rows__tag">Game</span></a></li>
+          <li><a href="https://github.com/shadowbeast0/Bun-Bot" data-preview="metric" data-metric="discord.py" data-sub="Moderation, setup and minigames" style="--tint: 110 130 255"><span class="rows__name">Bun Bot</span><span class="rows__what">All-in-one Discord bot for moderation and minigames</span><span class="rows__tag">Bot</span></a></li>
         </ul>
       </div>
+      <div class="peek" aria-hidden="true"><div class="peek__inner"></div></div>
     </section>
 
-    <section class="record" id="record" aria-labelledby="record-title">
+    <section class="record" id="record" aria-labelledby="record-title" data-aurora="record">
       <div class="wrap">
         <div class="section-head">
-          <h2 id="record-title">Record</h2>
-          <p>Wins, papers and the degree in progress.</p>
+          <h2 class="title" id="record-title" data-reveal>Record</h2>
+          <p>Wins and papers.</p>
         </div>
         <ol class="ledger">
-          <li><span class="ledger__year">2026</span><span class="ledger__what"><strong>Champion, Lexicognition AI</strong>Kshitij, IIT Kharagpur. Judged and tested by Microsoft.</span></li>
-          <li><span class="ledger__year">2026</span><span class="ledger__what"><strong>Paper at IEEE IJCNN</strong>SAGED-Net, presented at WCCI 2026 in the Netherlands.</span></li>
-          <li><span class="ledger__year">2025</span><span class="ledger__what"><strong>Champion, OpenAImer</strong>SRIJAN, Jadavpur University.</span></li>
-          <li><span class="ledger__year">2025</span><span class="ledger__what"><strong>Paper with Springer Nature</strong>LGLD-Net, 19th ICITA in Oslo.</span></li>
-          <li><span class="ledger__year" aria-hidden="true"></span><span class="ledger__what"><strong>Special mention</strong>National Cyber Security AI Ideathon.</span></li>
-          <li><span class="ledger__year">2027</span><span class="ledger__what"><strong>B.E. Computer Science, Jadavpur University</strong>Graduating 2027. CGPA 9.5 through the sixth semester.</span></li>
+          <li><span class="ledger__year">2026</span><span class="ledger__what"><strong>National semifinalist, Flipkart GRID 8.0</strong>Flipkart’s flagship engineering competition.</span></li>
+          <li><span class="ledger__year">2026</span><span class="ledger__what"><strong>Champion, Lexicognition AI</strong>Led the winning team at Kshitij, IIT Kharagpur. Sponsored and judged by Microsoft.</span></li>
+          <li><span class="ledger__year">2026</span><span class="ledger__what"><strong>Paper at IEEE IJCNN</strong>SAGED-Net, at WCCI 2026 in the Netherlands.</span></li>
+          <li><span class="ledger__year">2025</span><span class="ledger__what"><strong>Paper with Springer Nature</strong>LGLD-Net, at the 19th ICITA in Oslo.</span></li>
+          <li><span class="ledger__year">2025</span><span class="ledger__what"><strong>Special mention, National Cyber Security AI Ideathon</strong>EdgeGuard-FLX: federated, explainable anomaly detection for campus Wi-Fi.</span></li>
+          <li><span class="ledger__year">2025</span><span class="ledger__what"><strong>Champion, OpenAImer</strong>Led the winning team at SRIJAN, Jadavpur University. First on the Track 1 public leaderboard.</span></li>
         </ol>
       </div>
     </section>
 
-    <section class="about" id="about" aria-labelledby="about-title">
-      <div class="wrap about__grid">
-        <div>
-          <h2 id="about-title">About</h2>
-          <p class="about__big">People call me Shad. I like problems where the model is the easy part and everything around it, the retrieval, the data, the system that has to answer in under a second, is where the work is.</p>
-          <p>I’m class representative for my year, lead the ML team at Code Club and organised OpenAImer at SRIJAN. Open to internships, research collaborations and hackathon teams.</p>
+    <section class="vol" aria-labelledby="vol-title" data-aurora="vol">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="title" id="vol-title" data-reveal>Volunteering</h2>
+          <p>Time given back to the department and the club.</p>
         </div>
-        <ul class="stack" aria-label="Tools I use">
-          <li><img src="assets/icons/pytorch.svg" alt="" width="24" height="24"><span>PyTorch</span></li>
-          <li><img src="assets/icons/langchain.svg" alt="" width="24" height="24"><span>LangGraph</span></li>
-          <li><img src="assets/icons/huggingface.svg" alt="" width="24" height="24"><span>Transformers</span></li>
-          <li><img src="assets/icons/fastapi.svg" alt="" width="24" height="24"><span>FastAPI</span></li>
-          <li><img src="assets/icons/springboot.svg" alt="" width="24" height="24"><span>Spring Boot</span></li>
-          <li><img src="assets/icons/nextdotjs.svg" alt="" width="24" height="24"><span>Next.js</span></li>
-          <li><img src="assets/icons/threedotjs.svg" alt="" width="24" height="24"><span>Three.js</span></li>
-          <li><img src="assets/icons/docker.svg" alt="" width="24" height="24"><span>Docker</span></li>
-          <li><img src="assets/icons/python.svg" alt="" width="24" height="24"><span>Python</span></li>
-          <li><img src="assets/icons/cplusplus.svg" alt="" width="24" height="24"><span>C++</span></li>
-          <li><img src="assets/icons/openjdk.svg" alt="" width="24" height="24"><span>Java</span></li>
-          <li><img src="assets/icons/tensorflow.svg" alt="" width="24" height="24"><span>TensorFlow</span></li>
-          <li><img src="assets/icons/opencv.svg" alt="" width="24" height="24"><span>OpenCV</span></li>
-          <li><img src="assets/icons/supabase.svg" alt="" width="24" height="24"><span>Supabase</span></li>
-          <li><img src="assets/icons/googlegemini.svg" alt="" width="24" height="24"><span>Gemini</span></li>
-          <li><img src="assets/icons/githubactions.svg" alt="" width="24" height="24"><span>GitHub Actions</span></li>
-        </ul>
+        <div class="vol__grid">
+          <article class="vcard" style="--c1: 60 220 160; --c2: 70 160 255">
+            <p class="xcard__when">Feb 2026 to now</p>
+            <h3><span>CodeClub JU</span>Core ML Team Member</h3>
+            <p>Organised OpenAImer’26, the flagship AI/ML event of SRIJAN 2026, with Aritra Roy Gostipathy (MLE, Hugging Face) and Harsh Patwari (CEO, TheAware.ai) as guest judges.</p>
+          </article>
+          <article class="vcard" style="--c1: 255 170 80; --c2: 255 90 140">
+            <p class="xcard__when">Feb 2025 to now</p>
+            <h3><span>Jadavpur University</span>Class Representative</h3>
+            <p>Class representative for B.E. Computer Science and Engineering, batch of 2027.</p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="contact" id="contact" aria-labelledby="contact-title">
-      <div class="wrap">
+    <section class="about" id="about" aria-labelledby="about-title" data-aurora="about">
+      <div class="wrap about__grid">
+        <div class="about__text">
+          <h2 class="title" id="about-title" data-reveal>About</h2>
+          <p class="about__big">People call me Shad. I like problems where the model is the easy part and everything around it, the retrieval, the data, the system that has to answer in under a second, is where the work is.</p>
+          <ul class="grades">
+            <li><span class="grades__num" data-count-to="9.505" data-decimals="3">9.505</span><span>CGPA, B.E. CSE, Jadavpur University</span></li>
+            <li><span class="grades__num">#<span data-count-to="1">1</span></span><span>in the department, 2025–26</span></li>
+            <li><span class="grades__num"><span data-count-to="96.6" data-decimals="1">96.6</span>%</span><span>Class XII, DPS Ruby Park</span></li>
+            <li><span class="grades__num"><span data-count-to="98.4" data-decimals="1">98.4</span>%</span><span>Class X, DPS Ruby Park</span></li>
+          </ul>
+        </div>
+        <div class="eye">
+          <canvas class="eye__gl" aria-hidden="true"></canvas>
+        </div>
+      </div>
+      <div class="marquee" aria-label="Tools I use">
+        <div class="marquee__row" data-dir="1">
+          <span><img src="assets/icons/pytorch.svg" alt="" width="22" height="22">PyTorch</span>
+          <span><img src="assets/icons/langchain.svg" alt="" width="22" height="22">LangGraph</span>
+          <span><img src="assets/icons/huggingface.svg" alt="" width="22" height="22">Transformers</span>
+          <span><img src="assets/icons/fastapi.svg" alt="" width="22" height="22">FastAPI</span>
+          <span><img src="assets/icons/springboot.svg" alt="" width="22" height="22">Spring Boot</span>
+          <span><img src="assets/icons/nextdotjs.svg" alt="" width="22" height="22">Next.js</span>
+          <span><img src="assets/icons/threedotjs.svg" alt="" width="22" height="22">Three.js</span>
+          <span><img src="assets/icons/docker.svg" alt="" width="22" height="22">Docker</span>
+        </div>
+        <div class="marquee__row" data-dir="-1">
+          <span><img src="assets/icons/python.svg" alt="" width="22" height="22">Python</span>
+          <span><img src="assets/icons/cplusplus.svg" alt="" width="22" height="22">C++</span>
+          <span><img src="assets/icons/openjdk.svg" alt="" width="22" height="22">Java</span>
+          <span><img src="assets/icons/tensorflow.svg" alt="" width="22" height="22">TensorFlow</span>
+          <span><img src="assets/icons/opencv.svg" alt="" width="22" height="22">OpenCV</span>
+          <span><img src="assets/icons/supabase.svg" alt="" width="22" height="22">Supabase</span>
+          <span><img src="assets/icons/googlegemini.svg" alt="" width="22" height="22">Gemini</span>
+          <span><img src="assets/icons/githubactions.svg" alt="" width="22" height="22">GitHub Actions</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title" data-aurora="contact">
+      <canvas class="swarm" aria-hidden="true"></canvas>
+      <div class="wrap contact__inner">
         <h2 id="contact-title">Got something hard to build?</h2>
-        <a class="contact__mail" href="mailto:arjeeshpalai1@gmail.com" data-magnet><span>arjeeshpalai1@<wbr>gmail.com</span></a>
+        <a class="contact__mail" href="mailto:arjeeshpalai1@gmail.com"><span>arjeeshpalai1@<wbr>gmail.com</span></a>
         <ul class="contact__links">
           <li><a class="link" href="https://github.com/shadowbeast0">GitHub</a></li>
           <li><a class="link" href="https://www.linkedin.com/in/arjeesh-palai-b729842a3/">LinkedIn</a></li>
         </ul>
+        <div class="swarm__ui">
+          <p class="swarm__tip">Move to steer the swarm. Hold to pull it into a sphere. Double-click to make it rain.</p>
+          <button class="btn btn--ghost swarm__hand" type="button" aria-pressed="false">Steer with your hand</button>
+          <p class="swarm__status" aria-live="polite"></p>
+        </div>
       </div>
+      <video class="swarm__cam" playsinline muted aria-hidden="true"></video>
     </section>
   </main>
 
@@ -272,6 +322,6 @@
   <div class="cursor" aria-hidden="true"><span></span></div>
 
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
-  <script type="module" src="main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
