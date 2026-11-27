@@ -106,7 +106,7 @@ export function startBlackHole(state) {
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
   const prog = gl.createProgram();
   gl.attachShader(prog, sh(gl.VERTEX_SHADER, VERT));
-  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FRAG(small ? 110 : 170)));
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FRAG(state.lite ? 64 : small ? 110 : 170)));
   gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { section.classList.add("no-gl"); return; }
   gl.useProgram(prog);
@@ -119,10 +119,11 @@ export function startBlackHole(state) {
   const U = (n) => gl.getUniformLocation(prog, n);
   const u = { res: U("uRes"), time: U("uTime"), dist: U("uDist"), incl: U("uIncl"), yaw: U("uYaw"), look: U("uLook"), shift: U("uShift") };
 
-  const scale = small ? 0.5 : 0.62;
+  const scale = state.lite ? 0.32 : small ? 0.5 : 0.62;
   const resize = () => {
-    canvas.width = Math.round(canvas.clientWidth * scale * Math.min(devicePixelRatio, 1.5));
-    canvas.height = Math.round(canvas.clientHeight * scale * Math.min(devicePixelRatio, 1.5));
+    const pr = state.lite ? 1 : Math.min(devicePixelRatio, 1.5);
+    canvas.width = Math.round(canvas.clientWidth * scale * pr);
+    canvas.height = Math.round(canvas.clientHeight * scale * pr);
     gl.viewport(0, 0, canvas.width, canvas.height);
   };
   resize();
@@ -135,11 +136,13 @@ export function startBlackHole(state) {
   new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(section);
   let t = 0;
   let last = performance.now();
+  let lastDraw = 0;
   const frame = (now) => {
     requestAnimationFrame(frame);
+    if (!visible || (state.lite && now - lastDraw < 33)) return;
+    lastDraw = now;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!visible) return;
     if (!state.paused && !state.reduced) t += dt;
     const r = section.getBoundingClientRect();
     const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));

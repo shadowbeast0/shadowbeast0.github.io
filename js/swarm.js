@@ -186,13 +186,13 @@ export async function startSwarm(state) {
   let renderer;
   try {
     THREE = await import("three");
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: !state.lite, alpha: true, powerPreference: "high-performance" });
   } catch {
     return;
   }
   const small = innerWidth < 760;
-  const N = small ? 4000 : 12000;
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
+  const N = state.lite ? 2200 : small ? 4000 : 12000;
+  renderer.setPixelRatio(state.lite ? 1 : Math.min(devicePixelRatio, 1.6));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 60);
   camera.position.z = 9;

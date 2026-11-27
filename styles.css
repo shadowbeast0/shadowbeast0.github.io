@@ -1153,6 +1153,19 @@ main { position: relative; z-index: 1; }
   }
 }
 
+.lite .grain { display: none; }
+.lite *, .lite *::before, .lite *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.lite .nav.is-solid { background: color-mix(in srgb, var(--bg) 94%, transparent); }
+.lite .xcard, .lite .vcard, .lite .js .work.is-3d .case { background: color-mix(in srgb, var(--bg-2) 92%, transparent); }
+.lite .xcard__art *, .lite .sign__joints .tip { filter: none !important; }
+.lite .ghost { will-change: auto; }
+@supports (animation-timeline: view()) {
+  .lite .section-head .title, .lite .exp__head .title, .lite .work__head .title { animation-name: focus-lite; }
+  @keyframes focus-lite { from { opacity: 0.1; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+  .lite .index > .wrap, .lite .record > .wrap, .lite .vol > .wrap, .lite .stack { animation-name: curtain-lite; }
+  @keyframes curtain-lite { from { transform: translateY(60px); opacity: 0.2; } to { transform: none; opacity: 1; } }
+}
+
 .is-paused *,
 .is-paused *::before,
 .is-paused *::after { animation-play-state: paused !important; }

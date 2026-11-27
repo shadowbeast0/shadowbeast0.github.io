@@ -85,7 +85,7 @@ export function startAurora(state) {
   const U = (n) => gl.getUniformLocation(prog, n);
   const u = { res: U("uRes"), time: U("uTime"), c1: U("uC1"), c2: U("uC2"), c3: U("uC3"), bg: U("uBg"), amt: U("uAmt"), pointer: U("uPointer") };
 
-  const scale = 0.33;
+  const scale = state.lite ? 0.16 : 0.33;
   const resize = () => {
     canvas.width = Math.max(1, Math.round(window.innerWidth * scale));
     canvas.height = Math.max(1, Math.round(window.innerHeight * scale));
@@ -116,8 +116,11 @@ export function startAurora(state) {
   let last = performance.now();
   const first = target();
   Object.assign(cur, JSON.parse(JSON.stringify(first)));
+  let lastDraw = 0;
   const frame = (now) => {
     requestAnimationFrame(frame);
+    if (document.hidden || (state.lite && now - lastDraw < 40)) return;
+    lastDraw = now;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     if (!state.paused && !state.reduced) t += dt;

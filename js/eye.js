@@ -29,23 +29,44 @@ export function startEye(state) {
   let layers = null;
   let theme = "";
 
-  const almond = (c, b, grow = 0) => {
-    const { cx, cy, hw, hh } = geo;
-    const steps = 64;
-    c.beginPath();
-    for (let i = 0; i <= steps; i++) {
-      const x = -hw + (2 * hw * i) / steps;
-      const k = Math.max(0, 1 - (x / hw) ** 2);
-      const y = cy - (hh + grow) * Math.pow(k, 0.8) * b;
-      i ? c.lineTo(cx + x, y) : c.moveTo(cx + x, y);
-    }
-    for (let i = steps; i >= 0; i--) {
-      const x = -hw + (2 * hw * i) / steps;
-      const k = Math.max(0, 1 - (x / hw) ** 2);
-      c.lineTo(cx + x, cy + (hh * 0.86 + grow) * Math.pow(k, 0.85) * b);
-    }
-    c.closePath();
+  const bez = (P, t) => {
+    const u = 1 - t;
+    return [
+      u * u * u * P[0][0] + 3 * u * u * t * P[1][0] + 3 * u * t * t * P[2][0] + t * t * t * P[3][0],
+      u * u * u * P[0][1] + 3 * u * u * t * P[1][1] + 3 * u * t * t * P[2][1] + t * t * t * P[3][1],
+    ];
   };
+  const lerp2 = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+  const lidsAt = (closed) => {
+    const { cx, cy, hw, hh } = geo;
+    const I = [cx - hw, cy + hh * 0.1];
+    const O = [cx + hw, cy - hh * 0.1];
+    const lowC1 = [cx + hw * 0.5, cy + hh * 0.98 - closed * hh * 0.2];
+    const lowC2 = [cx - hw * 0.42, cy + hh * 1.06 - closed * hh * 0.2];
+    const up1 = lerp2([cx - hw * 0.45, cy - hh * 1.42], [cx - hw * 0.42, cy + hh * 0.8], closed);
+    const up2 = lerp2([cx + hw * 0.48, cy - hh * 1.18], [cx + hw * 0.5, cy + hh * 0.72], closed);
+    return { upper: [I, up1, up2, O], lower: [O, lowC1, lowC2, I], I, O };
+  };
+  const almond = (c, closed = 0) => {
+    const L = lidsAt(closed);
+    c.beginPath();
+    c.moveTo(...L.upper[0]);
+    c.bezierCurveTo(...L.upper[1], ...L.upper[2], ...L.upper[3]);
+    c.bezierCurveTo(...L.lower[1], ...L.lower[2], ...L.lower[3]);
+    c.closePath();
+    return L;
+  };
+  const sample = (P, n = 90, from = 0, to = 1) => {
+    const pts = [];
+    for (let i = 0; i <= n; i++) pts.push(bez(P, from + ((to - from) * i) / n));
+    return pts;
+  };
+  const offset = (pts, d) => pts.map((q, i) => {
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+    const tx = b[0] - a[0], ty = b[1] - a[1];
+    const l = Math.hypot(tx, ty) || 1;
+    return [q[0] + (ty / l) * d, q[1] - (tx / l) * d];
+  });
 
   const textAlong = (c, pts, str, size, color) => {
     c.font = mono(size, 600);
@@ -73,7 +94,7 @@ export function startEye(state) {
   };
 
   const build = () => {
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    dpr = state.lite ? 1 : Math.min(devicePixelRatio || 1, 2);
     w = canvas.clientWidth;
     h = canvas.clientHeight;
     canvas.width = Math.round(w * dpr);
@@ -83,8 +104,8 @@ export function startEye(state) {
     const pal = palette(light);
     const narrow = w < 900;
     const hw = narrow ? w * 0.46 : Math.min(w * 0.34, h * 0.7);
-    const hh = hw * 0.44;
-    geo = { cx: narrow ? w * 0.5 : w * 0.63, cy: narrow ? h * 0.36 : h * 0.5, hw, hh, R: hh * 0.96 };
+    const hh = hw * 0.4;
+    geo = { cx: narrow ? w * 0.5 : w * 0.63, cy: narrow ? h * 0.36 : h * 0.5, hw, hh, R: hh * 1.02 };
 
     const mk = (cw, ch) => { const c = document.createElement("canvas"); c.width = cw; c.height = ch; return c; };
     const field = mk(canvas.width, canvas.height);
@@ -106,36 +127,73 @@ export function startEye(state) {
     const lids = mk(canvas.width, canvas.height);
     const lc = lids.getContext("2d");
     lc.scale(dpr, dpr);
-    const curve = (sign, off, k = 0.8) => {
+    const L = lidsAt(0);
+    const upperPts = sample(L.upper);
+    const lowerPts = sample(L.lower);
+    const lidText = "look closer see further think deeper build braver ";
+    [0, 5, 10, 16].forEach((o, i) => textAlong(lc, offset(upperPts, o), lidText, fs + 3 - i, i ? `${pal.lid}${["", "cc", "88", "44"][i]}` : pal.lid));
+    [0, 6].forEach((o, i) => textAlong(lc, offset(lowerPts, o), lidText, fs + 1 - i, i ? `${pal.lid}66` : `${pal.lid}cc`));
+    const crease = [
+      [L.I[0] + hw * 0.14, L.I[1] - hh * 0.5],
+      [geo.cx - hw * 0.42, geo.cy - hh * 2.0],
+      [geo.cx + hw * 0.46, geo.cy - hh * 1.72],
+      [L.O[0] - hw * 0.08, L.O[1] - hh * 0.46],
+    ];
+    textAlong(lc, sample(crease), "dream think build ", fs, `${pal.lid}55`);
+    textAlong(lc, offset(sample(crease, 90, 0.08, 0.9), 7), "dream think build ", fs - 1, `${pal.lid}22`);
+    const quad = (A, C, B, n = 14) => {
       const pts = [];
-      for (let i = 0; i <= 80; i++) {
-        const x = -hw + (2 * hw * i) / 80;
-        const q = Math.max(0, 1 - (x / hw) ** 2);
-        pts.push([geo.cx + x, geo.cy + sign * ((sign < 0 ? hh : hh * 0.86) + off) * Math.pow(q, k)]);
+      for (let i = 0; i <= n; i++) {
+        const t = i / n, u = 1 - t;
+        pts.push([u * u * A[0] + 2 * u * t * C[0] + t * t * B[0], u * u * A[1] + 2 * u * t * C[1] + t * t * B[1]]);
       }
       return pts;
     };
-    const lidText = "look closer see further think deeper build braver ";
-    [0, 6, 12, 19].forEach((o, i) => textAlong(lc, curve(-1, o), lidText, fs + 3 - i, i ? `${pal.lid}${["", "cc", "88", "44"][i]}` : pal.lid));
-    [0, 7].forEach((o, i) => textAlong(lc, curve(1, o, 0.85), lidText, fs + 2 - i, i ? `${pal.lid}77` : pal.lid));
-    lc.font = mono(fs, 600);
-    lc.fillStyle = pal.lash;
-    for (let i = 0; i < 26; i++) {
-      const t = -0.86 + (1.72 * i) / 25;
-      const x = t * hw;
-      const q = Math.max(0, 1 - t * t);
-      const y = geo.cy - (hh + 20) * Math.pow(q, 0.8);
-      const ang = -Math.PI / 2 + t * 1.1;
-      const len = 26 + 34 * q;
-      lc.save();
-      lc.translate(geo.cx + x, y);
-      lc.rotate(ang);
-      for (let s = 0; s < len; s += fs * 0.7) lc.fillText("lens"[Math.floor(s) % 4], s, 0);
-      lc.restore();
-    }
+    const lashes = (P, count, from, to, lenFn, sign, curl, alpha) => {
+      for (let i = 0; i < count; i++) {
+        const t = from + ((to - from) * i) / (count - 1);
+        const B0 = bez(P, t);
+        const B1 = bez(P, Math.min(1, t + 0.01));
+        const tx = B1[0] - B0[0], ty = B1[1] - B0[1];
+        const l = Math.hypot(tx, ty) || 1;
+        const T = [tx / l, ty / l];
+        const N = [T[1] * sign, -T[0] * sign];
+        const len = lenFn(t);
+        const k = curl(t);
+        const C = [B0[0] + N[0] * len * 0.7, B0[1] + N[1] * len * 0.7];
+        const E = [B0[0] + N[0] * len * 0.85 + T[0] * len * k, B0[1] + N[1] * len * 0.85 + T[1] * len * k];
+        textAlong(lc, quad(B0, C, E), "lashes", Math.max(5, fs - 1), `${pal.lash.replace(/[\d.]+\)$/, alpha + ")")}`);
+      }
+    };
+    const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+    lashes(L.upper, 28, 0.12, 0.985, (t) => hh * (0.18 + 0.52 * smooth(0.05, 0.8, t) * (1 - 0.35 * smooth(0.9, 1, t))), 1, (t) => 0.12 + 0.5 * t, 0.7);
+    lashes(L.lower, 12, 0.08, 0.66, (t) => hh * (0.22 - 0.16 * t), -1, (t) => -0.35 + 0.1 * t, 0.55);
+
+    const lidShade = mk(canvas.width, canvas.height);
+    const sc = lidShade.getContext("2d");
+    sc.scale(dpr, dpr);
+    almond(sc, 0);
+    sc.clip();
+    const vg = sc.createRadialGradient(geo.cx, geo.cy, hh * 0.6, geo.cx, geo.cy, hw * 1.05);
+    vg.addColorStop(0, "rgba(0,0,0,0)");
+    vg.addColorStop(1, light ? "rgba(0,0,0,0.14)" : "rgba(0,0,0,0.38)");
+    sc.fillStyle = vg;
+    sc.fillRect(0, 0, w, h);
+    sc.filter = "blur(10px)";
+    sc.lineWidth = hh * 0.3;
+    sc.strokeStyle = light ? "rgba(0,0,0,0.18)" : "rgba(0,0,0,0.42)";
+    sc.beginPath();
+    sc.moveTo(...L.upper[0]);
+    sc.bezierCurveTo(...L.upper[1], ...L.upper[2], ...L.upper[3]);
+    sc.stroke();
+    sc.filter = "none";
+    sc.fillStyle = light ? "rgba(190,100,100,0.28)" : "rgba(255,150,150,0.22)";
+    sc.beginPath();
+    sc.ellipse(L.I[0] + hw * 0.07, L.I[1] - hh * 0.02, hh * 0.13, hh * 0.1, -0.2, 0, Math.PI * 2);
+    sc.fill();
 
     const R = geo.R;
-    const IS = 3;
+    const IS = state.lite ? 2 : 3;
     const isz = Math.ceil(R * 2 * dpr * IS) + 8;
     const iris = mk(isz, isz);
     const ic = iris.getContext("2d");
@@ -162,7 +220,7 @@ export function startEye(state) {
     }
     ic.globalAlpha = 1;
     const shade = ic.createRadialGradient(0, 0, R * 0.34, 0, 0, R);
-    shade.addColorStop(0, "rgba(0,0,0,0.35)");
+    shade.addColorStop(0, "rgba(0,0,0,0.2)");
     shade.addColorStop(0.18, "rgba(0,0,0,0)");
     shade.addColorStop(0.82, "rgba(0,0,0,0)");
     shade.addColorStop(1, light ? "rgba(0,0,0,0.25)" : "rgba(0,0,0,0.7)");
@@ -190,7 +248,7 @@ export function startEye(state) {
         rc.restore();
       }
     }
-    layers = { field, bright, lids, iris, rings, isz, IS, pal };
+    layers = { field, bright, lids, lidShade, iris, rings, isz, IS, pal };
   };
 
   const look = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -237,17 +295,17 @@ export function startEye(state) {
     copy.style.transform = `translate3d(0, ${-q * 80}px, 0)`;
 
     if (live && now > blinkAt && blinkStart < 0 && dive < 0.05) blinkStart = now;
-    let b = 1;
+    let closed = 0;
     if (blinkStart >= 0) {
-      const t = (now - blinkStart) / 300;
+      const t = (now - blinkStart) / 340;
       if (t >= 1) { blinkStart = -1; blinkAt = now + 3800 + Math.random() * 4200; }
-      else b = Math.max(0.03, Math.abs(1 - 2 * t));
+      else closed = t < 0.35 ? Math.pow(t / 0.35, 1.6) : 1 - Math.pow((t - 0.35) / 0.65, 0.8);
     }
 
     const { cx, cy, hw, hh, R } = geo;
-    const { field, bright, lids, iris, rings, isz, IS, pal } = layers;
+    const { field, bright, lids, lidShade, iris, rings, isz, IS, pal } = layers;
     const ix = cx + look.x * hw * 0.3 * (1 - dive);
-    const iy = cy + look.y * hh * 0.26 * (1 - dive);
+    const iy = cy - hh * 0.06 + look.y * hh * 0.22 * (1 - dive);
     const zoom = Math.exp(dive * Math.log(42));
     const pr = R * (0.33 + 0.03 * Math.sin(now / 1100) + dive * 0.08);
 
@@ -260,10 +318,7 @@ export function startEye(state) {
     ctx.globalAlpha = 1;
 
     ctx.save();
-    ctx.translate(0, cy);
-    ctx.scale(1, b);
-    ctx.translate(0, -cy);
-    almond(ctx, 1);
+    almond(ctx, closed);
     ctx.clip();
     ctx.globalAlpha = Math.max(0, 1 - dive * 3);
     ctx.drawImage(bright, 0, 0, w, h);
@@ -306,16 +361,39 @@ export function startEye(state) {
     ctx.arc(pr * 0.3, pr * 0.34, pr * 0.05, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
+    ctx.strokeStyle = "rgba(255,255,255,0.35)";
+    ctx.lineWidth = R * 0.03;
+    ctx.globalAlpha = Math.max(0, 1 - dive * 4);
+    ctx.beginPath();
+    ctx.arc(0, 0, R * 0.78, Math.PI * 1.08, Math.PI * 1.38);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
     ctx.restore();
+    if (closed < 0.02) {
+      ctx.globalAlpha = Math.max(0, 1 - dive * 3);
+      ctx.drawImage(lidShade, 0, 0, w, h);
+      ctx.globalAlpha = 1;
+    }
     ctx.restore();
 
-    ctx.save();
-    ctx.translate(0, cy);
-    ctx.scale(1, b);
-    ctx.translate(0, -cy);
     ctx.globalAlpha = Math.max(0, 1 - dive * 3);
-    ctx.drawImage(lids, 0, 0, w, h);
-    ctx.restore();
+    if (closed < 0.02) {
+      ctx.drawImage(lids, 0, 0, w, h);
+    } else {
+      const Lc = lidsAt(closed);
+      ctx.strokeStyle = pal.lid;
+      ctx.lineWidth = 2.2;
+      ctx.shadowColor = pal.lid;
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      ctx.moveTo(...Lc.upper[0]);
+      ctx.bezierCurveTo(...Lc.upper[1], ...Lc.upper[2], ...Lc.upper[3]);
+      ctx.moveTo(...Lc.lower[0]);
+      ctx.bezierCurveTo(...Lc.lower[1], ...Lc.lower[2], ...Lc.lower[3]);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+    ctx.globalAlpha = 1;
 
     if (dive > 0.6) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -329,7 +407,7 @@ export function startEye(state) {
     if (burst > 0 && burst < 1) drawBurst(burst);
   };
 
-  const streaks = Array.from({ length: innerWidth < 760 ? 420 : 1100 }, () => ({
+  const streaks = Array.from({ length: state.lite ? 240 : 1100 }, () => ({
     a: Math.random() * Math.PI * 2,
     s: 0.35 + Math.pow(Math.random(), 1.4) * 1.1,
     o: Math.random() * 0.25,

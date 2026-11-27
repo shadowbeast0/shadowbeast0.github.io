@@ -7,6 +7,20 @@ const state = {
   reduced: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   fine: window.matchMedia("(pointer: fine)").matches,
   paused: false,
+  lite: window.matchMedia("(pointer: coarse)").matches || innerWidth < 900 || (navigator.hardwareConcurrency || 8) <= 4,
+};
+root.classList.toggle("lite", state.lite);
+const scrollJobs = [];
+let scrollQueued = false;
+const onScroll = (fn) => {
+  scrollJobs.push(fn);
+  if (scrollJobs.length === 1) {
+    addEventListener("scroll", () => {
+      if (scrollQueued) return;
+      scrollQueued = true;
+      requestAnimationFrame(() => { scrollQueued = false; for (const job of scrollJobs) job(); });
+    }, { passive: true });
+  }
 };
 const hero = document.querySelector(".hero");
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -61,7 +75,7 @@ function sheen() {
       t.style.setProperty("--sp", clamp((vh - r.top) / (vh + r.height), 0, 1).toFixed(3));
     }
   };
-  window.addEventListener("scroll", update, { passive: true });
+  onScroll(update);
   update();
 }
 
@@ -89,7 +103,7 @@ function statement() {
       s.classList.toggle("hot", i < lit && s.dataset.hot === "1");
     });
   };
-  addEventListener("scroll", update, { passive: true });
+  onScroll(update);
   update();
 }
 
@@ -104,7 +118,7 @@ function heroExit() {
     foot.style.transform = `translate3d(0, ${p * 60}px, 0)`;
     pauseBtn.style.opacity = String(1 - clamp(p * 4, 0, 1));
   };
-  addEventListener("scroll", update, { passive: true });
+  onScroll(update);
 }
 
 function intro() {
@@ -153,7 +167,7 @@ function themeToggle() {
     if (state.reduced) return apply();
     busy = true;
     const r = btn.getBoundingClientRect();
-    await venomTransition({ x: r.left + r.width / 2, y: r.top + r.height / 2 }, apply);
+    await venomTransition({ x: r.left + r.width / 2, y: r.top + r.height / 2 }, apply, state.lite);
     busy = false;
   });
 }
@@ -175,7 +189,7 @@ function nav() {
       links[i].classList.toggle("is-active", r.top <= mid && r.bottom >= mid);
     });
   };
-  addEventListener("scroll", update, { passive: true });
+  onScroll(update);
   el.addEventListener("focusin", () => el.classList.remove("is-hidden"));
   update();
 }
@@ -226,7 +240,7 @@ function experience() {
     update();
   };
   mq.addEventListener("change", setup);
-  addEventListener("scroll", update, { passive: true });
+  onScroll(update);
   addEventListener("resize", update);
   setup();
 }
@@ -294,7 +308,7 @@ function ghosts() {
       g.style.transform = `translate3d(${(0.35 - p * 0.9) * innerWidth}px, -50%, 0)`;
     }
   };
-  addEventListener("scroll", update, { passive: true });
+  onScroll(update);
   update();
 }
 
@@ -307,7 +321,7 @@ function timeline() {
     ledger.style.setProperty("--p", clamp((line - r.top) / r.height, 0, 1).toFixed(3));
     for (const li of rows) li.classList.toggle("lit", li.getBoundingClientRect().top + 40 < line);
   };
-  addEventListener("scroll", update, { passive: true });
+  onScroll(update);
   update();
 }
 
@@ -492,7 +506,7 @@ pause();
 startAurora(state);
 const orb = startOrb(state);
 lazy(".bh", () => import("./blackhole.js").then((m) => m.startBlackHole(state)));
-lazy(".work", () => import("./warp.js").then((m) => m.startWarp(state)));
+lazy(".work", () => (document.querySelector(".work").classList.contains("is-3d") ? import("./warp.js").then((m) => m.startWarp(state)) : Promise.resolve()));
 lazy(".about", () => import("./eye.js").then((m) => m.startEye(state)));
 lazy(".contact", () => import("./swarm.js").then((m) => m.startSwarm(state)));
 addEventListener("load", smooth);

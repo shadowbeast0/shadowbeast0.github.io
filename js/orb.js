@@ -79,13 +79,13 @@ export async function startOrb(state) {
   let renderer;
   try {
     THREE = await import("three");
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: !state.lite, alpha: true, powerPreference: "high-performance" });
   } catch {
     hero.classList.add("no-gl");
     return;
   }
   const small = innerWidth < 760;
-  const dpr = Math.min(devicePixelRatio, small ? 1.5 : 2);
+  const dpr = state.lite ? 1 : Math.min(devicePixelRatio, small ? 1.5 : 2);
   renderer.setPixelRatio(dpr);
   renderer.autoClear = false;
 
@@ -148,7 +148,7 @@ export async function startOrb(state) {
   );
   bgScene.add(textQuad);
 
-  const sparkN = small ? 700 : 1800;
+  const sparkN = state.lite ? 360 : small ? 700 : 1800;
   const sp = new Float32Array(sparkN * 3);
   const sd = new Float32Array(sparkN * 4);
   for (let i = 0; i < sparkN; i++) {
@@ -203,7 +203,7 @@ export async function startOrb(state) {
   }));
   bgScene.add(sparks);
 
-  const rt = new THREE.WebGLRenderTarget(4, 4, { samples: 4 });
+  const rt = new THREE.WebGLRenderTarget(4, 4, { samples: state.lite ? 0 : 4 });
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
@@ -235,7 +235,7 @@ export async function startOrb(state) {
     uRip: { value: Array.from({ length: MAXR }, () => new THREE.Vector4(0, 0, 1, -99)) },
   };
   const blob = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(1.42, small ? 64 : 128),
+    new THREE.IcosahedronGeometry(1.42, state.lite ? 40 : small ? 64 : 128),
     new THREE.ShaderMaterial({
       uniforms,
       vertexShader: `
